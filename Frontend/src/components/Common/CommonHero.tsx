@@ -15,7 +15,7 @@ const CommonHero: React.FC<{
           backgroundColor: "red",
           maxHeight: "80vh",
           overflowY: "hidden",
-          margin:"0px 0px 1rem "
+          margin: "0px 0px 1rem ",
         }}
       >
         <img
