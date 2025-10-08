@@ -3,6 +3,7 @@ import { Event } from "./pages/Event/Event";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Common/Header";
 import Footer from "./components/Common/Footer";
+import BranchBook from "./pages/Event/HotelDetails/BranchBook";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/event" element={<Event />} />
+          <Route path="/branchbook" element={<BranchBook />} />
         </Routes>
       </main>
       <Footer />
