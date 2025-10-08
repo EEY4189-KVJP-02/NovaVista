@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 const CommonHero: React.FC<{
   src: string;
   alt: string;
@@ -7,20 +5,19 @@ const CommonHero: React.FC<{
   subTitle: string;
   home?: boolean;
 }> = ({ src, alt, title, subTitle, home }) => {
-    const[isLoading, setIsLoading] = useState(false);
+
   return (
     <>
       <div
         className="position-relative"
         style={{
-          // backgroundColor: "red",
-          maxHeight: "80vh",
+          backgroundColor: "#ddd",
+          height: "80vh",
           overflowY: "hidden",
           margin: "0px 0px 1rem ",
         }}
       >
-
-        {isLoading? <img
+        <img
           src={src}
           alt={alt}
           loading="eager"
@@ -28,14 +25,8 @@ const CommonHero: React.FC<{
             width: "100%",
             objectFit: "cover",
             objectPosition: "center",
-            
           }}
-        />:<div  style={{
-          // backgroundColor: "red",
-          height: "80vh",
-          // overflowY: "hidden",
-          // margin:"0px 0px 1rem "
-        }}>uuuuuu</div>}
+        />
        
         <div
           className="position-absolute text-center"
