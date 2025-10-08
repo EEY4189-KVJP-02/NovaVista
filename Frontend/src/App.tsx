@@ -3,13 +3,14 @@ import { Event } from "./pages/Event/Event";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Common/Header";
 import Footer from "./components/Common/Footer";
+import "./App.css";
 
 function App() {
   return (
     <Router>
       <Header />
       <main>
-        <Routes>
+        <Routes>  
           <Route path="/event" element={<Event />} />
         </Routes>
       </main>

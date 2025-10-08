@@ -1,5 +1,6 @@
 import React from "react";
 import CommonHero from "../../components/Common/CommonHero";
+import EventSearch from "./EventSearch";
 
 export const Event = () => {
   return (
@@ -10,6 +11,7 @@ export const Event = () => {
         alt={"Event"}
         subTitle={"Make every event truly memorable."}
       />
+      <EventSearch/>
     </>
   );
 };
