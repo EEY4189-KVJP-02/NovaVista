@@ -11,7 +11,7 @@ export const Event = () => {
         alt={"Event"}
         subTitle={"Make every event truly memorable."}
       />
-      <EventSearch/>
+      <EventSearch />
     </>
   );
 };
