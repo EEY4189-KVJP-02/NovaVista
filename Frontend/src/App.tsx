@@ -3,7 +3,7 @@ import { Event } from "./pages/Event/Event";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Common/Header";
 import Footer from "./components/Common/Footer";
-import BranchBook from "./pages/Event/HotelDetails/BranchBook";
+import BranchBook from "./pages/HotelDetails/BranchBook";
 
 function App() {
   return (

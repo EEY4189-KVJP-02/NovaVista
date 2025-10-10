@@ -1,6 +1,6 @@
 import React from "react";
 import CommonHero from "../../components/Common/CommonHero";
-import BranchBook from "./HotelDetails/BranchBook";
+import BranchBook from "../HotelDetails/BranchBook";
 
 
 function HotelDetailsPage() {
