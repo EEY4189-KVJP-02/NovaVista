@@ -4,14 +4,16 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Common/Header";
 import Footer from "./components/Common/Footer";
 import "./App.css";
+import EventBooking from "./pages/EventBooking/EventBooking";
 
 function App() {
   return (
     <Router>
       <Header />
       <main>
-        <Routes>  
+        <Routes>
           <Route path="/event" element={<Event />} />
+          <Route path="/event-booking" element={<EventBooking />} />
         </Routes>
       </main>
       <Footer />
