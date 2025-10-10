@@ -1,6 +1,7 @@
 import React from "react";
 import BranchCard from "./BranchCard";
 import "./BranchBook.css";
+import CommonHero from "../../components/Common/CommonHero";
 
 const BranchBook: React.FC = () => {
   const branches = [
@@ -29,7 +30,7 @@ const BranchBook: React.FC = () => {
 
   return (
     <div className="branchbook-wrapper">
-      {/* ===== Hero Section ===== */}
+    {/* ===== Hero Section ===== */}
       <div className="hero-section">
         <div className="hero-overlay">
           <div className="search-bar">
