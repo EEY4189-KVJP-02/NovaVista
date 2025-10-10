@@ -1,0 +1,12 @@
+.branch-wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+.branch-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media(min-width:768px) { .branch-grid { grid-template-columns: repeat(3, 1fr); } }
+.branch-card { background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.08); overflow:hidden; }
+.branch-thumb { position:relative; height:200px; width:100%; object-fit:cover; }
+.book-btn { position:absolute; right:12px; bottom:12px; background:#d97706; color:#fff; padding:6px 10px; border-radius:16px; text-decoration:none; font-weight:600;}
+.branch-body { padding:16px; }
+.branch-title { font-size:18px; margin:0 0 6px 0; }
+.branch-sub { color:#6b7280; font-size:13px; margin-bottom:8px; }
+.branch-feat { font-size:13px; color:#374151; margin-bottom:8px; }
+.branch-row { display:flex; justify-content:space-between; align-items:center; }
+
