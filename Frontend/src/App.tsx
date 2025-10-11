@@ -3,6 +3,7 @@ import { Event } from "./pages/Event/Event";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Common/Header";
 import Footer from "./components/Common/Footer";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Header />
       <main>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/event" element={<Event />} />
         </Routes>
       </main>
