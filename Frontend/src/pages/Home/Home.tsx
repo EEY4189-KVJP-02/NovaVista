@@ -14,14 +14,9 @@ const Home = () => {
       />
       
   
-    
-  
-
-
-    
 
       
-      {/*Hotels Section */}
+    
       <section id="hotels" className="py-5 text-center">
         <h2 className="fw-bold mb-4"style={{ textAlign: "left", fontFamily: "Times New Roman, Times, serif" }}
 >Welcome to Nova Vista</h2>
