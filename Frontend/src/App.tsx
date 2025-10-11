@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Common/Header";
 import Footer from "./components/Common/Footer";
 import Home from "./pages/Home/Home";
+import "./App.css";
+import EventBooking from "./pages/EventBooking/EventBooking";
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/event" element={<Event />} />
+          <Route path="/event-booking" element={<EventBooking />} />
         </Routes>
       </main>
       <Footer />

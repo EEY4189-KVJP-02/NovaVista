@@ -1,17 +1,19 @@
 import React from "react";
 import CommonHero from "../../components/Common/CommonHero";
-import EventSearch from "./EventSearch";
+import EventForm from "./EventForm";
 
-export const Event = () => {
+const EventBooking = () => {
   return (
-    <>
+    <div>
       <CommonHero
         src={"/Images/event_hero3.jpg"}
         title={"Event"}
         alt={"Event"}
         subTitle={"Make every event truly memorable."}
       />
-      <EventSearch />
-    </>
+      <EventForm />
+    </div>
   );
 };
+
+export default EventBooking;
