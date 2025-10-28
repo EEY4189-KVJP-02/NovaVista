@@ -1,32 +1,30 @@
 import React from "react";
 import "./BranchCard.css";
+import { Link } from "react-router-dom";
 
-interface BranchCardProps {
-  image: string;
+interface Props {
+  id: number;
   name: string;
   location: string;
-  features: string;
+  image: string;
   rating: number;
+  short_desc?: string;
+  onViewDetails: (id: number) => void;
 }
 
-const BranchCard: React.FC<BranchCardProps> = ({
-  image,
-  name,
-  location,
-  features,
-  rating,
-}) => {
+const BranchCard: React.FC<Props> = ({ id, name, location, image, rating, short_desc, onViewDetails }) => {
   return (
     <div className="branch-card">
-      <img src={image} alt={name} className="branch-image" />
-      <div className="branch-content">
+      <img src={image} alt={name} className="branch-img" />
+      <div className="branch-info">
         <h3>{name}</h3>
-        <p>{location}</p>
-        <p className="features">{features}</p>
-        <div className="rating">⭐ {rating} / 5</div>
-        <div className="buttons">
-          <button className="book-btn">BOOK NOW</button>
-          <button className="view-btn">View Details</button>
+        <p className="loc">{location}</p>
+        {short_desc && <p className="short">{short_desc}</p>}
+        <div className="card-footer">
+          <div className="rating">⭐ {rating.toFixed(1)}</div>
+          {/* Book Now navigates to existing booking page */}
+          <Link to={`/book/${id}`} className="book-now-btn">Book Now</Link>
+          <button className="view-btn" onClick={() => onViewDetails(id)}>View Details</button>
         </div>
       </div>
     </div>
@@ -34,5 +32,6 @@ const BranchCard: React.FC<BranchCardProps> = ({
 };
 
 export default BranchCard;
+
 
 
