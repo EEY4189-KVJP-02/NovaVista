@@ -1,18 +1,6 @@
 import React from "react";
 import CommonHero from "../../components/Common/CommonHero";
-import BranchBook from "../HotelDetails/BranchBook";
-
-
-function HotelDetailsPage() {
-  return (
-    <>
-      {/* other hero / about sections */}
-      <BranchBook />
-      {/* footer */}
-    </>
-  );
-}
-import EventSearch from "./EventSearch";
+import EventSearch from "./EventSearch"; // ✅ moved to top
 
 export const Event = () => {
   return (
@@ -27,3 +15,4 @@ export const Event = () => {
     </>
   );
 };
+
