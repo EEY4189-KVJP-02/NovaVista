@@ -315,7 +315,7 @@ const HallCard = ({ hall }: { hall: EventHall }) => {
               height: "200px",
             }}
           />
-          <Link to="/">
+          <Link to="/event-booking">
             <button
               className="btn-primary position-absolute bottom-0 end-0 m-2 "
               style={{
