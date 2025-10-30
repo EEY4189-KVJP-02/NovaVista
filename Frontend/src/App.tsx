@@ -6,6 +6,7 @@ import Footer from "./components/Common/Footer";
 import Home from "./pages/Home/Home";
 import "./App.css";
 import EventBooking from "./pages/EventBooking/EventBooking";
+import RoomBooking from "./pages/RoomBooking/roombooking";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/event" element={<Event />} />
           <Route path="/event-booking" element={<EventBooking />} />
+          <Route path="/room-booking" element={<RoomBooking />} />
+          
         </Routes>
       </main>
       <Footer />
