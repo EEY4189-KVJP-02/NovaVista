@@ -1,0 +1,74 @@
+.room-booking-page {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 600px; /* Adjust based on image */
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent overlay */
+  color: white;
+}
+
+.hotel-name {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.date-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.date-group {
+  margin: 0 10px;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+}
+
+.filters select, .search-input {
+  margin: 0 5px;
+}
+
+.room-types-section {
+  padding: 40px 0;
+}
+
+.room-card {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.price {
+  font-size: 1.5rem;
+  color: #ff5722;
+  margin-bottom: 10px;
+}
+
+.book-button {
+  width: 100%;
+}

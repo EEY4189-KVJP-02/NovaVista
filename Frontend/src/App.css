@@ -1,0 +1,16 @@
+:root{
+  --primary-color: #F3E09A;
+  --primary_dark_color:#fde979;
+  
+}
+/* overrride button style */
+.btn-primary{
+  background-color: var(--primary-color) !important;
+  border: 1px solid #ccc;
+  color: #000;
+ &:hover {
+  color:#000 ;
+  background-color:#fde979;
+  border: 1px solid #ccc;
+ }
+}
