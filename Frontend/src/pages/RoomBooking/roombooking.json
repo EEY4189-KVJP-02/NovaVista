@@ -1,0 +1,22 @@
+{
+  "rooms": [
+    {
+      "type": "Standard Single Room",
+      "description": "- Free Cancellation - Flexibility guaranteed\n- No Prepayment Needed - Secure your stay now, pay later\n- Limited Availability - Only 5 rooms left at this rate!",
+      "price": "LKR 5000",
+      "image": "/single room.png"
+    },
+    {
+      "type": "Double Room",
+      "description": "- Free Cancellation - Book with confidence\n- No Prepayment Needed - Pay at the hotel\n- Limited Availability - Only 3 rooms left at this special rate!",
+      "price": "LKR 10000",
+      "image": "/double room.jpg"
+    },
+    {
+      "type": "Deluxe Room",
+      "description": "- Free Cancellation - Change plans anytime\n- No Prepayment Required - Easy booking, stress-free payment\n- Limited Availability - Exclusive price!",
+      "price": "LKR 25000",
+      "image": "/double room.jpg"
+    }
+  ]
+}

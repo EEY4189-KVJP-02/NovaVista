@@ -1,0 +1,144 @@
+/* BranchBook.css - keep file name and path exactly */
+.branchbook-wrapper { font-family: "Poppins", sans-serif; color:#222; background:#fffaf1; }
+
+/* Hero */
+.hero {
+  height: 80vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.hero-overlay {
+  position:absolute; 
+  inset:0; 
+  background: rgba(0,0,0,0.35);
+  display:flex; 
+  justify-content:center; 
+  align-items:center;
+}
+
+/* Booking card on hero */
+.booking-card {
+  background: rgba(255,255,255,0.98);
+  padding: 18px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 780px;
+  margin-top: 30%;
+  box-shadow: 0 8px 28px #c59b2b;
+}
+
+.booking-row {
+  display:flex; 
+  gap:14px; 
+  align-items:end; 
+  justify-content:space-between; 
+  flex-wrap:wrap;
+}
+
+.booking-row > div { display:flex; flex-direction:column; min-width:150px; }
+.booking-row label { font-size:0.85rem; color:#444; margin-bottom:6px; }
+.booking-row input, .booking-row select {
+  padding:8px 10px; border-radius:8px; border:1px solid #ddd; font-size:0.95rem;
+}
+
+/* Check rates button */
+.checkrates-wrap { display:flex; align-items:center; }
+.checkrates-btn {
+  background:#c59b2b; 
+  color:white; 
+  padding:10px 18px; 
+  border-radius:8px; 
+  border:none; 
+  cursor:pointer; 
+  font-weight:400;
+}
+
+/* About */
+.about { 
+  padding:36px 18px; 
+  max-width:980px; 
+  margin:0 auto; 
+  text-align:center; 
+}
+.about h2 { 
+  margin-bottom:12px; 
+  font-size:1.6rem; 
+}
+.about p { 
+  color:#555; 
+  line-height:1.6; }
+
+/* Branches list */
+.branches { 
+  padding:28px 18px 48px; 
+  max-width:1100px; 
+  margin:0 auto; 
+}
+.branches h2 { 
+  text-align:center; 
+  margin-bottom:18px; 
+  font-size:1.5rem; 
+}
+.branches-grid { 
+  display:flex; 
+  gap:18px; 
+  justify-content:center; 
+  flex-wrap:wrap; }
+
+/* Modal styles */
+.modal-backdrop {
+  position:fixed; 
+  inset:0; 
+  background: rgba(0,0,0,0.45); 
+  display:flex; 
+  justify-content:center; 
+  align-items:center; 
+  z-index:9999;
+}
+.modal {
+  background:#fff; 
+  border-radius:12px; 
+  width:90%; 
+  max-width:900px; 
+  box-shadow:0 24px 60px rgba(0,0,0,0.3); 
+  overflow:hidden;
+}
+.modal-close { 
+  position:absolute; 
+  right:14px; 
+  top:8px; 
+  background:transparent; 
+  border:none; 
+  font-size:28px; 
+  cursor:pointer; }
+.modal-body { 
+  display:flex; 
+  gap:12px; 
+  padding:18px; }
+.modal-body img { 
+  width:44%; 
+  object-fit:cover; 
+  border-radius:8px; }
+.modal-info { 
+  width:56%; 
+}
+.modal-info h3 { 
+  margin-top:0; 
+}
+.modal-info .loc { 
+  color:#666; 
+  margin-bottom:8px; 
+}
+.modal-actions { 
+  margin-top:12px; 
+}
+.book-now-btn { 
+  background:#c59b2b; 
+  color:white; 
+  padding:10px 14px; 
+  border-radius:8px; 
+  text-decoration:none; 
+  font-weight:700; 
+}
+
