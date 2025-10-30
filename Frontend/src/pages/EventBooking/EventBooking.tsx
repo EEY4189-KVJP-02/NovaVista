@@ -6,7 +6,7 @@ const EventBooking = () => {
   return (
     <div>
       <CommonHero
-        src={"/Images/event_hero3.jpg"}
+        src={"/Images/event_hero.jpg"}
         title={"Event"}
         alt={"Event"}
         subTitle={"Make every event truly memorable."}
