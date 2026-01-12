@@ -1,74 +1,57 @@
 .room-booking-page {
-  font-family: Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   color: #333;
+  min-height: 100vh;
 }
 
-.hero-section {
-  position: relative;
-  width: 100%;
-  height: 600px; /* Adjust based on image */
+.filters-section {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.hero-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.filters-section h4 {
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent overlay */
-  color: white;
+.filters-section .form-label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.5rem;
 }
 
-.hotel-name {
-  font-size: 3rem;
-  margin-bottom: 20px;
+.filters-section .form-control,
+.filters-section .form-select {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
 }
 
-.date-selector {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.date-group {
-  margin: 0 10px;
-}
-
-.filters {
-  display: flex;
-  justify-content: center;
-}
-
-.filters select, .search-input {
-  margin: 0 5px;
+.filters-section .form-control:focus,
+.filters-section .form-select:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .room-types-section {
   padding: 40px 0;
 }
 
-.room-card {
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
+@media (max-width: 768px) {
+  .filters-section {
+    padding: 1rem !important;
+  }
 
-.price {
-  font-size: 1.5rem;
-  color: #ff5722;
-  margin-bottom: 10px;
-}
+  .filters-section .row {
+    margin-bottom: 0.5rem;
+  }
 
-.book-button {
-  width: 100%;
+  .filters-section .btn {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
 }

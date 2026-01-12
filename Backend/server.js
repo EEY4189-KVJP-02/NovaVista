@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { checkConnection } from "./config/db.js";
 import hallsRouter from "./routes/EventHall.js";
+import roomsRouter from "./routes/Room.js";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(cors());
 
 // Routes
 app.use("/api/halls", hallsRouter);
+app.use("/api/rooms", roomsRouter);
 
 // Start server
 app.listen(PORT, async () => {

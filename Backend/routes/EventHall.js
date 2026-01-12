@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 // GET a hall by ID
 router.get("/:id", async (req, res) => {
   try {
-    const hall = await Hall.findByPk(req.params.id);
+    const hall = await EventHall.findByPk(req.params.id);
     if (!hall) return res.status(404).json({ message: "Hall not found" });
     res.json(hall);
   } catch (error) {
