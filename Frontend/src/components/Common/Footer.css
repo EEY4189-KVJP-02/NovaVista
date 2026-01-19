@@ -1,0 +1,28 @@
+.nv-footer {
+  background: #4a4a4a;
+  color: white;
+  padding: 40px 60px;
+  margin-top: 50px;
+}
+
+.nv-footer-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.nv-footer-container h4,
+.nv-footer-container h5 {
+  margin-bottom: 10px;
+}
+
+.nv-footer-container p {
+  margin: 6px 0;
+}
+
+.nv-footer-bottom {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 14px;
+  opacity: 0.8;
+}
