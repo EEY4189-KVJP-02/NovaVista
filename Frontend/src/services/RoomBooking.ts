@@ -131,10 +131,16 @@ class RoomBookingService {
 
   async createBooking(roomId: number, bookingData: BookingData): Promise<BookingResponse> {
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Authentication required. Please login to continue.');
+      }
+
       const response = await fetch(`${this.baseUrl}/rooms/${roomId}/book`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(bookingData),
       });

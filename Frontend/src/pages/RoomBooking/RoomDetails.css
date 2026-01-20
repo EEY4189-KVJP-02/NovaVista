@@ -313,6 +313,34 @@
   gap: 0.5rem;
 }
 
+.availability-bad {
+  color: #dc3545;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.availability-checking {
+  color: #856404;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-style: italic;
+}
+
+.availability-info {
+  color: #6c757d;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .room-description {
   color: #6c757d;
   line-height: 1.6;

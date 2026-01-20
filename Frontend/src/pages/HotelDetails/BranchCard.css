@@ -51,8 +51,8 @@
 
 .card-footer {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-top: 0.5rem;
 }
 
@@ -60,26 +60,35 @@
   color: #c59b2b;
   font-weight: 700;
   font-size: 0.9rem;
+  margin-bottom: 0.25rem;
 }
 
-.book-now-btn {
+.card-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.book-room-btn,
+.book-event-btn {
   background: #c59b2b;
   color: white;
-  padding: 0.5rem 0.5rem;
+  padding: 0.6rem 1rem;
   border-radius: 6px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
   white-space: nowrap;
-  flex: 1 1 0;
-  min-width: 0;
+  width: 100%;
   text-align: center;
 }
 
-.book-now-btn:hover {
+.book-room-btn:hover,
+.book-event-btn:hover {
   background: #b0891f;
   transform: translateY(-1px);
 }
@@ -87,16 +96,15 @@
 .view-btn {
   background: transparent;
   border: 1px solid #c59b2b;
-  padding: 0.5rem 0.5rem;
+  padding: 0.6rem 1rem;
   border-radius: 6px;
   cursor: pointer;
   color: #c59b2b;
   font-weight: 500;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   transition: all 0.3s;
   white-space: nowrap;
-  flex: 1 1 0;
-  min-width: 0;
+  width: 100%;
   text-align: center;
 }
 
@@ -111,12 +119,12 @@
     max-width: 400px;
   }
 
-  .card-footer {
+  .card-buttons {
     flex-direction: column;
-    gap: 0.5rem;
   }
 
-  .book-now-btn,
+  .book-room-btn,
+  .book-event-btn,
   .view-btn {
     width: 100%;
   }

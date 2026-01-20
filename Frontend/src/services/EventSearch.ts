@@ -9,6 +9,7 @@ export interface EventHall {
   description: string;
   rating: number;
   image?: string;
+  price?: number;
 }
 
 class ApiService {

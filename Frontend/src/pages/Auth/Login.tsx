@@ -26,13 +26,13 @@ const Login: React.FC = () => {
     setLoading(true);
 
     try {
-      // TODO: Implement actual authentication API call
-      // For now, simulate login
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { authService } = await import('../../services/auth');
+      const response = await authService.login(formData.email, formData.password);
       
-      // Store user session (in real app, use JWT token)
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('userEmail', formData.email);
+      // Store token and user info
+      authService.setToken(response.token);
+      authService.setUser(response.user);
+      localStorage.setItem('userId', response.user.id.toString());
       
       // Redirect to room booking or previous page
       const returnUrl = new URLSearchParams(window.location.search).get('returnUrl') || '/room-booking';

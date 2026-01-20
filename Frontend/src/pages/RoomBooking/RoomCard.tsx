@@ -28,8 +28,8 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, onBookNow, checkInDate, check
     return `/Images/${imagePath}`;
   };
 
-  const formatPrice = (price: number) => {
-    return `LKR ${price.toFixed(2)}`;
+  const formatPrice = (price: number | string) => {
+    return `LKR ${Number(price).toFixed(2)}`;
   };
 
   const calculateTotal = () => {
@@ -37,7 +37,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, onBookNow, checkInDate, check
       const checkIn = new Date(checkInDate);
       const checkOut = new Date(checkOutDate);
       const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
-      return formatPrice(room.price * nights);
+      return formatPrice(Number(room.price) * nights);
     }
     return null;
   };
@@ -67,7 +67,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, onBookNow, checkInDate, check
         <div className="mb-2">
           <small className="text-muted">
             <strong>Max Guests:</strong> {room.maxGuests} | 
-            <strong> Price per night:</strong> {formatPrice(room.price)}
+            <strong> Price per night:</strong> {formatPrice(Number(room.price))}
           </small>
         </div>
 

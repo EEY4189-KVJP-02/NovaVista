@@ -1,11 +1,11 @@
 import express from "express";
 import Room from "../models/Room.js";
 import RoomBooking from "../models/RoomBooking.js";
+import User from "../models/User.js";
 import { Op } from "sequelize";
+import { authenticate } from "../middleware/auth.js";
 
-// Set up associations
-Room.hasMany(RoomBooking, { foreignKey: "roomId", as: "bookings" });
-RoomBooking.belongsTo(Room, { foreignKey: "roomId", as: "room" });
+// Associations are set up in server.js - no need to set them here again
 
 const router = express.Router();
 
@@ -156,8 +156,8 @@ router.post("/:id/availability", async (req, res) => {
   }
 });
 
-// POST create a new booking
-router.post("/:id/book", async (req, res) => {
+// POST create a new booking (requires authentication)
+router.post("/:id/book", authenticate, async (req, res) => {
   try {
     const { id } = req.params;
     const {
@@ -178,8 +178,11 @@ router.post("/:id/book", async (req, res) => {
     // Check if room exists
     const room = await Room.findByPk(id);
     if (!room) {
+      console.error(`Room with ID ${id} not found in database`);
       return res.status(404).json({ message: "Room not found" });
     }
+    
+    console.log(`Room found: ${room.type} at ${room.branch}, Price: ${room.price}`);
 
     // Check availability - include pending bookings to prevent double bookings
     const conflictingBooking = await RoomBooking.findOne({
@@ -226,46 +229,108 @@ router.post("/:id/book", async (req, res) => {
       });
     }
 
-    // Create booking
-    const booking = await RoomBooking.create({
+    // Create booking with userId from authenticated user
+    console.log("Creating booking with data:", {
+      userId: req.user.id,
       roomId: parseInt(id),
       guestName,
       guestEmail,
-      guestPhone,
       checkInDate,
       checkOutDate,
       numberOfGuests: numberOfGuests || 1,
       totalPrice,
-      specialRequests: specialRequests || null,
-      status: "pending",
     });
 
-    res.status(201).json({
-      message: "Booking created successfully",
-      booking,
-    });
-  } catch (error) {
-    console.error("Error creating booking:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
+    let booking;
+    try {
+      booking = await RoomBooking.create({
+        userId: req.user.id,
+        roomId: parseInt(id),
+        guestName,
+        guestEmail,
+        guestPhone,
+        checkInDate,
+        checkOutDate,
+        numberOfGuests: numberOfGuests || 1,
+        totalPrice,
+        specialRequests: specialRequests || null,
+        status: "pending",
+      });
+    console.log("Booking created successfully with ID:", booking.id);
+    console.log("Booking data:", JSON.stringify(booking.toJSON(), null, 2));
+    } catch (createError) {
+      console.error("Error during RoomBooking.create:", createError);
+      console.error("Create error details:", {
+        name: createError.name,
+        message: createError.message,
+        errors: createError.errors,
+      });
+      throw createError;
+    }
 
-// GET all bookings (for admin)
-router.get("/bookings/all", async (req, res) => {
-  try {
-    const bookings = await RoomBooking.findAll({
+    // Verify booking was saved by fetching it back
+    const savedBooking = await RoomBooking.findByPk(booking.id);
+    if (!savedBooking) {
+      console.error("ERROR: Booking was created but not found in database!");
+      return res.status(500).json({ 
+        message: "Booking creation failed - could not verify save",
+      });
+    }
+    
+    console.log("Booking verified in database with ID:", savedBooking.id);
+
+    // Fetch the created booking with relations to return complete data
+    const bookingWithDetails = await RoomBooking.findByPk(booking.id, {
       include: [
         {
           model: Room,
           as: "room",
-          attributes: ["type", "branch", "price"],
+        },
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "username", "email"],
+        },
+      ],
+    });
+
+    res.status(201).json({
+      message: "Booking created successfully",
+      booking: bookingWithDetails || booking,
+    });
+  } catch (error) {
+    console.error("Error creating booking:", error);
+    console.error("Error details:", {
+      message: error.message,
+      name: error.name,
+      stack: error.stack,
+    });
+    res.status(500).json({ 
+      message: "Internal Server Error",
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// GET user's own bookings (requires authentication)
+router.get("/bookings/my", authenticate, async (req, res) => {
+  try {
+    const bookings = await RoomBooking.findAll({
+      where: {
+        userId: req.user.id,
+      },
+      include: [
+        {
+          model: Room,
+          as: "room",
         },
       ],
       order: [["createdAt", "DESC"]],
     });
+
     res.json(bookings);
   } catch (error) {
-    console.error("Error fetching bookings:", error);
+    console.error("Error fetching user bookings:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

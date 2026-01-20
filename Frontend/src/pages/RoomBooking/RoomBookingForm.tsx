@@ -127,11 +127,20 @@ const RoomBookingForm: React.FC<RoomBookingFormProps> = ({
     setError(null);
 
     try {
+      console.log('Submitting booking for room ID:', room.id);
+      console.log('Booking data:', {
+        ...formData,
+        checkInDate,
+        checkOutDate,
+      });
+      
       const response = await roomBookingService.createBooking(room.id, {
         ...formData,
         checkInDate,
         checkOutDate,
       });
+      
+      console.log('Booking response:', response);
       
       // Booking successfully created and stored in database
       setSuccess(true);
@@ -140,22 +149,23 @@ const RoomBookingForm: React.FC<RoomBookingFormProps> = ({
         onClose();
       }, 2000);
     } catch (err: any) {
+      console.error('Booking error:', err);
       // Handle different error cases
       if (err.message && err.message.includes('Room not found')) {
         // Room doesn't exist in database (fallback data)
-        // Still show success but note that booking wasn't stored
-        setSuccess(true);
-        console.warn('Room not found in database, booking not stored');
-        setTimeout(() => {
-          onBookingSuccess();
-          onClose();
-        }, 2000);
+        setError('This room is not available in our system. Please select a different room.');
       } else if (err.message && err.message.includes('not available')) {
         // Room is booked for these dates - show proper error
         setIsAvailable(false);
         setError('This room is not available for the selected dates. Please choose different dates.');
+      } else if (err.message && err.message.includes('Authentication required')) {
+        // User not logged in
+        setError('Please login to book a room.');
+        setTimeout(() => {
+          window.location.href = `/login?returnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+        }, 2000);
       } else {
-        // Other errors
+        // Other errors - show actual error message
         setError(err.message || 'Failed to create booking. Please try again.');
       }
     } finally {
@@ -199,7 +209,7 @@ const RoomBookingForm: React.FC<RoomBookingFormProps> = ({
           </div>
           <div className="row mt-2">
             <div className="col-12">
-              <strong>Price per night:</strong> LKR {room.price.toFixed(2)}
+              <strong>Price per night:</strong> LKR {Number(room.price).toFixed(2)}
             </div>
           </div>
           <div className="row mt-2">

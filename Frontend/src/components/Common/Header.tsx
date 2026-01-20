@@ -16,10 +16,13 @@ const Header = () => {
     setUserName(name);
   }, [location]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userName');
+  const handleLogout = async () => {
+    try {
+      const { authService } = await import('../../services/auth');
+      authService.removeToken();
+    } catch (err) {
+      console.error('Error during logout:', err);
+    }
     setIsAuthenticated(false);
     setUserName(null);
     navigate('/');
@@ -39,12 +42,25 @@ const Header = () => {
           <Link to="/" className={location.pathname === '/' ? 'nav-link active' : 'nav-link'}>
             Home
           </Link>
+          <Link to="/branchbook" className={location.pathname === '/branchbook' ? 'nav-link active' : 'nav-link'}>
+            Locations
+          </Link>
           <Link to="/event" className={location.pathname === '/event' ? 'nav-link active' : 'nav-link'}>
             Events
           </Link>
-          <Link to="/branchbook" className={location.pathname === '/branchbook' ? 'nav-link active' : 'nav-link'}>
-            Bookings
+          <Link to="/room-booking" className={location.pathname === '/room-booking' ? 'nav-link active' : 'nav-link'}>
+            Rooms
           </Link>
+          {isAuthenticated && (
+            <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'nav-link active' : 'nav-link'}>
+              My Bookings
+            </Link>
+          )}
+          {isAuthenticated && localStorage.getItem('userRole') === 'admin' && (
+            <Link to="/admin" className={location.pathname === '/admin' ? 'nav-link active' : 'nav-link'}>
+              Admin
+            </Link>
+          )}
         </nav>
 
         <div className="header-actions">

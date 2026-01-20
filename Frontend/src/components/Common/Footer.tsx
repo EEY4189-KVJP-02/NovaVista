@@ -34,13 +34,13 @@ const Footer = () => {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/room-booking">Room Booking</Link>
+                <Link to="/branchbook">Locations</Link>
               </li>
               <li>
-                <Link to="/branchbook">Bookings</Link>
+                <Link to="/event">Events Booking</Link>
               </li>
               <li>
-                <Link to="/event">Events</Link>
+                <Link to="/room-booking">Rooms Booking</Link>
               </li>
             </ul>
           </div>

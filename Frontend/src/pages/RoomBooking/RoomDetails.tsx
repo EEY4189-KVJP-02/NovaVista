@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import RoomBookingForm from './RoomBookingForm';
 import { roomBookingService, Room, RoomFilters } from '../../services/RoomBooking';
@@ -11,17 +11,20 @@ const RoomDetails: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [showBookingForm, setShowBookingForm] = useState(false);
+  const [roomAvailability, setRoomAvailability] = useState<Record<number, boolean>>({});
+  const [checkingAvailability, setCheckingAvailability] = useState(false);
+  const checkingRef = useRef<string>('');
   
   // Get initial values from URL params
   const locationFromUrl = searchParams.get('location') || '';
   const checkInFromUrl = searchParams.get('checkIn') || '';
   const checkOutFromUrl = searchParams.get('checkOut') || '';
   
-  // Filter states
+  // Filter states - Default to Jaffna if no location in URL
   const [filters, setFilters] = useState<RoomFilters>({
     branch: locationFromUrl === 'Jaffna, Sri Lanka' ? 'Jaffna' : 
            locationFromUrl === 'Kilinochchi, Sri Lanka' ? 'Kilinochchi' :
-           locationFromUrl === 'Mannar, Sri Lanka' ? 'Mannar' : undefined,
+           locationFromUrl === 'Mannar, Sri Lanka' ? 'Mannar' : 'Jaffna', // Default to Jaffna
     checkInDate: checkInFromUrl || undefined,
     checkOutDate: checkOutFromUrl || undefined,
     minPrice: undefined,
@@ -34,7 +37,7 @@ const RoomDetails: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState<string>(
     locationFromUrl === 'Jaffna, Sri Lanka' ? 'Jaffna' :
     locationFromUrl === 'Kilinochchi, Sri Lanka' ? 'Kilinochchi' :
-    locationFromUrl === 'Mannar, Sri Lanka' ? 'Mannar' : ''
+    locationFromUrl === 'Mannar, Sri Lanka' ? 'Mannar' : 'Jaffna' // Default to Jaffna
   );
 
   // Update filters when URL params change
@@ -47,8 +50,9 @@ const RoomDetails: React.FC = () => {
                    locationFromUrl === 'Kilinochchi, Sri Lanka' ? 'Kilinochchi' :
                    locationFromUrl === 'Mannar, Sri Lanka' ? 'Mannar' : undefined;
     
+    const defaultBranch = branch || 'Jaffna'; // Default to Jaffna if no location in URL
     setFilters({
-      branch: branch,
+      branch: defaultBranch as "Jaffna" | "Kilinochchi" | "Mannar",
       checkInDate: checkInFromUrl || undefined,
       checkOutDate: checkOutFromUrl || undefined,
       minPrice: undefined,
@@ -61,7 +65,7 @@ const RoomDetails: React.FC = () => {
     setSelectedLocation(
       locationFromUrl === 'Jaffna, Sri Lanka' ? 'Jaffna' :
       locationFromUrl === 'Kilinochchi, Sri Lanka' ? 'Kilinochchi' :
-      locationFromUrl === 'Mannar, Sri Lanka' ? 'Mannar' : ''
+      locationFromUrl === 'Mannar, Sri Lanka' ? 'Mannar' : 'Jaffna' // Default to Jaffna
     );
   }, [searchParams]);
 
@@ -235,6 +239,14 @@ const RoomDetails: React.FC = () => {
   };
 
   const handleBookNow = (room: Room) => {
+    // Check if user is authenticated
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Redirect to login with return URL
+      const currentUrl = window.location.pathname + window.location.search;
+      window.location.href = `/login?returnUrl=${encodeURIComponent(currentUrl)}`;
+      return;
+    }
     setSelectedRoom(room);
     setShowBookingForm(true);
   };
@@ -249,31 +261,117 @@ const RoomDetails: React.FC = () => {
   // Required room types: Standard Single Room, Double Room, Deluxe Room
   const requiredRoomTypes = ['Standard Single Room', 'Double Room', 'Deluxe Room'];
   
-  // Filter rooms by location and required types
-  const filteredRooms = rooms.filter(room => {
-    // Only show rooms if a location is selected
-    if (!selectedLocation) {
-      return false;
+  // Memoize displayRooms to prevent unnecessary recalculations and flickering
+  const displayRooms = useMemo(() => {
+    // Filter rooms by location and required types
+    const filteredRooms = rooms.filter(room => {
+      // Only show rooms if a location is selected
+      if (!selectedLocation) {
+        return false;
+      }
+      // Show only the 3 required room types for the selected location
+      return requiredRoomTypes.some(type => 
+        room.type.toLowerCase().includes(type.toLowerCase())
+      );
+    });
+
+    // Sort rooms to always show in the same order: Standard Single Room, Double Room, Deluxe Room
+    const sortedRooms = [...filteredRooms].sort((a, b) => {
+      const getRoomOrder = (type: string) => {
+        if (type.toLowerCase().includes('standard single')) return 1;
+        if (type.toLowerCase().includes('double') && !type.toLowerCase().includes('deluxe')) return 2;
+        if (type.toLowerCase().includes('deluxe')) return 3;
+        return 4;
+      };
+      return getRoomOrder(a.type) - getRoomOrder(b.type);
+    });
+
+    // Limit to exactly 3 rooms per location
+    return sortedRooms.slice(0, 3);
+  }, [rooms, selectedLocation]);
+
+  // Check availability for all rooms when dates are selected
+  useEffect(() => {
+    if (!checkInDate || !checkOutDate || displayRooms.length === 0) {
+      setRoomAvailability({});
+      setCheckingAvailability(false);
+      checkingRef.current = '';
+      return;
     }
-    // Show only the 3 required room types for the selected location
-    return requiredRoomTypes.some(type => 
-      room.type.toLowerCase().includes(type.toLowerCase())
-    );
-  });
 
-  // Sort rooms to always show in the same order: Standard Single Room, Double Room, Deluxe Room
-  const sortedRooms = [...filteredRooms].sort((a, b) => {
-    const getRoomOrder = (type: string) => {
-      if (type.toLowerCase().includes('standard single')) return 1;
-      if (type.toLowerCase().includes('double') && !type.toLowerCase().includes('deluxe')) return 2;
-      if (type.toLowerCase().includes('deluxe')) return 3;
-      return 4;
+    // Create a unique key for this check
+    const checkKey = `${checkInDate}-${checkOutDate}-${displayRooms.map(r => r.id).join(',')}`;
+    
+    // If we're already checking for these exact dates/rooms, don't check again
+    if (checkingRef.current === checkKey) {
+      return;
+    }
+
+    let isCancelled = false;
+    checkingRef.current = checkKey;
+
+    // Debounce: wait a bit before checking to avoid rapid re-checks
+    const timeoutId = setTimeout(() => {
+      if (isCancelled || checkingRef.current !== checkKey) return;
+
+      const checkAvailability = async () => {
+        if (isCancelled || checkingRef.current !== checkKey) return;
+        
+        setCheckingAvailability(true);
+        const availabilityMap: Record<number, boolean> = {};
+
+        try {
+          // Check availability for each room
+          const availabilityChecks = displayRooms.map(async (room) => {
+            if (isCancelled || checkingRef.current !== checkKey) return;
+            
+            try {
+              const availability = await roomBookingService.checkAvailability(
+                room.id,
+                checkInDate,
+                checkOutDate
+              );
+              if (!isCancelled && checkingRef.current === checkKey) {
+                availabilityMap[room.id] = availability.isAvailable;
+              }
+            } catch (err: any) {
+              // If check fails, assume available (for fallback data)
+              if (!isCancelled && checkingRef.current === checkKey) {
+                availabilityMap[room.id] = true;
+              }
+            }
+          });
+
+          await Promise.all(availabilityChecks);
+          
+          if (!isCancelled && checkingRef.current === checkKey) {
+            setRoomAvailability(availabilityMap);
+            setCheckingAvailability(false);
+          }
+        } catch (err) {
+          // If overall check fails, assume all rooms are available
+          if (!isCancelled && checkingRef.current === checkKey) {
+            displayRooms.forEach(room => {
+              availabilityMap[room.id] = true;
+            });
+            setRoomAvailability(availabilityMap);
+            setCheckingAvailability(false);
+          }
+        }
+      };
+
+      checkAvailability();
+    }, 500); // 500ms debounce to prevent rapid re-checks
+
+    // Cleanup function to cancel timeout and prevent state updates
+    return () => {
+      isCancelled = true;
+      if (checkingRef.current === checkKey) {
+        checkingRef.current = '';
+      }
+      clearTimeout(timeoutId);
     };
-    return getRoomOrder(a.type) - getRoomOrder(b.type);
-  });
-
-  // Limit to exactly 3 rooms per location
-  const displayRooms = sortedRooms.slice(0, 3);
+  }, [checkInDate, checkOutDate, displayRooms]);
 
   return (
     <div className="room-details-page">
@@ -408,10 +506,11 @@ const RoomDetails: React.FC = () => {
         {!loading && !error && displayRooms.length > 0 && (
           <div className="room-listings">
             {displayRooms.map((room) => {
-              // Calculate availability (mock - in real app, get from API)
-              const availableRooms = Math.floor(Math.random() * 5) + 1; // Mock data
-              const isLowAvailability = availableRooms <= 3;
-              const isSoldOut = availableRooms === 0;
+              // Get availability based on selected dates
+              const isAvailable = checkInDate && checkOutDate 
+                ? (roomAvailability[room.id] ?? true) 
+                : true;
+              const isSoldOut = checkInDate && checkOutDate ? !isAvailable : false;
 
               return (
                 <div key={room.id} className="room-listing-item">
@@ -464,15 +563,6 @@ const RoomDetails: React.FC = () => {
                           </svg>
                           No Prepayment
                         </span>
-                        {isLowAvailability && !isSoldOut && (
-                          <span className="benefit-badge limited-availability">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <circle cx="12" cy="12" r="10"></circle>
-                              <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            Limited Availability
-                          </span>
-                        )}
                       </div>
 
                       <div className="room-description">
@@ -481,36 +571,43 @@ const RoomDetails: React.FC = () => {
                         ))}
                       </div>
 
-                      {/* Availability Indicator */}
-                      {!isSoldOut && (
+                      {/* Availability Indicator - Show when dates are selected */}
+                      {checkInDate && checkOutDate && (
                         <div className="availability-indicator">
-                          {isLowAvailability ? (
-                            <span className="availability-warning">
-                              ⚠️ Only {availableRooms} room{availableRooms !== 1 ? 's' : ''} left!
-                            </span>
+                          {checkingAvailability ? (
+                            <span className="availability-checking">Checking availability...</span>
+                          ) : isAvailable ? (
+                            <span className="availability-good">✓ Available for selected dates</span>
                           ) : (
-                            <span className="availability-good">✓ Available</span>
+                            <span className="availability-bad">✗ Not available for selected dates</span>
                           )}
+                        </div>
+                      )}
+                      {!checkInDate && !checkOutDate && (
+                        <div className="availability-indicator">
+                          <span className="availability-info">Select dates to check availability</span>
                         </div>
                       )}
                     </div>
                     <div className="room-listing-action">
                       <div className="price-section">
                         <div className="room-price-per-night">
-                          LKR {room.price.toFixed(0)} <span className="price-unit">/night</span>
+                          LKR {Number(room.price).toFixed(0)} <span className="price-unit">/night</span>
                         </div>
                         {checkInDate && checkOutDate && (
                           <div className="room-total-price">
-                            Total: LKR {(room.price * Math.ceil((new Date(checkOutDate).getTime() - new Date(checkInDate).getTime()) / (1000 * 60 * 60 * 24))).toFixed(0)}
+                            Total: LKR {(Number(room.price) * Math.ceil((new Date(checkOutDate).getTime() - new Date(checkInDate).getTime()) / (1000 * 60 * 60 * 24))).toFixed(0)}
                           </div>
                         )}
                       </div>
                       <button 
                         className="book-now-button"
                         onClick={() => handleBookNow(room)}
-                        disabled={isSoldOut}
+                        disabled={isSoldOut || (!!checkInDate && !!checkOutDate && !isAvailable)}
                       >
-                        {isSoldOut ? 'SOLD OUT' : 'BOOK NOW'}
+                        {isSoldOut || (checkInDate && checkOutDate && !isAvailable) 
+                          ? 'NOT AVAILABLE' 
+                          : 'BOOK NOW'}
                       </button>
                     </div>
                   </div>

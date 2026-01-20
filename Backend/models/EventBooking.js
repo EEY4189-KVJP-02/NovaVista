@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/db.js";
 
-const RoomBooking = sequelize.define(
-  "RoomBooking",
+const EventBooking = sequelize.define(
+  "EventBooking",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -17,45 +17,47 @@ const RoomBooking = sequelize.define(
         key: "id",
       },
     },
-    roomId: {
+    hallId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "rooms",
+        model: "event_halls",
         key: "id",
       },
     },
-    guestName: {
+    eventName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    guestEmail: {
+    contactName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    guestPhone: {
+    contactEmail: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isEmail: true,
+      },
+    },
+    contactPhone: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    checkInDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-    },
-    checkOutDate: {
+    eventDate: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
     numberOfGuests: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 1,
     },
     totalPrice: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM("pending", "confirmed", "cancelled", "checked_in", "checked_out"),
+      type: DataTypes.ENUM("pending", "confirmed", "cancelled"),
       defaultValue: "pending",
     },
     specialRequests: {
@@ -64,9 +66,9 @@ const RoomBooking = sequelize.define(
     },
   },
   {
-    tableName: "room_bookings",
+    tableName: "event_bookings",
     timestamps: true,
   }
 );
 
-export default RoomBooking;
+export default EventBooking;

@@ -1,0 +1,351 @@
+/* Event Search Page Styles */
+.event-search-page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  color: #333;
+  min-height: 100vh;
+  background-color: #fffaf1;
+}
+
+/* Search Section */
+.event-search-section {
+  background-color: #fff;
+  padding: 2rem 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 3rem;
+}
+
+.event-search-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.date-input-group,
+.guest-input-group,
+.location-dropdown-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 200px;
+}
+
+.date-input-group label,
+.guest-input-group label,
+.location-dropdown-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.date-input,
+.guest-input {
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #fff8dc;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.date-input:focus,
+.guest-input:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.location-select {
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.location-select:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Hall Listings Section */
+.event-halls-section {
+  padding: 2rem 0;
+}
+
+.event-halls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.event-hall-card {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-hall-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.hall-card-image {
+  width: 100%;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hall-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.unavailable-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: rgba(220, 53, 69, 0.9);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  z-index: 1;
+}
+
+.hall-card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.hall-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.hall-card-header h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #212529;
+  margin: 0;
+}
+
+.hall-location-badge {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.hall-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.benefit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.benefit-badge.free-cancellation {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.benefit-badge.no-prepayment {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.benefit-badge svg {
+  flex-shrink: 0;
+}
+
+.hall-description {
+  color: #6c757d;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.hall-description p {
+  margin-bottom: 0.5rem;
+}
+
+.availability-indicator {
+  margin-bottom: 1rem;
+}
+
+.availability-good {
+  color: #155724;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.availability-bad {
+  color: #dc3545;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hall-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.hall-price-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hall-price {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #c59b2b;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.price-unit {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6c757d;
+}
+
+.hall-capacity {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.book-now-button {
+  padding: 0.875rem 2.5rem;
+  background-color: #c59b2b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(197, 155, 43, 0.3);
+}
+
+.book-now-button:hover:not(:disabled) {
+  background-color: #b0891f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(197, 155, 43, 0.4);
+}
+
+.book-now-button:disabled {
+  background-color: #adb5bd;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .event-halls-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .event-search-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .date-input-group,
+  .guest-input-group,
+  .location-dropdown-group {
+    min-width: 100%;
+  }
+
+  .event-halls-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hall-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .book-now-button {
+    width: 100%;
+  }
+
+  .hall-price {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .event-search-section {
+    padding: 1rem 0;
+  }
+
+  .event-search-bar {
+    padding: 1rem;
+  }
+
+  .event-halls-section {
+    padding: 1rem 0;
+  }
+
+  .hall-card-content {
+    padding: 1rem;
+  }
+
+  .hall-card-header h3 {
+    font-size: 1.25rem;
+  }
+}

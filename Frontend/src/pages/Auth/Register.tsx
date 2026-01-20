@@ -49,14 +49,24 @@ const Register: React.FC = () => {
     setLoading(true);
 
     try {
-      // TODO: Implement actual registration API call
-      // For now, simulate registration
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { authService } = await import('../../services/auth');
+      const nameParts = formData.name.split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
       
-      // Store user session
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('userEmail', formData.email);
-      localStorage.setItem('userName', formData.name);
+      const response = await authService.register({
+        username: formData.email.split('@')[0],
+        email: formData.email,
+        password: formData.password,
+        firstName,
+        lastName,
+        phone: formData.phone,
+      });
+      
+      // Store token and user info
+      authService.setToken(response.token);
+      authService.setUser(response.user);
+      localStorage.setItem('userId', response.user.id.toString());
       
       // Redirect to room booking
       navigate('/room-booking');
