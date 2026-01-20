@@ -41,14 +41,20 @@ CREATE TABLE IF NOT EXISTS room_bookings (
     INDEX idx_guestEmail (guestEmail)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Insert sample room data
+-- Insert sample room data for all branches with unique IDs and location-specific images
+-- Each room type at each location has a unique ID (1-9)
+-- Jaffna Branch - IDs: 1, 2, 3
 INSERT INTO rooms (type, description, price, image, branch, maxGuests, amenities, isActive) VALUES
-('Standard Single Room', 'Comfortable single room with essential amenities. Free cancellation, no prepayment needed. Limited availability - only 5 rooms left at this rate!', 5000.00, '/single room.png', 'Jaffna', 1, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning'), TRUE),
-('Double Room', 'Spacious double room perfect for couples. Free cancellation, no prepayment needed. Book with confidence!', 10000.00, '/double room.jpg', 'Jaffna', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar'), TRUE),
-('Deluxe Room', 'Luxurious deluxe room with premium amenities. Free cancellation, easy booking, stress-free payment. Exclusive price!', 25000.00, '/deluxe room.jpg', 'Jaffna', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar', 'Room Service', 'Balcony'), TRUE),
-('Standard Single Room', 'Comfortable single room with essential amenities. Free cancellation, no prepayment needed.', 5000.00, '/single room.png', 'Kilinochchi', 1, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning'), TRUE),
-('Double Room', 'Spacious double room perfect for couples. Free cancellation, no prepayment needed.', 10000.00, '/double room.jpg', 'Kilinochchi', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar'), TRUE),
-('Deluxe Room', 'Luxurious deluxe room with premium amenities. Free cancellation, exclusive price!', 25000.00, '/deluxe room.jpg', 'Kilinochchi', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar', 'Room Service'), TRUE),
-('Standard Single Room', 'Comfortable single room with essential amenities. Free cancellation, no prepayment needed.', 5000.00, '/single room.png', 'Mannar', 1, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning'), TRUE),
-('Double Room', 'Spacious double room perfect for couples. Free cancellation, no prepayment needed.', 10000.00, '/double room.jpg', 'Mannar', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar'), TRUE),
-('Deluxe Room', 'Luxurious deluxe room with premium amenities. Free cancellation, exclusive price!', 25000.00, '/deluxe room.jpg', 'Mannar', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar', 'Room Service', 'Balcony'), TRUE);
+('Standard Single Room', 'Free Cancellation — Flexibility guaranteed\nNo Prepayment Needed — Secure your stay now, pay later\nLimited Availability — Only 5 rooms left at this price!', 5000.00, '/Images/jaffna-single-room.jpg', 'Jaffna', 1, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Free Cancellation'), TRUE),
+('Double Room', 'Free Cancellation — Book with confidence\nNo Prepayment Needed — Pay at the hotel\nLimited Availability — Only 3 rooms left at this special rate!', 10000.00, '/Images/jaffna-double-room.jpg', 'Jaffna', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar', 'Free Cancellation'), TRUE),
+('Deluxe Room', 'Free Cancellation — Change plans anytime\nNo Prepayment Required — Easy booking, stress-free payment\nLimited Availability — Exclusive price!', 25000.00, '/Images/jaffna-deluxe-room.jpg', 'Jaffna', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar', 'Room Service', 'Balcony', 'Free Cancellation'), TRUE),
+
+-- Kilinochchi Branch - IDs: 4, 5, 6
+('Standard Single Room', 'Free Cancellation — Flexibility guaranteed\nNo Prepayment Needed — Secure your stay now, pay later\nLimited Availability — Only 4 rooms left at this price!', 5000.00, '/Images/kilinochchi-single-room.jpg', 'Kilinochchi', 1, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Free Cancellation'), TRUE),
+('Double Room', 'Free Cancellation — Book with confidence\nNo Prepayment Needed — Pay at the hotel\nLimited Availability — Only 2 rooms left at this special rate!', 10000.00, '/Images/kilinochchi-double-room.jpg', 'Kilinochchi', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar', 'Free Cancellation'), TRUE),
+('Deluxe Room', 'Free Cancellation — Change plans anytime\nNo Prepayment Required — Easy booking, stress-free payment\nLimited Availability — Exclusive price!', 25000.00, '/Images/kilinochchi-deluxe-room.jpg', 'Kilinochchi', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar', 'Room Service', 'Free Cancellation'), TRUE),
+
+-- Mannar Branch - IDs: 7, 8, 9
+('Standard Single Room', 'Free Cancellation — Flexibility guaranteed\nNo Prepayment Needed — Secure your stay now, pay later\nLimited Availability — Only 6 rooms left at this price!', 5000.00, '/Images/mannar-single-room.jpg', 'Mannar', 1, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Free Cancellation'), TRUE),
+('Double Room', 'Free Cancellation — Book with confidence\nNo Prepayment Needed — Pay at the hotel\nLimited Availability — Only 4 rooms left at this special rate!', 10000.00, '/Images/mannar-double-room.jpg', 'Mannar', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar', 'Free Cancellation'), TRUE),
+('Deluxe Room', 'Free Cancellation — Change plans anytime\nNo Prepayment Required — Easy booking, stress-free payment\nLimited Availability — Exclusive price!', 25000.00, '/Images/mannar-deluxe-room.jpg', 'Mannar', 2, JSON_ARRAY('Wi-Fi', 'TV', 'Air Conditioning', 'Mini Bar', 'Room Service', 'Balcony', 'Free Cancellation'), TRUE);

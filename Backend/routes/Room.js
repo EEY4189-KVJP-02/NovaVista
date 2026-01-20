@@ -108,11 +108,12 @@ router.post("/:id/availability", async (req, res) => {
       return res.status(404).json({ message: "Room not found" });
     }
 
+    // Check for conflicting bookings including pending ones to prevent double bookings
     const conflictingBooking = await RoomBooking.findOne({
       where: {
         roomId: id,
         status: {
-          [Op.in]: ["confirmed", "checked_in"],
+          [Op.in]: ["pending", "confirmed", "checked_in"],
         },
         [Op.or]: [
           {
@@ -180,12 +181,12 @@ router.post("/:id/book", async (req, res) => {
       return res.status(404).json({ message: "Room not found" });
     }
 
-    // Check availability
+    // Check availability - include pending bookings to prevent double bookings
     const conflictingBooking = await RoomBooking.findOne({
       where: {
         roomId: id,
         status: {
-          [Op.in]: ["confirmed", "checked_in"],
+          [Op.in]: ["pending", "confirmed", "checked_in"],
         },
         [Op.or]: [
           {

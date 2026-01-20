@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 import BranchCard from "../../../src/pages/HotelDetails/BranchCard";
 import "./BranchBook.css";
 
@@ -10,23 +12,48 @@ type Hotel = {
   rating: number;
   image_url: string;
   price_per_night?: number;
+  address?: string;
+  phone?: string;
+  email?: string;
+  amenities?: string[];
+  numberOfRooms?: number;
 };
 
 const BranchBook: React.FC = () => {
+  const navigate = useNavigate();
   const [hotels, setHotels] = useState<Hotel[]>([]);
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [rooms, setRooms] = useState("1");
   const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
   const [showModal, setShowModal] = useState(false);
+
+  // Debug: Check if modal is in DOM
+  useEffect(() => {
+    if (showModal) {
+      const checkModal = setInterval(() => {
+        const modal = document.querySelector('.modal-backdrop');
+        console.log('Modal in DOM:', modal !== null);
+        if (modal) {
+          console.log('Modal styles:', window.getComputedStyle(modal));
+        }
+      }, 100);
+      return () => clearInterval(checkModal);
+    }
+  }, [showModal]);
 
   useEffect(() => {
     // fetch hotels from backend
     fetch("http://localhost:5000/api/hotels")
-      .then((res) => res.json())
-      .then((data) => setHotels(data))
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Hotels loaded from API:", data);
+        setHotels(data);
+      })
       .catch((err) => {
-        console.error("Could not load hotels:", err);
+        console.warn("Could not load hotels from API, using fallback data:", err);
         // fallback: local sample if backend not running
         setHotels([
           {
@@ -37,6 +64,10 @@ const BranchBook: React.FC = () => {
             rating: 4.7,
             image_url: "/Images/jaffna.jpg",
             price_per_night: 4500,
+            address: "123 Main Street, Jaffna",
+            phone: "+94 21 222 5434",
+            email: "jaffna@novavistahotel.com",
+            amenities: ["Free Wi-Fi", "Parking", "Air Conditioning", "Swimming Pool", "Event Hall"],
           },
           {
             id: 2,
@@ -46,6 +77,10 @@ const BranchBook: React.FC = () => {
             rating: 4.6,
             image_url: "/Images/kilinochchi.jpg",
             price_per_night: 4200,
+            address: "456 Central Road, Kilinochchi",
+            phone: "+94 21 222 5434",
+            email: "kilinochchi@novavistahotel.com",
+            amenities: ["Free Wi-Fi", "Parking", "Air Conditioning", "Swimming Pool", "Event Hall"],
           },
           {
             id: 3,
@@ -55,63 +90,76 @@ const BranchBook: React.FC = () => {
             rating: 4.8,
             image_url: "/Images/mannar.jpg",
             price_per_night: 4600,
+            address: "789 Beach Road, Mannar",
+            phone: "+94 21 222 5434",
+            email: "mannar@novavistahotel.com",
+            amenities: ["Free Wi-Fi", "Parking", "Air Conditioning", "Swimming Pool", "Event Hall"],
           },
         ]);
       });
   }, []);
 
-  const onViewDetails = (id: number) => {
-    // try to fetch single hotel details from backend
-    fetch(`http://localhost:5000/api/hotels/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSelectedHotel(data);
-        setShowModal(true);
-      })
-      .catch(() => {
-        // fallback: find locally
-        const found = hotels.find((h) => h.id === id) || null;
-        setSelectedHotel(found);
-        setShowModal(true);
-      });
-  };
-
-  const handleCheckRates = () => {
-    // simple validation
-    if (!checkIn || !checkOut) {
-      alert("Please select both check-in and check-out dates.");
+  const onViewDetails = async (id: number) => {
+    console.log('View Details clicked for hotel ID:', id);
+    
+    // Find the hotel locally first
+    const found = hotels.find((h) => h.id === id) || null;
+    if (!found) {
+      console.error('Hotel not found with ID:', id);
       return;
     }
-    // For now, show a simple message — booking page will handle actual booking
-    alert(`Checking rates for ${rooms} room(s)\nFrom: ${checkIn}\nTo: ${checkOut}`);
+
+    // Get the branch name from location
+    const branchName = found.location.includes('Jaffna') ? 'Jaffna' :
+                      found.location.includes('Kilinochchi') ? 'Kilinochchi' :
+                      found.location.includes('Mannar') ? 'Mannar' : null;
+
+    // Fetch number of rooms for this branch
+    let numberOfRooms = 0;
+    if (branchName) {
+      try {
+        const roomsResponse = await fetch(`http://localhost:3001/api/rooms?branch=${branchName}`);
+        if (roomsResponse.ok) {
+          const roomsData = await roomsResponse.json();
+          numberOfRooms = Array.isArray(roomsData) ? roomsData.length : 0;
+        }
+      } catch (err) {
+        console.error('Error fetching rooms count:', err);
+        // Default to a sample number if API fails
+        numberOfRooms = 10;
+      }
+    } else {
+      // Default if branch name not found
+      numberOfRooms = 10;
+    }
+
+    // Set hotel with room count
+    const hotelWithRooms = {
+      ...found,
+      numberOfRooms: numberOfRooms || 10, // Default to 10 if fetch fails
+    };
+    
+    console.log('Setting selected hotel:', hotelWithRooms);
+    setSelectedHotel(hotelWithRooms);
+    setShowModal(true);
+    console.log('Modal should be visible now');
+  };
+
+  const handleBookNow = (hotelId: number, locationName: string) => {
+    // Navigate to room booking page with location only
+    const params = new URLSearchParams({
+      location: locationName,
+    });
+    navigate(`/room-booking?${params.toString()}`);
   };
 
   return (
     <div className="branchbook-wrapper">
       <div className="hero" style={{ backgroundImage: `url('/Images/HD.jpg')` }}>
         <div className="hero-overlay">
-          <div className="booking-card">
-            <div className="booking-row">
-              <div>
-                <label>Check-in</label>
-                <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} />
-              </div>
-              <div>
-                <label>Check-out</label>
-                <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} />
-              </div>
-              <div>
-                <label>Rooms</label>
-                <select value={rooms} onChange={(e) => setRooms(e.target.value)}>
-                  <option value="1">1 room</option>
-                  <option value="2">2 rooms</option>
-                  <option value="3">3 rooms</option>
-                </select>
-              </div>
-              <div className="checkrates-wrap">
-                <button className="checkrates-btn" onClick={handleCheckRates}>Check Rates</button>
-              </div>
-            </div>
+          <div className="hero-content">
+            <h1 className="hero-title">Nova Vista Hotels</h1>
+            <p className="hero-subtitle">Discover Our Premium Locations</p>
           </div>
         </div>
       </div>
@@ -130,7 +178,7 @@ const BranchBook: React.FC = () => {
       </section>
 
       <section className="branches">
-        <h2>Our Branches</h2>
+        <h2>Locations</h2>
         <div className="branches-grid">
           {hotels.map((h) => (
             <BranchCard
@@ -142,30 +190,117 @@ const BranchBook: React.FC = () => {
               rating={h.rating}
               short_desc={h.description}
               onViewDetails={onViewDetails}
+              onBookNow={handleBookNow}
             />
           ))}
         </div>
       </section>
 
-      {/* Modal */}
-      {showModal && selectedHotel && (
-        <div className="modal-backdrop" onClick={() => setShowModal(false)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+      {/* Modal - Using Portal to render at root level */}
+      {showModal && selectedHotel && createPortal(
+        <div 
+          className="modal-backdrop" 
+          onClick={() => setShowModal(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 99999,
+            padding: '20px'
+          }}
+        >
+          <div 
+            className="modal" 
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: '#fff',
+              borderRadius: '12px',
+              width: '90%',
+              maxWidth: '900px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              position: 'relative',
+              zIndex: 100000
+            }}
+          >
             <button className="modal-close" onClick={() => setShowModal(false)}>×</button>
             <div className="modal-body">
               <img src={selectedHotel.image_url} alt={selectedHotel.name} />
               <div className="modal-info">
                 <h3>{selectedHotel.name}</h3>
                 <p className="loc">{selectedHotel.location}</p>
-                <p>{selectedHotel.description}</p>
-                <p><strong>Price / night:</strong> LKR {selectedHotel.price_per_night ?? "—"}</p>
+                <p className="description">{selectedHotel.description}</p>
+                
+                {/* Common Details for All Locations */}
+                <div className="modal-details">
+                  <h4>Location Information</h4>
+                  
+                  <div className="detail-item">
+                    <strong>Name:</strong> {selectedHotel.name}
+                  </div>
+                  
+                  {selectedHotel.address && (
+                    <div className="detail-item">
+                      <strong>Address:</strong> {selectedHotel.address}
+                    </div>
+                  )}
+                  
+                  {selectedHotel.numberOfRooms !== undefined && (
+                    <div className="detail-item">
+                      <strong>Number of Rooms:</strong> {selectedHotel.numberOfRooms}
+                    </div>
+                  )}
+                  
+                  <div className="detail-item">
+                    <strong>Rating:</strong> ⭐ {selectedHotel.rating.toFixed(1)} / 5.0
+                  </div>
+                  
+                  {selectedHotel.phone && (
+                    <div className="detail-item">
+                      <strong>Contact Number:</strong> <a href={`tel:${selectedHotel.phone}`}>{selectedHotel.phone}</a>
+                    </div>
+                  )}
+                  
+                  {selectedHotel.email && (
+                    <div className="detail-item">
+                      <strong>Email:</strong> <a href={`mailto:${selectedHotel.email}`}>{selectedHotel.email}</a>
+                    </div>
+                  )}
+                  
+                  {selectedHotel.amenities && selectedHotel.amenities.length > 0 && (
+                    <div className="amenities-section">
+                      <h4>Amenities</h4>
+                      <ul className="amenities-list">
+                        {selectedHotel.amenities.map((amenity, index) => (
+                          <li key={index}>{amenity}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                
                 <div className="modal-actions">
-                  <a className="book-now-btn" href={`/book/${selectedHotel.id}`}>Book Now</a>
+                  <button 
+                    className="book-now-btn" 
+                    onClick={() => {
+                      setShowModal(false);
+                      handleBookNow(selectedHotel.id, selectedHotel.location);
+                    }}
+                  >
+                    Book Now
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </div>
