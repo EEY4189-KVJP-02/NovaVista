@@ -270,7 +270,7 @@ export default function EventForm() {
       <Form.Check
         type="checkbox"
         label="Accept Terms & Conditions"
-        className="form-check"
+        className="form-check mt-3"
         checked={terms}
         onChange={(e) => setTerms(e.target.checked)}
       />
