@@ -113,30 +113,7 @@ CREATE TABLE IF NOT EXISTS event_bookings (
     INDEX idx_contactEmail (contactEmail)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Create event_bookings table
-CREATE TABLE IF NOT EXISTS event_test (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    userId INT,
-    hallId INT NOT NULL,
-    eventName VARCHAR(255) NOT NULL,
-    contactName VARCHAR(255) NOT NULL,
-    contactEmail VARCHAR(255) NOT NULL,
-    contactPhone VARCHAR(255) NOT NULL,
-    eventDate DATE NOT NULL,
-    numberOfGuests INT NOT NULL,
-    totalPrice DECIMAL(10, 2) NOT NULL,
-    status ENUM('pending', 'confirmed', 'cancelled') DEFAULT 'pending',
-    specialRequests TEXT,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE SET NULL,
-    FOREIGN KEY (hallId) REFERENCES event_halls(id) ON DELETE CASCADE,
-    INDEX idx_userId (userId),
-    INDEX idx_hallId (hallId),
-    INDEX idx_eventDate (eventDate),
-    INDEX idx_status (status),
-    INDEX idx_contactEmail (contactEmail)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Insert default admin user
 -- Password: admin123 (hashed with bcrypt, rounds=10)
 -- You should hash this password using bcrypt in your application
