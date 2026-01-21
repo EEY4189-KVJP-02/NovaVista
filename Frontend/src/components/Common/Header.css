@@ -1,0 +1,35 @@
+.nv-header {
+  background: white;
+  padding: 15px 40px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.nv-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nv-logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.nv-auth .btn {
+  font-size: 14px;
+}
+
+.nv-nav {
+  margin-top: 10px;
+}
+
+.nv-nav a {
+  margin-right: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #000;
+}
+
+.nv-nav a:hover {
+  color: #b22222;
+}
