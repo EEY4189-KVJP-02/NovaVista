@@ -607,7 +607,7 @@ const RoomDetails: React.FC = () => {
                       >
                         {isSoldOut || (checkInDate && checkOutDate && !isAvailable) 
                           ? 'NOT AVAILABLE' 
-                          : 'BOOK NOW'}
+                          : 'BOOK'}
                       </button>
                     </div>
                   </div>

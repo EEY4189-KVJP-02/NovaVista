@@ -93,7 +93,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, onBookNow, checkInDate, check
           disabled={!canBook}
           title={!canBook ? 'Please select check-in and check-out dates to book' : 'Book this room'}
         >
-          {canBook ? 'BOOK NOW' : 'Select Dates First'}
+          {canBook ? 'BOOK' : 'Select Dates First'}
         </button>
       </div>
     </div>

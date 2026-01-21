@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { authService } from "../../services/auth";
 import "./EventForm.css";
 
@@ -8,9 +8,17 @@ const API_BASE_URL = 'http://localhost:3001/api';
 
 export default function EventForm() {
   const navigate = useNavigate();
-  const [eventDate, setEventDate] = useState("");
-  const [guests, setGuests] = useState<number | "">("");
-  const [hall, setHall] = useState("");
+  const [searchParams] = useSearchParams();
+  
+  // Get values from URL params (from event search page)
+  const hallIdFromUrl = searchParams.get('hallId');
+  const locationFromUrl = searchParams.get('location');
+  const dateFromUrl = searchParams.get('date');
+  const guestsFromUrl = searchParams.get('guests');
+  
+  const [eventDate, setEventDate] = useState(dateFromUrl || "");
+  const [guests, setGuests] = useState<number | "">(guestsFromUrl ? Number(guestsFromUrl) : "");
+  const [hall, setHall] = useState(hallIdFromUrl || "");
   const [eventName, setEventName] = useState("");
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
@@ -114,13 +122,14 @@ export default function EventForm() {
   };
 
   const [halls, setHalls] = useState<Array<{ id: number; name: string; location: string }>>([]);
-  const [location, setLocation] = useState<string>("Jaffna");
+  const [location, setLocation] = useState<string>(locationFromUrl || "Jaffna");
 
   // Fetch halls from API
   useEffect(() => {
     const fetchHalls = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/halls?location=${location}`);
+        const currentLocation = locationFromUrl || location;
+        const response = await fetch(`${API_BASE_URL}/halls?location=${currentLocation}`);
         if (response.ok) {
           const data = await response.json();
           setHalls(data);
@@ -147,9 +156,21 @@ export default function EventForm() {
       }
     };
     fetchHalls();
-  }, [location]);
+  }, [location, locationFromUrl]);
+  
+  // Update location when URL param changes
+  useEffect(() => {
+    if (locationFromUrl) {
+      setLocation(locationFromUrl);
+    }
+  }, [locationFromUrl]);
 
-  const guestOptions = [...Array(10)].map((_, i) => (i + 1) * 100);
+  // Generate guest options - include the value from URL if it's not in the standard list
+  const standardGuestOptions = [...Array(10)].map((_, i) => (i + 1) * 100);
+  const guestFromUrlNum = guestsFromUrl ? Number(guestsFromUrl) : 0;
+  const guestOptions = guestFromUrlNum > 0 && !standardGuestOptions.includes(guestFromUrlNum)
+    ? [guestFromUrlNum, ...standardGuestOptions].sort((a, b) => a - b)
+    : standardGuestOptions;
 
   return (
     <div className="container mt-5">
@@ -181,7 +202,10 @@ export default function EventForm() {
             onChange={(e) => setEventDate(e.target.value)}
             min={new Date().toISOString().split('T')[0]}
             required
+            disabled={!!dateFromUrl}
+            style={dateFromUrl ? { backgroundColor: '#f8f9fa', cursor: 'not-allowed' } : {}}
           />
+          {dateFromUrl && <small className="text-muted d-block mt-1">Pre-filled from search</small>}
         </div>
 
         <div className="form-group">
@@ -190,6 +214,8 @@ export default function EventForm() {
             value={guests === "" ? "" : guests}
             onChange={(e) => setGuests(e.target.value === "" ? "" : Number(e.target.value))}
             required
+            disabled={!!guestsFromUrl}
+            style={guestsFromUrl ? { backgroundColor: '#f8f9fa', cursor: 'not-allowed' } : {}}
           >
             <option value="">Select number of guests</option>
             {guestOptions.map((num) => (
@@ -198,20 +224,34 @@ export default function EventForm() {
               </option>
             ))}
           </select>
+          {guestsFromUrl && <small className="text-muted d-block mt-1">Pre-filled from search</small>}
         </div>
 
         <div className="form-group">
           <label>Location <span className="text-danger">*</span></label>
-          <select value={location} onChange={(e) => setLocation(e.target.value)} required>
+          <select 
+            value={location} 
+            onChange={(e) => setLocation(e.target.value)} 
+            required
+            disabled={!!locationFromUrl}
+            style={locationFromUrl ? { backgroundColor: '#f8f9fa', cursor: 'not-allowed' } : {}}
+          >
             <option value="Jaffna">Jaffna</option>
             <option value="Kilinochchi">Kilinochchi</option>
             <option value="Mannar">Mannar</option>
           </select>
+          {locationFromUrl && <small className="text-muted d-block mt-1">Pre-filled from search</small>}
         </div>
 
         <div className="form-group">
           <label>Hall Type <span className="text-danger">*</span></label>
-          <select value={hall || ""} onChange={(e) => setHall(e.target.value)} required>
+          <select 
+            value={hall || ""} 
+            onChange={(e) => setHall(e.target.value)} 
+            required
+            disabled={!!hallIdFromUrl}
+            style={hallIdFromUrl ? { backgroundColor: '#f8f9fa', cursor: 'not-allowed' } : {}}
+          >
             <option value="">Select a hall</option>
             {halls.map((h) => (
               <option key={h.id} value={h.id}>
@@ -219,6 +259,7 @@ export default function EventForm() {
               </option>
             ))}
           </select>
+          {hallIdFromUrl && <small className="text-muted d-block mt-1">Pre-filled from search</small>}
         </div>
       </div>
 
@@ -281,7 +322,7 @@ export default function EventForm() {
         onClick={handleBook}
         disabled={loading}
       >
-        {loading ? "Processing..." : "Book Now"}
+        {loading ? "Processing..." : "BOOK"}
       </Button>
     </div>
   );

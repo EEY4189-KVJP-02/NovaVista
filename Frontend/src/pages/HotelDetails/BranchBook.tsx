@@ -293,7 +293,7 @@ const BranchBook: React.FC = () => {
                       handleBookNow(selectedHotel.id, selectedHotel.location);
                     }}
                   >
-                    Book Now
+                    BOOK
                   </button>
                 </div>
               </div>

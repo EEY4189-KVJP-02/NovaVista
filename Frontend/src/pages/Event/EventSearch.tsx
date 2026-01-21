@@ -342,15 +342,15 @@ const EventSearch = () => {
   const getDefaultHallImage = (hallName: string): string => {
     const name = (hallName || '').toLowerCase();
     if (name.includes('boardroom')) {
-      return '/Images/grand_ballroom.jpg'; // Fallback for boardroom
+      return '/Images/boardroom.jpg'; // Fallback for boardroom
     } else if (name.includes('hall') && !name.includes('ballroom')) {
       return '/Images/grand_ballroom.jpg'; // Fallback for hall
     } else if (name.includes('theater')) {
-      return '/Images/event_hero3.jpg'; // Fallback for theater
+      return '/Images/theater.jpg'; // Fallback for theater
     } else if (name.includes('u-shaped') || name.includes('ushaped')) {
-      return '/Images/event_hero.jpg'; // Fallback for u-shaped
+      return '/Images/ushaped.jpg'; // Fallback for u-shaped
     } else if (name.includes('circular')) {
-      return '/Images/grand_ballroom.jpg'; // Fallback for circular
+      return '/Images/circular.jpg'; // Fallback for circular
     }
     return '/Images/grand_ballroom.jpg'; // Default fallback
   };
@@ -533,7 +533,7 @@ const EventSearch = () => {
                         onClick={() => handleBookNow(hall)}
                         disabled={!isAvailable && !!eventDate}
                       >
-                        {!isAvailable && eventDate ? 'NOT AVAILABLE' : 'BOOK NOW'}
+                        {!isAvailable && eventDate ? 'NOT AVAILABLE' : 'BOOK'}
                       </button>
             </div>
           </div>

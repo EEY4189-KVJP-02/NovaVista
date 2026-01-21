@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/auth';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './AdminDashboard.css';
 
 interface RoomBooking {
@@ -318,6 +319,8 @@ const AdminDashboard = () => {
                 <th>Room</th>
                 <th>Location</th>
                 <th>Guest</th>
+                <th>Email</th>
+                <th>Phone</th>
                 <th>Check-in</th>
                 <th>Check-out</th>
                 <th>Guests</th>
@@ -333,6 +336,8 @@ const AdminDashboard = () => {
                   <td>{booking.room?.type || 'N/A'}</td>
                   <td>{booking.room?.branch || 'N/A'}</td>
                   <td>{booking.guestName}</td>
+                  <td>{booking.guestEmail}</td>
+                  <td>{booking.guestPhone}</td>
                   <td>{formatDate(booking.checkInDate)}</td>
                   <td>{formatDate(booking.checkOutDate)}</td>
                   <td>{booking.numberOfGuests}</td>
@@ -343,8 +348,12 @@ const AdminDashboard = () => {
                     </span>
                   </td>
                   <td>
-                    <button className="btn-edit" onClick={() => handleEdit(booking)}>Edit</button>
-                    <button className="btn-delete" onClick={() => handleDelete(booking.id, 'room')}>Delete</button>
+                    <button className="btn-edit" onClick={() => handleEdit(booking)} title="Edit">
+                      <i className="bi bi-pencil-square"></i>
+                    </button>
+                    <button className="btn-delete" onClick={() => handleDelete(booking.id, 'room')} title="Delete">
+                      <i className="bi bi-trash3"></i>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -363,6 +372,8 @@ const AdminDashboard = () => {
                 <th>Hall</th>
                 <th>Location</th>
                 <th>Contact</th>
+                <th>Email</th>
+                <th>Phone</th>
                 <th>Date</th>
                 <th>Guests</th>
                 <th>Price</th>
@@ -378,6 +389,8 @@ const AdminDashboard = () => {
                   <td>{booking.hall?.name || 'N/A'}</td>
                   <td>{booking.hall?.location || 'N/A'}</td>
                   <td>{booking.contactName}</td>
+                  <td>{booking.contactEmail}</td>
+                  <td>{booking.contactPhone}</td>
                   <td>{formatDate(booking.eventDate)}</td>
                   <td>{booking.numberOfGuests}</td>
                   <td>{formatCurrency(booking.totalPrice)}</td>
@@ -387,8 +400,12 @@ const AdminDashboard = () => {
                     </span>
                   </td>
                   <td>
-                    <button className="btn-edit" onClick={() => handleEdit(booking)}>Edit</button>
-                    <button className="btn-delete" onClick={() => handleDelete(booking.id, 'event')}>Delete</button>
+                    <button className="btn-edit" onClick={() => handleEdit(booking)} title="Edit">
+                      <i className="bi bi-pencil-square"></i>
+                    </button>
+                    <button className="btn-delete" onClick={() => handleDelete(booking.id, 'event')} title="Delete">
+                      <i className="bi bi-trash3"></i>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -443,6 +460,9 @@ const AdminDashboard = () => {
                   <>
                     <p><strong>Room:</strong> {(editingBooking as RoomBooking).room?.type}</p>
                     <p><strong>Location:</strong> {(editingBooking as RoomBooking).room?.branch}</p>
+                    <p><strong>Guest:</strong> {(editingBooking as RoomBooking).guestName}</p>
+                    <p><strong>Email:</strong> {(editingBooking as RoomBooking).guestEmail}</p>
+                    <p><strong>Phone:</strong> {(editingBooking as RoomBooking).guestPhone}</p>
                     <p><strong>Check-in:</strong> {formatDate((editingBooking as RoomBooking).checkInDate)}</p>
                     <p><strong>Check-out:</strong> {formatDate((editingBooking as RoomBooking).checkOutDate)}</p>
                   </>
@@ -450,6 +470,10 @@ const AdminDashboard = () => {
                   <>
                     <p><strong>Event:</strong> {(editingBooking as EventBooking).eventName}</p>
                     <p><strong>Hall:</strong> {(editingBooking as EventBooking).hall?.name}</p>
+                    <p><strong>Location:</strong> {(editingBooking as EventBooking).hall?.location}</p>
+                    <p><strong>Contact:</strong> {(editingBooking as EventBooking).contactName}</p>
+                    <p><strong>Email:</strong> {(editingBooking as EventBooking).contactEmail}</p>
+                    <p><strong>Phone:</strong> {(editingBooking as EventBooking).contactPhone}</p>
                     <p><strong>Date:</strong> {formatDate((editingBooking as EventBooking).eventDate)}</p>
                   </>
                 )}
