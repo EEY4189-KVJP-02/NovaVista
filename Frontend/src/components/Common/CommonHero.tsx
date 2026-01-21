@@ -41,8 +41,9 @@ const CommonHero: React.FC<{
           <h1
             style={{
               fontSize: "3.5rem",
+              color: "#212529",
               textShadow:
-                "rgba(36, 36, 35, 0.38) 1px 4px 4px, rgb(239 248 154 / 40%) 0px 4px 20px",
+                "rgba(255, 255, 255, 0.8) 1px 4px 4px, rgba(255, 255, 255, 0.6) 0px 4px 20px",
             }}
           >
             {" "}

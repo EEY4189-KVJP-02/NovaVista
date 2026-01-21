@@ -1,15 +1,18 @@
 .branch-card {
   width: 320px;
-  background:#fff;
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  transition: transform .18s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
 }
 
-.branch-card:hover { transform: translateY(-6px); }
+.branch-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
 
 .branch-img {
   width: 100%;
@@ -19,40 +22,111 @@
 }
 
 .branch-info {
-  padding: 14px;
+  padding: 1rem;
   flex: 1;
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.branch-info h3 { margin:0; font-size:18px; color:#222; }
-.loc { margin:6px 0 8px; color:#666; font-size:0.95rem; }
-.short { color:#777; font-size:0.9rem; margin-bottom:10px; }
-
-.card-footer {
-  display:flex;
-  align-items:center;
-  gap:10px;
+.branch-info h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #222;
 }
 
-.rating { color:#c59b2b; font-weight:700; }
+.loc {
+  margin: 0.5rem 0 0.75rem;
+  color: #666;
+  font-size: 0.95rem;
+}
 
-.book-now-btn {
-  background:#c59b2b;
-  color:white;
-  padding:8px 12px;
-  border-radius:6px;
-  text-decoration:none;
-  font-weight:600;
+.short {
+  color: #777;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.rating {
+  color: #c59b2b;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.card-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.book-room-btn,
+.book-event-btn {
+  background: #c59b2b;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+}
+
+.book-room-btn:hover,
+.book-event-btn:hover {
+  background: #b0891f;
+  transform: translateY(-1px);
 }
 
 .view-btn {
-  background:transparent;
-  border:1px solid #c59b2b;
-  padding:7px 10px;
-  border-radius:6px;
-  cursor:pointer;
-  color:#c59b2b;
+  background: transparent;
+  border: 1px solid #c59b2b;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #c59b2b;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+}
+
+.view-btn:hover {
+  background: #c59b2b;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .branch-card {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .card-buttons {
+    flex-direction: column;
+  }
+
+  .book-room-btn,
+  .book-event-btn,
+  .view-btn {
+    width: 100%;
+  }
 }
 

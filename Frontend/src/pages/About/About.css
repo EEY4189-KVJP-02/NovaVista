@@ -1,0 +1,146 @@
+.about-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.about-hero {
+  background: linear-gradient(135deg, #8b4513 0%, #c59b2b 100%);
+  color: white;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.about-hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  opacity: 0.9;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.about-content {
+  padding: 3rem 0;
+}
+
+.about-section {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.about-section h2 {
+  color: #8b4513;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.about-section p {
+  color: #495057;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.values-list {
+  list-style: none;
+  padding: 0;
+}
+
+.values-list li {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #f8f9fa;
+  border-left: 4px solid #c59b2b;
+  border-radius: 4px;
+}
+
+.values-list li strong {
+  color: #8b4513;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.locations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.location-card {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.location-card h3 {
+  color: #8b4513;
+  margin-bottom: 1rem;
+}
+
+.location-card p {
+  margin-bottom: 0.75rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.feature-item {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.feature-item h4 {
+  color: #8b4513;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.feature-item p {
+  color: #6c757d;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .about-hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .about-section {
+    padding: 1.5rem;
+  }
+
+  .about-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .locations-grid,
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}

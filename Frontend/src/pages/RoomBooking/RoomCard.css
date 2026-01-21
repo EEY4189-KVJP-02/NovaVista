@@ -1,0 +1,45 @@
+.room-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.room-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.room-card-image {
+  height: 250px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.room-card .card-body {
+  padding: 1.25rem;
+}
+
+.book-button {
+  width: 100%;
+  padding: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.book-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.room-card .badge {
+  font-size: 0.85rem;
+  padding: 0.35em 0.65em;
+}
+
+@media (max-width: 768px) {
+  .room-card-image {
+    height: 200px;
+  }
+}

@@ -37,10 +37,14 @@ const Hall = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true
     },
+    price: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: true,
+    },
   },
   {
     tableName: "event_halls",
-    timestamps: false,
+    timestamps: true,
   }
 );
 

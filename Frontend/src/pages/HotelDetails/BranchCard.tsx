@@ -1,6 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./BranchCard.css";
-import { Link } from "react-router-dom";
 
 interface Props {
   id: number;
@@ -10,9 +10,21 @@ interface Props {
   rating: number;
   short_desc?: string;
   onViewDetails: (id: number) => void;
+  onBookNow: (id: number, location: string) => void;
 }
 
-const BranchCard: React.FC<Props> = ({ id, name, location, image, rating, short_desc, onViewDetails }) => {
+const BranchCard: React.FC<Props> = ({ id, name, location, image, rating, short_desc, onViewDetails, onBookNow }) => {
+  const navigate = useNavigate();
+
+  const handleBookRoom = () => {
+    const params = new URLSearchParams({ location });
+    navigate(`/room-booking?${params.toString()}`);
+  };
+
+  const handleBookEvent = () => {
+    navigate(`/event`);
+  };
+
   return (
     <div className="branch-card">
       <img src={image} alt={name} className="branch-img" />
@@ -22,9 +34,11 @@ const BranchCard: React.FC<Props> = ({ id, name, location, image, rating, short_
         {short_desc && <p className="short">{short_desc}</p>}
         <div className="card-footer">
           <div className="rating">⭐ {rating.toFixed(1)}</div>
-          {/* Book Now navigates to existing booking page */}
-          <Link to={`/book/${id}`} className="book-now-btn">Book Now</Link>
-          <button className="view-btn" onClick={() => onViewDetails(id)}>View Details</button>
+          <div className="card-buttons">
+            <button className="book-room-btn" onClick={handleBookRoom}>Book a Room</button>
+            <button className="book-event-btn" onClick={handleBookEvent}>Book an Event</button>
+            <button className="view-btn" onClick={() => onViewDetails(id)}>View Details</button>
+          </div>
         </div>
       </div>
     </div>

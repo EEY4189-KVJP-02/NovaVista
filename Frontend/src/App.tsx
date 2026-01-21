@@ -8,6 +8,15 @@ import Home from "./pages/Home/Home";
 import "./App.css";
 import EventBooking from "./pages/EventBooking/EventBooking";
 import RoomBooking from "./pages/RoomBooking/roombooking";
+import RoomDetails from "./pages/RoomBooking/RoomDetails";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
+import About from "./pages/About/About";
+import Terms from "./pages/Terms/Terms";
+import Privacy from "./pages/Privacy/Privacy";
+import Contact from "./pages/Contact/Contact";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 
 function App() {
   return (
@@ -20,7 +29,15 @@ function App() {
           <Route path="/branchbook" element={<BranchBook />} />
           <Route path="/event-booking" element={<EventBooking />} />
           <Route path="/room-booking" element={<RoomBooking />} />
-          
+          <Route path="/room-details" element={<RoomDetails />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </main>
       <Footer />
