@@ -16,3 +16,4 @@ export const Event = () => {
   );
 };
 
+export default Event;

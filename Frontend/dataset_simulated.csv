@@ -1,0 +1,5 @@
+Bus_ID,Route,Passengers,Waiting_Time(min),Trip_Duration(min)
+101,A1,45,10,30
+102,B2,50,12,45
+103,C3,35,8,25
+104,A1,60,15,40

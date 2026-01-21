@@ -19,7 +19,7 @@ export default function EventForm() {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:5000/book", {
+      const response = await axios.post("/api/book", {
         eventDate,
         guests,
         hall,
