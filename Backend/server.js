@@ -1,29 +1,35 @@
-// server.js
 import express from "express";
 import cors from "cors";
-import { checkConnection } from "./config/db.js";
-import hallsRouter from "./routes/EventHall.js";
-
 import dotenv from "dotenv";
+import { sequelize, checkConnection } from "./config/db.js";
+import eventBookingRoutes from "./routes/eventBookingRoutes.js";
+
 dotenv.config();
 
-const PORT = process.env.PORT || 3001;
-
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Middleware
+//  Middleware to parse JSON
 app.use(express.json());
-app.use(cors());
 
-// Routes
-app.use("/api/halls", hallsRouter);
+//  Enable CORS for React dev server
+app.use(cors({
+  origin: "http://localhost:3000", // allow React dev server
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"],
+}));
 
-// Start server
+//  Routes
+app.use("/book", eventBookingRoutes);
+
+//  Start server
 app.listen(PORT, async () => {
-  console.log(`Server listening on ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
   try {
     await checkConnection();
-  } catch (error) {
-    console.log("Failed to initialize the database", error);
+    await sequelize.sync({ alter: true });
+    console.log("Database synced ");
+  } catch (err) {
+    console.error(err);
   }
 });
