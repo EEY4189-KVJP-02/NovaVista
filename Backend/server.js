@@ -1,10 +1,12 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
 import { sequelize, checkConnection } from "./config/db.js";
 import eventBookingRoutes from "./routes/eventBookingRoutes.js";
 import hallsRouter from "./routes/EventHall.js";
+import authRoutes from "./routes/auth.js";
+
+
 
 dotenv.config();
 
@@ -22,6 +24,10 @@ app.use(cors({
 // Routes
 app.use("/book", eventBookingRoutes);   // booking routes
 app.use("/api/halls", hallsRouter);     // event halls routes
+app.use("/api/auth", authRoutes);
+
+
+
 
 // Start server
 const startServer = async () => {
