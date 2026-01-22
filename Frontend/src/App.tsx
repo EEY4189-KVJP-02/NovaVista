@@ -8,6 +8,10 @@ import Home from "./pages/Home/Home";
 import "./App.css";
 import EventBooking from "./pages/EventBooking/EventBooking";
 import RoomBooking from "./pages/RoomBooking/roombooking";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
+//import Login from "./Login";
+//import Register from "./Register";
 
 function App() {
   return (
@@ -20,7 +24,8 @@ function App() {
           <Route path="/branchbook" element={<BranchBook />} />
           <Route path="/event-booking" element={<EventBooking />} />
           <Route path="/room-booking" element={<RoomBooking />} />
-          
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </main>
       <Footer />

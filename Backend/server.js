@@ -5,6 +5,7 @@ import { checkConnection } from "./config/db.js";
 import hallsRouter from "./routes/EventHall.js";
 import authRouter from "./routes/HomeAuth.js"; 
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const PORT = process.env.PORT || 3001;
@@ -18,6 +19,12 @@ app.use(cors());
 // Routes
 app.use("/api/halls", hallsRouter);
 app.use("/api/auth", authRouter);
+
+
+app.get("/", (req, res) => {
+  res.send("Backend is running successfully ");
+});
+
 // Start server
 app.listen(PORT, async () => {
   console.log(`Server listening on ${PORT}`);
