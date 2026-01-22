@@ -60,14 +60,16 @@ const EventSearch = () => {
   };
 
   return (
-    <div style={{ margin: "2.5rem 3rem" }}>
+    <div 
+    style={{ margin: "2.5rem 3rem" } }
+    >
       {/* Search Bar   */}
       <div
         className="w-20 h-10 position-absolute d-flex justify-content-center align-items-center"
         style={{
           backgroundColor: "#fff",
           top: "60vh",
-          left: "10%",
+          left: "20%",
           borderRadius: "10px",
           border: "1px solid #ccc",
           height: "5rem",
@@ -249,7 +251,7 @@ const EventSearch = () => {
       )}
 
       {/* Filtered Results */}
-      <div className="row " style={{ gap: "20px" }}>
+      <div className="row " style={{ gap: "20px",maxWidth:"1300px", margin: "0 auto"}}>
         {loading ? (
           <div className="d-flex justify-content-center">
             <div className="spinner-border" role="status">

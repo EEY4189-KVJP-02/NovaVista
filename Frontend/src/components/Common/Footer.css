@@ -1,28 +1,83 @@
 .nv-footer {
-  background: #4a4a4a;
-  color: white;
-  padding: 40px 60px;
-  margin-top: 50px;
+  background-color: #4a4a4a;
+  color: #ffffff;
+  padding: 50px 60px 20px;
+  margin-top: 60px;
+  font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
+/* Main footer layout */
 .nv-footer-container {
   display: flex;
   justify-content: space-between;
-  gap: 40px;
+  gap: 50px;
+  flex-wrap: wrap;
 }
 
+/* Section titles */
 .nv-footer-container h4,
 .nv-footer-container h5 {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
+/* Logo text */
+.nv-footer-container h4 {
+  font-size: 22px;
+}
+
+/* Paragraph text */
 .nv-footer-container p {
   margin: 6px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #e0e0e0;
 }
 
+/* Links */
+.nv-footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.nv-footer a:hover {
+  color: #ffcccc;
+}
+
+/* Quick Links section */
+.footer-section {
+  min-width: 180px;
+}
+
+.footer-heading {
+  margin-bottom: 12px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  font-size: 14px;
+}
+
+/* Contact section */
+.nv-footer strong {
+  font-weight: 600;
+}
+
+/* Bottom copyright */
 .nv-footer-bottom {
   text-align: center;
-  margin-top: 25px;
-  font-size: 14px;
-  opacity: 0.8;
+  margin-top: 35px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 13px;
+  opacity: 0.85;
 }

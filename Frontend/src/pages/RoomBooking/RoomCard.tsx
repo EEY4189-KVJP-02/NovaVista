@@ -21,7 +21,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
           {room.description}
         </p>
         <h4 className="text-success">{room.price}</h4>
-        <a href="#" className="btn btn-primary">BOOK NOW</a>
+        <a href="" className="btn btn-primary">BOOK NOW</a>
       </div>
     </div>
   );

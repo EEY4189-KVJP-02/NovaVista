@@ -19,11 +19,11 @@ const BranchCard: React.FC<Props> = ({ id, name, location, image, rating, short_
       <div className="branch-info">
         <h3>{name}</h3>
         <p className="loc">{location}</p>
-        {short_desc && <p className="short">{short_desc}</p>}
+        {short_desc && <p className="short">{short_desc}</p>}a
         <div className="card-footer">
           <div className="rating">⭐ {rating.toFixed(1)}</div>
           {/* Book Now navigates to existing booking page */}
-          <Link to={`/book/${id}`} className="book-now-btn">Book Now</Link>
+          <Link to={`room-booking`} className="book-now-btn">Book Now</Link>
           <button className="view-btn" onClick={() => onViewDetails(id)}>View Details</button>
         </div>
       </div>

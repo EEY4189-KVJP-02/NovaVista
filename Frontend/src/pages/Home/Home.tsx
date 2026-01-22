@@ -16,7 +16,7 @@ const Home = () => {
       
 
       {/* Hotels Section */}
-      <section id="hotels" className="py-5 text-center">
+      <section id="hotels" className="py-5 text-center" style={{ gap: "20px",maxWidth:"1300px", margin: "0 auto"}}>
         <h2
           className="fw-bold mb-4"
           style={{
