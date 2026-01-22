@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3001/api/';
+const API_BASE_URL = 'http://localhost:5000/api';
 export interface User {
   id: number;
   username: string;
@@ -47,7 +47,7 @@ class AuthService {
     } catch (error: any) {
       // Handle network errors
       if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
-        throw new Error('Cannot connect to server. Please make sure the backend server is running on port 3001.');
+        throw new Error('Cannot connect to server. Please make sure the backend server is running on port .');
       }
       throw error;
     }

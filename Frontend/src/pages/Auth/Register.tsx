@@ -61,13 +61,15 @@ const Register: React.FC = () => {
       authService.setUser(response.user);
       localStorage.setItem('userId', response.user.id.toString());
       
-      // Redirect to room booking
-      navigate('/room-booking');
-    } catch (err: any) {
-      setError(err.message || 'Registration failed. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    // Redirect to room booking
+navigate('/');
+
+} catch (err: any) {
+  setError(err.message || 'Registration failed. Please try again.');
+} finally {
+  setLoading(false);
+}
+
   };
   return (
     <div className="auth-container">
