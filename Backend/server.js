@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import { checkConnection } from "./config/db.js";
 import hallsRouter from "./routes/EventHall.js";
-import authRouter from "./routes/HomeAuth.js"; 
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -17,7 +17,7 @@ app.use(cors());
 
 // Routes
 app.use("/api/halls", hallsRouter);
-app.use("/api/auth", authRouter);
+
 // Start server
 app.listen(PORT, async () => {
   console.log(`Server listening on ${PORT}`);
