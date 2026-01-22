@@ -50,11 +50,4 @@ INSERT INTO event_halls (name, location, seating, capacity, description, rating,
 -- Verify inserted data
 SELECT * FROM event_halls;
 
-USE nova_vistaDB;
-CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(100) UNIQUE NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  role VARCHAR(20) DEFAULT 'user',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+
