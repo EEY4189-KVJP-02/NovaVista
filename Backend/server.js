@@ -1,29 +1,25 @@
-// server.js
 import express from "express";
 import cors from "cors";
-import { checkConnection } from "./config/db.js";
 import hallsRouter from "./routes/EventHall.js";
-import authRouter from "./routes/HomeAuth.js"; 
+import { sequelize, checkConnection } from "./config/db.js";
 import dotenv from "dotenv";
+
 dotenv.config();
-
 const PORT = process.env.PORT || 3001;
-
 const app = express();
 
-// Middleware
-app.use(express.json());
 app.use(cors());
-
-// Routes
+app.use(express.json());
 app.use("/api/halls", hallsRouter);
-app.use("/api/auth", authRouter);
-// Start server
-app.listen(PORT, async () => {
-  console.log(`Server listening on ${PORT}`);
+
+const startServer = async () => {
   try {
     await checkConnection();
-  } catch (error) {
-    console.log("Failed to initialize the database", error);
+    await sequelize.sync({ force: false }); 
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  } catch (err) {
+    console.error("Failed to start server:", err);
   }
-});
+};
+
+startServer();
