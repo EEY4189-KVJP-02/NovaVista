@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Auth.css';
-
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -13,7 +12,6 @@ const Register: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -21,7 +19,6 @@ const Register: React.FC = () => {
       [name]: value,
     }));
   };
-
   const validateForm = () => {
     if (formData.password.length < 6) {
       setError('Password must be at least 6 characters long');
@@ -37,19 +34,15 @@ const Register: React.FC = () => {
     }
     return true;
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-
     if (!validateForm()) {
       return;
     }
-
     setLoading(true);
-
     try {
-      const { authService } = await import('../../services/auth');
+      const { authService } = await import('../../services/Auth');
       const nameParts = formData.name.split(' ');
       const firstName = nameParts[0] || '';
       const lastName = nameParts.slice(1).join(' ') || '';
@@ -68,27 +61,26 @@ const Register: React.FC = () => {
       authService.setUser(response.user);
       localStorage.setItem('userId', response.user.id.toString());
       
-      // Redirect to room booking
-      navigate('/room-booking');
-    } catch (err: any) {
-      setError(err.message || 'Registration failed. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    // Redirect to room booking
+navigate('/');
 
+} catch (err: any) {
+  setError(err.message || 'Registration failed. Please try again.');
+} finally {
+  setLoading(false);
+}
+
+  };
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h2>Create Your Account</h2>
         <p className="auth-subtitle">Join us and start booking your perfect stay.</p>
-
         {error && (
           <div className="alert alert-danger" role="alert">
             {error}
           </div>
         )}
-
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Full Name</label>
@@ -102,7 +94,6 @@ const Register: React.FC = () => {
               placeholder="Enter your full name"
             />
           </div>
-
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <input
@@ -115,7 +106,6 @@ const Register: React.FC = () => {
               placeholder="Enter your email"
             />
           </div>
-
           <div className="form-group">
             <label htmlFor="phone">Phone Number</label>
             <input
@@ -128,7 +118,6 @@ const Register: React.FC = () => {
               placeholder="Enter your phone number"
             />
           </div>
-
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
@@ -142,7 +131,6 @@ const Register: React.FC = () => {
               minLength={6}
             />
           </div>
-
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
@@ -155,12 +143,10 @@ const Register: React.FC = () => {
               placeholder="Confirm your password"
             />
           </div>
-
           <button type="submit" className="auth-button" disabled={loading}>
             {loading ? 'Creating account...' : 'Register'}
           </button>
         </form>
-
         <p className="auth-footer">
           Already have an account? <Link to="/login">Login here</Link>
         </p>
@@ -168,5 +154,4 @@ const Register: React.FC = () => {
     </div>
   );
 };
-
 export default Register;

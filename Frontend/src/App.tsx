@@ -8,15 +8,20 @@ import Home from "./pages/Home/Home";
 import "./App.css";
 import EventBooking from "./pages/EventBooking/EventBooking";
 import RoomBooking from "./pages/RoomBooking/roombooking";
+// import Login from "./pages/auth/Login";
+// import Register from "./pages/auth/Register";
+//import Login from "./Login";
+//import Register from "./Register";
 import RoomDetails from "./pages/RoomBooking/RoomDetails";
-import Login from "./pages/Auth/Login";
-import Register from "./pages/Auth/Register";
+
 import About from "./pages/About/About";
 import Terms from "./pages/Terms/Terms";
 import Privacy from "./pages/Privacy/Privacy";
 import Contact from "./pages/Contact/Contact";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import Register from "./pages/Auth/Register";
+import Login from "./pages/Auth/Login";
 
 function App() {
   return (
@@ -25,8 +30,8 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/event" element={<Event />} />
-          <Route path="/branchbook" element={<BranchBook />} />
+          <Route path="/event-hall" element={<Event />} />
+          <Route path="/hotel" element={<BranchBook />} />
           <Route path="/event-booking" element={<EventBooking />} />
           <Route path="/room-booking" element={<RoomBooking />} />
           <Route path="/room-details" element={<RoomDetails />} />

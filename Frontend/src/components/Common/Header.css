@@ -1,15 +1,12 @@
-.main-header {
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+.nv-header {
+  background-color: #ffffff;
+  padding: 15px 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
-.header-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
+/* Top section */
+.nv-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,92 +22,52 @@
   color: inherit;
 }
 
-.brand-name {
-  font-size: 1.75rem;
+/* Logo */
+.nv-logo {
+  font-size: 24px;
   font-weight: 700;
-  color: #8b4513;
-  margin: 0;
-  font-family: 'Times New Roman', Times, serif;
-}
-
-.brand-tagline {
-  font-size: 0.75rem;
-  color: #6c757d;
-  margin: 0;
-  font-style: italic;
-}
-
-.header-nav {
-  display: flex;
-  gap: 2rem;
-  flex: 1;
-  justify-content: center;
-}
-
-.nav-link {
+  color: #1a1a1a;
+  letter-spacing: 1px;
   text-decoration: none;
-  color: #495057;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: color 0.3s;
-  position: relative;
-  padding: 0.5rem 0;
 }
 
-.nav-link:hover {
-  color: #8b4513;
-}
-
-.nav-link.active {
-  color: #8b4513;
-}
-
-.nav-link.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: #8b4513;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.auth-links {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.btn-login,
-.btn-register {
-  padding: 0.5rem 1.5rem;
+/* Login / Register buttons */
+.nv-auth .btn {
+  font-size: 14px;
+  padding: 6px 16px;
   border-radius: 6px;
+}
+
+/* Navigation bar */
+.nv-nav {
+  margin-top: 12px;
+  display: flex;
+  gap: 25px;
+}
+
+.nv-nav a {
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: all 0.3s;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  position: relative;
+  padding-bottom: 4px;
 }
 
-.btn-login {
-  color: #495057;
-  border: 1px solid #ced4da;
-  background-color: transparent;
+/* Hover underline effect */
+.nv-nav a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  left: 0;
+  bottom: 0;
+  background-color: #b22222;
+  transition: width 0.3s ease;
 }
 
-.btn-login:hover {
-  background-color: #f8f9fa;
-  border-color: #adb5bd;
-}
-
-.btn-register {
-  color: #fff;
-  background-color: #495057;
-  border: 1px solid #495057;
+.nv-nav a:hover::after {
+  width: 100%;
 }
 
 .btn-register:hover {

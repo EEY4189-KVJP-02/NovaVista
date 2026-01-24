@@ -26,7 +26,7 @@ const Login: React.FC = () => {
     setLoading(true);
 
     try {
-      const { authService } = await import('../../services/auth');
+      const { authService } = await import('../../services/Auth');
       const response = await authService.login(formData.email, formData.password);
       
       // Store token and user info

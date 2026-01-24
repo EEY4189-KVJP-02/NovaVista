@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../../services/auth';
+import { authService } from '../../services/Auth';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './AdminDashboard.css';
 
@@ -99,7 +99,7 @@ const AdminDashboard = () => {
       }
 
       // Fetch room bookings
-      const roomResponse = await fetch('http://localhost:3001/api/admin/room-bookings', {
+      const roomResponse = await fetch('http://localhost:5000/api/admin/room-bookings', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
       }
 
       // Fetch event bookings
-      const eventResponse = await fetch('http://localhost:3001/api/admin/event-bookings', {
+      const eventResponse = await fetch('http://localhost:5000/api/admin/event-bookings', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -123,7 +123,7 @@ const AdminDashboard = () => {
       }
 
       // Fetch calendar data
-      const calendarResponse = await fetch('http://localhost:3001/api/admin/calendar', {
+      const calendarResponse = await fetch('http://localhost:5000/api/admin/calendar', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -157,8 +157,8 @@ const AdminDashboard = () => {
       if (!token) return;
 
       const endpoint = type === 'room' 
-        ? `http://localhost:3001/api/admin/room-bookings/${id}`
-        : `http://localhost:3001/api/admin/event-bookings/${id}`;
+        ? `http://localhost:5000/api/admin/room-bookings/${id}`
+        : `http://localhost:5000/api/admin/event-bookings/${id}`;
 
       const response = await fetch(endpoint, {
         method: 'DELETE',
@@ -485,8 +485,8 @@ const AdminDashboard = () => {
                       if (!token) return;
                       
                       const endpoint = 'room' in editingBooking
-                        ? `http://localhost:3001/api/admin/room-bookings/${editingBooking.id}`
-                        : `http://localhost:3001/api/admin/event-bookings/${editingBooking.id}`;
+                        ? `http://localhost:5000/api/admin/room-bookings/${editingBooking.id}`
+                        : `http://localhost:5000/api/admin/event-bookings/${editingBooking.id}`;
                       
                       try {
                         await fetch(endpoint, {

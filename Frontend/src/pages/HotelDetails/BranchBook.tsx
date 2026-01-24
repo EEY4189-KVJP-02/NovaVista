@@ -118,7 +118,7 @@ const BranchBook: React.FC = () => {
     let numberOfRooms = 0;
     if (branchName) {
       try {
-        const roomsResponse = await fetch(`http://localhost:3001/api/rooms?branch=${branchName}`);
+        const roomsResponse = await fetch(`http://localhost:5000/api/rooms?branch=${branchName}`);
         if (roomsResponse.ok) {
           const roomsData = await roomsResponse.json();
           numberOfRooms = Array.isArray(roomsData) ? roomsData.length : 0;

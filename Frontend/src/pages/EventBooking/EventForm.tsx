@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { authService } from "../../services/auth";
+import { authService } from "../../services/Auth";
 import "./EventForm.css";
 
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = 'http://localhost:5000/api';
 
 export default function EventForm() {
   const navigate = useNavigate();
@@ -112,7 +112,7 @@ export default function EventForm() {
     } catch (err: any) {
       console.error('Booking error:', err);
       if (err.message && err.message.includes('Failed to fetch')) {
-        setError("Cannot connect to server. Please make sure the backend server is running on port 3001.");
+        setError("Cannot connect to server. Please make sure the backend server is running on port 5000.");
       } else {
         setError(err.message || "Failed to create booking. Please try again.");
       }

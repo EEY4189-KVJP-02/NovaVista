@@ -4,71 +4,16 @@ import { sequelize } from "../config/db.js";
 const EventBooking = sequelize.define(
   "EventBooking",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: "users",
-        key: "id",
-      },
-    },
-    hallId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "event_halls",
-        key: "id",
-      },
-    },
-    eventName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    contactName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    contactEmail: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isEmail: true,
-      },
-    },
-    contactPhone: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    eventDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-    },
-    numberOfGuests: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    totalPrice: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
-    },
-    status: {
-      type: DataTypes.ENUM("pending", "confirmed", "cancelled"),
-      defaultValue: "pending",
-    },
-    specialRequests: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
+    eventDate: { type: DataTypes.DATEONLY, allowNull: false },
+    eventType: { type: DataTypes.STRING, allowNull: false },
+    timeSlot: { type: DataTypes.STRING, allowNull: false },
+    budget: { type: DataTypes.STRING, allowNull: false },
+    decoration: { type: DataTypes.STRING, allowNull: false },
+    catering: { type: DataTypes.STRING, allowNull: false },
+    terms: { type: DataTypes.BOOLEAN, allowNull: false },
   },
-  {
-    tableName: "event_bookings",
-    timestamps: true,
-  }
+  { tableName: "event_bookings", timestamps: true }
 );
+
 
 export default EventBooking;

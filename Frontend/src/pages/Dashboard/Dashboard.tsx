@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../../services/auth';
+import { authService } from '../../services/Auth';
 import './Dashboard.css';
 
 interface RoomBooking {
@@ -71,7 +71,7 @@ const Dashboard = () => {
       }
 
       // Fetch room bookings
-      const roomResponse = await fetch('http://localhost:3001/api/rooms/bookings/my', {
+      const roomResponse = await fetch('http://localhost:5000/api/rooms/bookings/my', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -83,7 +83,7 @@ const Dashboard = () => {
       }
 
       // Fetch event bookings
-      const eventResponse = await fetch('http://localhost:3001/api/event-bookings', {
+      const eventResponse = await fetch('http://localhost:5000/api/event-bookings', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
