@@ -1,8 +1,33 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import Room, { seedDefaultRoomsIfEmpty } from "../models/Room.js";
 import RoomBooking from "../models/RoomBooking.js";
 
 const router = express.Router();
+
+const JWT_SECRET = process.env.JWT_SECRET || "novavista_secret";
+
+const requireAdmin = (req, res, next) => {
+  const auth = req.headers.authorization || "";
+  if (!auth.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const token = auth.slice("Bearer ".length);
+    const payload = jwt.verify(token, JWT_SECRET);
+    if (!payload || payload.role !== "admin") {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+    req.user = payload;
+    return next();
+  } catch (e) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+};
+
+// All room-admin routes require admin auth
+router.use(requireAdmin);
 
 // ---------------------------
 // Rooms (inventory) admin

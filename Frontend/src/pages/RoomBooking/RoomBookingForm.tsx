@@ -132,6 +132,10 @@ const RoomBookingForm: React.FC<RoomBookingFormProps> = ({
       console.error("Booking error:", err);
       if (err?.message?.includes("Room not found")) {
         setError("This room is not available in our system. Please select a different room.");
+      } else if (err?.message?.includes("Cannot POST") || err?.message?.includes("HTTP error! status: 404")) {
+        setError(
+          "Room booking API endpoint was not found (404). Make sure the backend is running on port 5000 and the URL `http://localhost:5000/api/rooms/:id/book` is reachable."
+        );
       } else if (err?.message?.includes("not available")) {
         setIsAvailable(false);
         setError("This room is not available for the selected dates. Please choose different dates.");

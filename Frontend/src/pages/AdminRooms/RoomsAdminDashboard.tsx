@@ -1,8 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { authService } from "../../services/Auth";
 import { Room } from "../../services/RoomBooking";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "./RoomsAdminDashboard.css";
 
-type Tab = "rooms" | "bookings";
+type Tab = "rooms" | "bookings" | "calendar";
 
 interface RoomBooking {
   id: number;
@@ -24,6 +27,7 @@ interface RoomBooking {
 const API_ADMIN = "http://localhost:5000/api/admin";
 
 const RoomsAdminDashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [tab, setTab] = useState<Tab>("rooms");
   const [rooms, setRooms] = useState<Room[]>([]);
   const [bookings, setBookings] = useState<RoomBooking[]>([]);
@@ -33,13 +37,29 @@ const RoomsAdminDashboard: React.FC = () => {
   const [showRoomModal, setShowRoomModal] = useState(false);
   const [editingRoom, setEditingRoom] = useState<Partial<Room> | null>(null);
 
-  const refresh = async () => {
+  // Calendar state (rooms-only bookings)
+  const [calendarMonth, setCalendarMonth] = useState<Date>(() => new Date());
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [showDateModal, setShowDateModal] = useState(false);
+
+  const refresh = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
+      const token = authService.getToken();
+      const role = localStorage.getItem("userRole");
+      if (!token || role !== "admin") {
+        navigate(`/login?returnUrl=${encodeURIComponent("/admin/rooms")}`);
+        return;
+      }
+
+      const headers: Record<string, string> = {
+        Authorization: `Bearer ${token}`,
+      };
+
       const [roomsRes, bookingsRes] = await Promise.all([
-        fetch(`${API_ADMIN}/rooms`),
-        fetch(`${API_ADMIN}/room-bookings`),
+        fetch(`${API_ADMIN}/rooms`, { headers }),
+        fetch(`${API_ADMIN}/room-bookings`, { headers }),
       ]);
 
       if (!roomsRes.ok) throw new Error("Failed to load rooms");
@@ -53,18 +73,67 @@ const RoomsAdminDashboard: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [navigate]);
 
   useEffect(() => {
+    const token = authService.getToken();
+    const role = localStorage.getItem("userRole");
+    if (!token || role !== "admin") {
+      navigate(`/login?returnUrl=${encodeURIComponent("/admin/rooms")}`);
+      return;
+    }
+
     refresh();
-  }, []);
+  }, [navigate, refresh]);
 
   const activeRoomsCount = useMemo(() => rooms.filter((r) => r.isActive).length, [rooms]);
+
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+
+  const formatCurrency = (amount: number) =>
+    new Intl.NumberFormat("en-LK", { style: "currency", currency: "LKR", minimumFractionDigits: 0 }).format(amount);
+
+  const getCalendarDays = useCallback(() => {
+    const year = calendarMonth.getFullYear();
+    const month = calendarMonth.getMonth(); // 0-based
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDayOfWeek = firstDay.getDay(); // 0=Sun
+
+    const days: Array<null | { day: number; dateStr: string; hasBooking: boolean }> = [];
+
+    for (let i = 0; i < startingDayOfWeek; i++) {
+      days.push(null);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+      const hasBooking = bookings.some((b) => b.checkInDate <= dateStr && b.checkOutDate >= dateStr);
+      days.push({ day, dateStr, hasBooking });
+    }
+
+    return days;
+  }, [bookings, calendarMonth]);
+
+  const bookingsForSelectedDate = useMemo(() => {
+    if (!selectedDate) return [];
+    return bookings.filter((b) => b.checkInDate <= selectedDate && b.checkOutDate >= selectedDate);
+  }, [bookings, selectedDate]);
 
   const seedDefaultRooms = async () => {
     try {
       setLoading(true);
-      await fetch(`${API_ADMIN}/rooms/seed`, { method: "POST" });
+      const token = authService.getToken();
+      if (!token) {
+        navigate(`/login?returnUrl=${encodeURIComponent("/admin/rooms")}`);
+        return;
+      }
+      await fetch(`${API_ADMIN}/rooms/seed`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
       await refresh();
     } catch (e) {
       setError("Failed to seed default rooms");
@@ -97,6 +166,12 @@ const RoomsAdminDashboard: React.FC = () => {
       setLoading(true);
       setError(null);
 
+      const token = authService.getToken();
+      if (!token) {
+        navigate(`/login?returnUrl=${encodeURIComponent("/admin/rooms")}`);
+        return;
+      }
+
       const payload = {
         ...editingRoom,
         price: Number(editingRoom.price ?? 0),
@@ -107,7 +182,7 @@ const RoomsAdminDashboard: React.FC = () => {
       const isEdit = typeof editingRoom.id === "number";
       const res = await fetch(isEdit ? `${API_ADMIN}/rooms/${editingRoom.id}` : `${API_ADMIN}/rooms`, {
         method: isEdit ? "PUT" : "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(payload),
       });
 
@@ -125,7 +200,15 @@ const RoomsAdminDashboard: React.FC = () => {
     if (!window.confirm("Deactivate this room?")) return;
     try {
       setLoading(true);
-      const res = await fetch(`${API_ADMIN}/rooms/${roomId}`, { method: "DELETE" });
+      const token = authService.getToken();
+      if (!token) {
+        navigate(`/login?returnUrl=${encodeURIComponent("/admin/rooms")}`);
+        return;
+      }
+      const res = await fetch(`${API_ADMIN}/rooms/${roomId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (!res.ok) throw new Error("Failed to deactivate room");
       await refresh();
     } catch (e: any) {
@@ -136,9 +219,14 @@ const RoomsAdminDashboard: React.FC = () => {
 
   const updateBookingStatus = async (bookingId: number, status: string) => {
     try {
+      const token = authService.getToken();
+      if (!token) {
+        navigate(`/login?returnUrl=${encodeURIComponent("/admin/rooms")}`);
+        return;
+      }
       const res = await fetch(`${API_ADMIN}/room-bookings/${bookingId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ status }),
       });
       if (!res.ok) throw new Error("Failed to update booking");
@@ -151,7 +239,15 @@ const RoomsAdminDashboard: React.FC = () => {
   const deleteBooking = async (bookingId: number) => {
     if (!window.confirm("Delete this booking?")) return;
     try {
-      const res = await fetch(`${API_ADMIN}/room-bookings/${bookingId}`, { method: "DELETE" });
+      const token = authService.getToken();
+      if (!token) {
+        navigate(`/login?returnUrl=${encodeURIComponent("/admin/rooms")}`);
+        return;
+      }
+      const res = await fetch(`${API_ADMIN}/room-bookings/${bookingId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (!res.ok) throw new Error("Failed to delete booking");
       await refresh();
     } catch (e: any) {
@@ -189,6 +285,11 @@ const RoomsAdminDashboard: React.FC = () => {
         <li className="nav-item">
           <button className={`nav-link ${tab === "bookings" ? "active" : ""}`} onClick={() => setTab("bookings")}>
             Room bookings
+          </button>
+        </li>
+        <li className="nav-item">
+          <button className={`nav-link ${tab === "calendar" ? "active" : ""}`} onClick={() => setTab("calendar")}>
+            Calendar
           </button>
         </li>
       </ul>
@@ -229,11 +330,22 @@ const RoomsAdminDashboard: React.FC = () => {
                     </span>
                   </td>
                   <td className="text-end">
-                    <button className="btn btn-sm btn-outline-primary me-2" onClick={() => openEditRoom(r)}>
-                      Edit
+                    <button
+                      className="btn btn-sm btn-outline-primary me-2"
+                      onClick={() => openEditRoom(r)}
+                      aria-label="Edit room"
+                      title="Edit"
+                    >
+                      <i className="bi bi-pencil-square" />
                     </button>
-                    <button className="btn btn-sm btn-outline-danger" onClick={() => deactivateRoom(r.id)} disabled={!r.isActive}>
-                      Deactivate
+                    <button
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={() => deactivateRoom(r.id)}
+                      disabled={!r.isActive}
+                      aria-label="Deactivate room"
+                      title="Deactivate"
+                    >
+                      <i className="bi bi-slash-circle" />
                     </button>
                   </td>
                 </tr>
@@ -297,8 +409,8 @@ const RoomsAdminDashboard: React.FC = () => {
                     </select>
                   </td>
                   <td className="text-end">
-                    <button className="btn btn-sm btn-outline-danger" onClick={() => deleteBooking(b.id)}>
-                      Delete
+                    <button className="btn btn-sm btn-outline-danger" onClick={() => deleteBooking(b.id)} aria-label="Delete booking" title="Delete">
+                      <i className="bi bi-trash" />
                     </button>
                   </td>
                 </tr>
@@ -315,13 +427,76 @@ const RoomsAdminDashboard: React.FC = () => {
         </div>
       )}
 
+      {!loading && tab === "calendar" && (
+        <div className="calendar-container">
+          <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+            <div className="fw-semibold">
+              {calendarMonth.toLocaleString("en-US", { month: "long" })} {calendarMonth.getFullYear()}
+            </div>
+            <div className="d-flex gap-2">
+              <button
+                className="btn btn-sm btn-outline-secondary"
+                onClick={() => setCalendarMonth((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1))}
+              >
+                Prev
+              </button>
+              <button className="btn btn-sm btn-outline-secondary" onClick={() => setCalendarMonth(new Date())}>
+                Today
+              </button>
+              <button
+                className="btn btn-sm btn-outline-secondary"
+                onClick={() => setCalendarMonth((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1))}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+
+          <div className="calendar-grid">
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
+              <div key={d} className="calendar-day-header">
+                {d}
+              </div>
+            ))}
+
+            {getCalendarDays().map((cell, idx) => {
+              if (!cell) {
+                return <div key={`empty-${idx}`} className="calendar-day empty" />;
+              }
+
+              return (
+                <button
+                  key={cell.dateStr}
+                  type="button"
+                  className={`calendar-day ${cell.hasBooking ? "has-booking" : ""}`}
+                  onClick={() => {
+                    setSelectedDate(cell.dateStr);
+                    setShowDateModal(true);
+                  }}
+                  title={cell.hasBooking ? "Has room booking(s)" : "No bookings"}
+                >
+                  <span>{cell.day}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="calendar-legend">
+            <div className="legend-item">
+              <span className="legend-color has-booking" />
+              <span>Room booking</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showRoomModal && editingRoom && (
         <div className="rad-modal-backdrop" onClick={() => setShowRoomModal(false)}>
           <div className="rad-modal" onClick={(e) => e.stopPropagation()}>
             <div className="d-flex align-items-center justify-content-between mb-3">
               <h5 className="mb-0">{typeof editingRoom.id === "number" ? "Edit room" : "Add room"}</h5>
-              <button className="btn btn-sm btn-outline-secondary" onClick={() => setShowRoomModal(false)}>
-                Close
+              <button className="btn btn-sm btn-outline-secondary" onClick={() => setShowRoomModal(false)} aria-label="Close" title="Close">
+                <i className="bi bi-x-lg" />
               </button>
             </div>
 
@@ -403,6 +578,63 @@ const RoomsAdminDashboard: React.FC = () => {
                 Save
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showDateModal && selectedDate && (
+        <div className="rad-modal-backdrop" onClick={() => setShowDateModal(false)}>
+          <div className="rad-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="d-flex align-items-center justify-content-between mb-2">
+              <h5 className="mb-0">Bookings on {formatDate(selectedDate)}</h5>
+              <button className="btn btn-sm btn-outline-secondary" onClick={() => setShowDateModal(false)} aria-label="Close" title="Close">
+                <i className="bi bi-x-lg" />
+              </button>
+            </div>
+
+            {bookingsForSelectedDate.length === 0 ? (
+              <div className="text-muted">No room bookings for this date.</div>
+            ) : (
+              <div className="d-flex flex-column gap-2">
+                {bookingsForSelectedDate.map((b) => (
+                  <div key={b.id} className="calendar-booking-card">
+                    <div className="d-flex flex-wrap align-items-start justify-content-between gap-2">
+                      <div>
+                        <div className="fw-semibold">
+                          #{b.id} • {b.room?.type || `Room ${b.roomId}`}
+                        </div>
+                        <div className="text-muted small">
+                          {b.room?.branch || "-"} • {b.guestName} • {b.guestEmail}
+                        </div>
+                        <div className="text-muted small">
+                          {b.checkInDate} → {b.checkOutDate} • Guests: {b.numberOfGuests} • Total:{" "}
+                          {formatCurrency(Number(b.totalPrice))}
+                        </div>
+                      </div>
+                      <div style={{ minWidth: 180 }}>
+                        <label className="form-label small mb-1">Status</label>
+                        <select
+                          className="form-select form-select-sm"
+                          value={b.status}
+                          onChange={(e) => updateBookingStatus(b.id, e.target.value)}
+                        >
+                          <option value="pending">pending</option>
+                          <option value="confirmed">confirmed</option>
+                          <option value="cancelled">cancelled</option>
+                          <option value="checked_in">checked_in</option>
+                          <option value="checked_out">checked_out</option>
+                        </select>
+                        <div className="d-flex justify-content-end mt-2">
+                          <button className="btn btn-sm btn-outline-danger" onClick={() => deleteBooking(b.id)} aria-label="Delete booking" title="Delete">
+                            <i className="bi bi-trash" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

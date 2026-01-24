@@ -79,41 +79,70 @@ class RoomBookingService {
 
     const url = `${this.baseUrl}/rooms${queryParams.toString() ? "?" + queryParams.toString() : ""}`;
     const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    if (!response.ok) {
+      const ct = response.headers.get("content-type") || "";
+      if (ct.includes("application/json")) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+      const text = await response.text().catch(() => "");
+      throw new Error(text || `HTTP error! status: ${response.status}`);
+    }
     return await response.json();
   }
 
   async fetchRoomById(id: number): Promise<Room> {
-    const response = await fetch(`${this.baseUrl}/rooms/${id}`);
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const url = `${this.baseUrl}/rooms/${id}`;
+    const response = await fetch(url);
+    if (!response.ok) {
+      const ct = response.headers.get("content-type") || "";
+      if (ct.includes("application/json")) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+      const text = await response.text().catch(() => "");
+      throw new Error(text || `HTTP error! status: ${response.status}`);
+    }
     return await response.json();
   }
 
   async checkAvailability(roomId: number, checkInDate: string, checkOutDate: string): Promise<RoomAvailability> {
-    const response = await fetch(`${this.baseUrl}/rooms/${roomId}/availability`, {
+    const url = `${this.baseUrl}/rooms/${roomId}/availability`;
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ checkInDate, checkOutDate }),
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      const ct = response.headers.get("content-type") || "";
+      if (ct.includes("application/json")) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+      const text = await response.text().catch(() => "");
+      throw new Error(text || `HTTP error! status: ${response.status}`);
     }
 
     return await response.json();
   }
 
   async createBooking(roomId: number, bookingData: BookingData): Promise<BookingResponse> {
-    const response = await fetch(`${this.baseUrl}/rooms/${roomId}/book`, {
+    const url = `${this.baseUrl}/rooms/${roomId}/book`;
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bookingData),
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      const ct = response.headers.get("content-type") || "";
+      if (ct.includes("application/json")) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+      const text = await response.text().catch(() => "");
+      throw new Error(text || `HTTP error! status: ${response.status}`);
     }
 
     return await response.json();

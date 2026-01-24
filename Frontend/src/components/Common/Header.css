@@ -28,6 +28,24 @@
   border-radius: 6px;
 }
 
+.nv-auth-logged {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nv-user-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+  background: #f1f3f5;
+  border: 1px solid #e9ecef;
+}
+
 /* Navigation bar */
 .nv-nav {
   margin-top: 12px;
@@ -62,4 +80,13 @@
 
 .nv-nav a:hover {
   color: #b22222;
+}
+
+/* Keep active link highlighted */
+.nv-nav a.active {
+  color: #b22222;
+}
+
+.nv-nav a.active::after {
+  width: 100%;
 }
