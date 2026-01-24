@@ -1,0 +1,18 @@
+USE nova_vistaDB;
+
+DROP TABLE IF EXISTS hotels;
+
+CREATE TABLE hotels (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  location VARCHAR(150) NOT NULL,
+  description TEXT,
+  rating DECIMAL(2,1) DEFAULT 4.5,
+  price_per_night INT DEFAULT 0,
+
+  -- store multiple images as JSON array
+  images JSON NULL,
+
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
