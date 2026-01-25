@@ -1,13 +1,10 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-<<<<<<< HEAD
-=======
-    "start": "node server.js",
->>>>>>> 5bcdd49095ce9cadd68fa944eb69e6fba42d4c12
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,18 +16,12 @@
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-<<<<<<< HEAD
     "express": "^5.2.1",
-    "mysql2": "^3.16.1"
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.16.1",
+    "sequelize": "^6.37.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
-=======
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mysql2": "^3.15.2",
-    "nodemon": "^3.1.10",
-    "sequelize": "^6.37.7"
->>>>>>> 5bcdd49095ce9cadd68fa944eb69e6fba42d4c12
   }
 }
