@@ -1,6 +1,6 @@
 import React from "react";
 import CommonHero from "../../components/Common/CommonHero";
-import EventSearch from "./EventSearch"; // ✅ moved to top
+import EventSearch from "./EventSearch"; // 
 
 export const Event = () => {
   return (

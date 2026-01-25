@@ -1,12 +1,36 @@
-import React, { useState } from "react";
-import halls from "./Event.json";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { apiService, EventHall } from "../../services/EventSearch";
 
 const EventSearch = () => {
   const [location, setLocation] = useState<string>("");
   const [seating, setSeating] = useState<string>("");
   const [guestRange, setGuestRange] = useState<number | null>(null);
-  const [filteredHalls, setFilteredHalls] = useState(halls);
+  const [halls, setHalls] = useState<EventHall[]>([]);
+  const [filteredHalls, setFilteredHalls] = useState<EventHall[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch data from backend on component mount
+  useEffect(() => {
+    const fetchHalls = async () => {
+      try {
+        setLoading(true);
+
+        const data = await apiService.fetchEventHalls();
+        setHalls(data);
+        setFilteredHalls(data);
+
+        setError(null);
+      } catch (err) {
+        setError("Failed to fetch event halls");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHalls();
+  }, []);
 
   // guest ranges
   const guestRanges = [
@@ -36,13 +60,16 @@ const EventSearch = () => {
   };
 
   return (
-    <div style={{ margin: "2.5rem 3rem" }}>
+    <div 
+    style={{ margin: "2.5rem 3rem" } }
+    >
+      {/* Search Bar   */}
       <div
         className="w-20 h-10 position-absolute d-flex justify-content-center align-items-center"
         style={{
           backgroundColor: "#fff",
           top: "60vh",
-          left: "10%",
+          left: "20%",
           borderRadius: "10px",
           border: "1px solid #ccc",
           height: "5rem",
@@ -85,8 +112,10 @@ const EventSearch = () => {
           <option value="U-Shaped">U-Shaped</option>
         </select>
         <select
-          value={guestRange ===null? "":guestRange}
-          onChange={(e) => setGuestRange(e.target.value===""?null:Number(e.target.value))}
+          value={guestRange === null ? "" : guestRange}
+          onChange={(e) =>
+            setGuestRange(e.target.value === "" ? null : Number(e.target.value))
+          }
           className="form-select"
           style={{
             border: "1px solid #ccc",
@@ -111,13 +140,133 @@ const EventSearch = () => {
         </button>
       </div>
 
+      {/* No Results Popup  */}
+      {!loading && !error && filteredHalls.length === 0 && (
+        <div
+          className="position-fixed d-flex justify-content-center align-items-center"
+          style={{
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9999,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <div
+            className="card"
+            style={{
+              maxWidth: "400px",
+              width: "90%",
+              borderRadius: "20px",
+              border: "none",
+              boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
+              backgroundColor: "#fff",
+            }}
+          >
+            <div className="card-body text-center p-4">
+              <div className="mb-3">
+                <div
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    backgroundColor: "#ff6b6b",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto",
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="30"
+                    height="30"
+                    fill="white"
+                    className="bi bi-search"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                  </svg>
+                </div>
+              </div>
+
+              <h4
+                className="card-title mb-3"
+                style={{ color: "#333", fontWeight: "bold" }}
+              >
+                No Event Halls Found
+              </h4>
+
+              <p className="card-text mb-3" style={{ color: "#666" }}>
+                We couldn't find any halls matching your search criteria.
+              </p>
+
+              <div
+                className="mb-4 p-3"
+                style={{
+                  backgroundColor: "#f8f9fa",
+                  borderRadius: "10px",
+                  border: "1px solid #e9ecef",
+                }}
+              >
+                <small style={{ color: "#666" }}>
+                  <strong>Current filters:</strong>
+                  <br />
+                  {location && `Location: ${location}`}
+                  {seating && ` | Seating: ${seating}`}
+                  {guestRange !== null &&
+                    ` | Guests: ${guestRanges[guestRange].min}-${guestRanges[guestRange].max}`}
+                  {!location &&
+                    !seating &&
+                    guestRange === null &&
+                    "No filters applied"}
+                </small>
+              </div>
+
+              <div className="d-flex justify-content-center">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    setLocation("");
+                    setSeating("");
+                    setGuestRange(null);
+                    if (Array.isArray(halls)) {
+                      setFilteredHalls(halls);
+                    }
+                  }}
+                  style={{
+                    padding: "10px 30px",
+                    borderRadius: "25px",
+                    fontSize: "1rem",
+                    fontWeight: "500",
+                  }}
+                >
+                  Clear Filters
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Filtered Results */}
-      <div className="row " style={{ gap: "20px" }}>
-        {filteredHalls.length > 0 ? (
-          filteredHalls.map((hall) => <HallCard key={hall.id} hall={hall} />)
-        ) : (
-          <p>No halls found.</p>
-        )}
+      <div className="row " style={{ gap: "20px",maxWidth:"1300px", margin: "0 auto"}}>
+        {loading ? (
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        ) : error ? (
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
+        ) : filteredHalls.length > 0 ? (
+          filteredHalls.map((hall) => {
+            return <HallCard key={hall.id} hall={hall} />;
+          })
+        ) : null}
       </div>
     </div>
   );
@@ -125,17 +274,28 @@ const EventSearch = () => {
 
 export default EventSearch;
 
-const HallCard = ({
-  hall,
-}: {
-  hall: {
-    id: number;
-    name: string;
-    location: string;
-    description?: string;
-    image?: string;
-  };
-}) => {
+// Star Rating Component
+const StarRating = ({ rating }: { rating: number }) => {
+  return (
+    <div className="d-flex" style={{ gap: "2px" }}>
+      {[...Array(5)].map((_, index) => (
+        <svg
+          key={index}
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill={index < rating ? "yellow" : "#ddd"}
+          className="bi bi-star-fill"
+          viewBox="0 0 16 16"
+        >
+          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+        </svg>
+      ))}
+    </div>
+  );
+};
+
+const HallCard = ({ hall }: { hall: EventHall }) => {
   return (
     <div
       className="card mb-4 shadow-sm col-4  col-md-4 col-sm-6 p-0"
@@ -145,15 +305,19 @@ const HallCard = ({
       <div className="column ">
         <div className="position-relative">
           <img
-            src={"/Images/event_hero3.jpg"}
+            src={
+              // hall.image ? `/Images/${hall.image}` : "/Images/event_hero3.jpg"
+              "/Images/grand_ballroom.jpg"
+            }
             className="w-100"
-            alt={hall.location}
+            alt={hall.name}
             style={{
               objectFit: "cover",
               borderRadius: "12px 12px 0px 0px",
+              height: "200px",
             }}
           />
-          <Link to="">
+          <Link to="/event-booking">
             <button
               className="btn-primary position-absolute bottom-0 end-0 m-2 "
               style={{
@@ -170,66 +334,12 @@ const HallCard = ({
         <div>
           <div className="card-body h-100 d-flex flex-column">
             <div>
-              <h4 className="card-title fw-bold">GRAND BALLROOM</h4>
-              <p className="card-text mb-3">
-                A stately affair with adjoining lawns, the Grand Ballroom spans
-                an area of 630 square metres for your guests to relax and mingle
-              </p>
+              <h4 className="card-title fw-bold">{hall.name}</h4>
+              <p className="card-text mb-3">{hall.description}</p>
             </div>
             <div className="d-flex justify-content-between align-items-center">
-              <h5 className="card-text">Jaffna</h5>
-              <div className="d-flex" style={{ gap: "10px" }}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="yellow"
-                  className="bi bi-star-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="yellow"
-                  className="bi bi-star-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="yellow"
-                  className="bi bi-star-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="yellow"
-                  className="bi bi-star-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="yellow"
-                  className="bi bi-star-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                </svg>
-              </div>
+              <h5 className="card-text">{hall.location}</h5>
+              <StarRating rating={hall.rating || 5} />
             </div>
           </div>
         </div>

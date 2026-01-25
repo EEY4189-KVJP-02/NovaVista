@@ -7,7 +7,12 @@ import BranchBook from "./pages/HotelDetails/BranchBook";
 import Home from "./pages/Home/Home";
 import "./App.css";
 import EventBooking from "./pages/EventBooking/EventBooking";
-import RoomBooking from "./pages/RoomBooking/roombooking";
+import RoomDetails from "./pages/RoomBooking/RoomDetails";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
+import RoomsAdminDashboard from "./pages/AdminRooms/RoomsAdminDashboard";
+//import Login from "./Login";
+//import Register from "./Register";
 
 function App() {
   return (
@@ -16,11 +21,13 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/event" element={<Event />} />
-          <Route path="/branchbook" element={<BranchBook />} />
+          <Route path="/event-hall" element={<Event />} />
+          <Route path="/hotel" element={<BranchBook />} />
           <Route path="/event-booking" element={<EventBooking />} />
-          <Route path="/room-booking" element={<RoomBooking />} />
-          
+          <Route path="/room-booking" element={<RoomDetails />} />
+          <Route path="/admin/rooms" element={<RoomsAdminDashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </main>
       <Footer />
