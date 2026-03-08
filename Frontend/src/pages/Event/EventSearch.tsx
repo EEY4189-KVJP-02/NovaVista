@@ -306,8 +306,8 @@ const HallCard = ({ hall }: { hall: EventHall }) => {
         <div className="position-relative">
           <img
             src={
-              // hall.image ? `/Images/${hall.image}` : "/Images/event_hero3.jpg"
-              "/Images/grand_ballroom.jpg"
+               `/Images/${hall.image}`
+            
             }
             className="w-100"
             alt={hall.name}
