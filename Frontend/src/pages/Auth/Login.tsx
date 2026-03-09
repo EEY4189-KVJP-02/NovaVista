@@ -36,7 +36,7 @@ const Login: React.FC = () => {
       // Redirect to room booking or previous page
       const returnUrl =
         new URLSearchParams(window.location.search).get("returnUrl") ||
-        "/event-booking";
+        "/";
         // "/event-booking";
 
       navigate(returnUrl);

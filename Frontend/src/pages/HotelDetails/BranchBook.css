@@ -121,6 +121,7 @@
 }
 
 .modal {
+  display: block;
   position: relative;
   background: #fff;
   border-radius: 12px;

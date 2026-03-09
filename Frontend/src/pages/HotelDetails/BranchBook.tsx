@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import BranchCard, { AvailabilityStatus } from "./BranchCard";
 import "./BranchBook.css";
 import { useNavigate } from "react-router-dom";
+import { authService } from "../../services/Auth";
 
 type Hotel = {
   id: number;
@@ -140,6 +141,12 @@ const BranchBook: React.FC = () => {
 
   // Book Now: validate fields, auto-check if unknown
   const handleBookNowClick = async (hotelId: number) => {
+    if (!authService.isAuthenticated()) {
+      alert("⚠️ Please login to book a room.");
+      navigate("/login");
+      return;
+    }
+
     if (!isFormFilled) {
       alert("⚠️ Please fill Check-in, Check-out and Rooms first.");
       return;
