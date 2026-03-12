@@ -146,7 +146,7 @@ const RoomsAdminDashboard: React.FC = () => {
       type: "",
       description: "",
       price: 0,
-      image: "/Images/single room.png",
+      image: "/Images/single-room.png",
       branch: "Jaffna",
       maxGuests: 2,
       amenities: [],
@@ -566,7 +566,7 @@ const RoomsAdminDashboard: React.FC = () => {
                   value={editingRoom.image ?? ""}
                   onChange={(e) => setEditingRoom((p) => ({ ...(p || {}), image: e.target.value }))}
                 />
-                <small className="text-muted">Example: /Images/single room.png</small>
+                <small className="text-muted">Example: /Images/single-room.png</small>
               </div>
             </div>
 

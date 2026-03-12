@@ -80,7 +80,7 @@ const RoomDetails: React.FC = () => {
         description:
           "Free Cancellation — Flexibility guaranteed\nNo Prepayment Needed — Secure your stay now, pay later\nLimited Availability — Only 5 rooms left at this price!",
         price: 5000,
-        image: "/Images/single room.png",
+        image: "/Images/single-room.png",
         branch: "Jaffna",
         maxGuests: 1,
         amenities: ["Wi-Fi", "TV", "Air Conditioning", "Free Cancellation"],
@@ -92,7 +92,7 @@ const RoomDetails: React.FC = () => {
         description:
           "Free Cancellation — Book with confidence\nNo Prepayment Needed — Pay at the hotel\nLimited Availability — Only 3 rooms left at this special rate!",
         price: 10000,
-        image: "/Images/double room.jpg",
+        image: "/Images/double-room.jpg",
         branch: "Jaffna",
         maxGuests: 2,
         amenities: ["Wi-Fi", "TV", "Air Conditioning", "Mini Bar", "Free Cancellation"],
@@ -104,7 +104,7 @@ const RoomDetails: React.FC = () => {
         description:
           "Free Cancellation — Change plans anytime\nNo Prepayment Required — Easy booking, stress-free payment\nLimited Availability — Exclusive price!",
         price: 25000,
-        image: "/Images/deluxe room.jpg",
+        image: "/Images/deluxe-room.jpg",
         branch: "Jaffna",
         maxGuests: 2,
         amenities: [
@@ -126,7 +126,7 @@ const RoomDetails: React.FC = () => {
         description:
           "Free Cancellation — Flexibility guaranteed\nNo Prepayment Needed — Secure your stay now, pay later\nLimited Availability — Only 4 rooms left at this price!",
         price: 5000,
-        image: "/Images/single room.png",
+        image: "/Images/single-room.png",
         branch: "Kilinochchi",
         maxGuests: 1,
         amenities: ["Wi-Fi", "TV", "Air Conditioning", "Free Cancellation"],
@@ -138,7 +138,7 @@ const RoomDetails: React.FC = () => {
         description:
           "Free Cancellation — Book with confidence\nNo Prepayment Needed — Pay at the hotel\nLimited Availability — Only 2 rooms left at this special rate!",
         price: 10000,
-        image: "/Images/double room.jpg",
+        image: "/Images/double-room.jpg",
         branch: "Kilinochchi",
         maxGuests: 2,
         amenities: ["Wi-Fi", "TV", "Air Conditioning", "Mini Bar", "Free Cancellation"],
@@ -150,7 +150,7 @@ const RoomDetails: React.FC = () => {
         description:
           "Free Cancellation — Change plans anytime\nNo Prepayment Required — Easy booking, stress-free payment\nLimited Availability — Exclusive price!",
         price: 25000,
-        image: "/Images/deluxe room.jpg",
+        image: "/Images/deluxe-room.jpg",
         branch: "Kilinochchi",
         maxGuests: 2,
         amenities: ["Wi-Fi", "TV", "Air Conditioning", "Mini Bar", "Room Service", "Free Cancellation"],
@@ -164,7 +164,7 @@ const RoomDetails: React.FC = () => {
         description:
           "Free Cancellation — Flexibility guaranteed\nNo Prepayment Needed — Secure your stay now, pay later\nLimited Availability — Only 6 rooms left at this price!",
         price: 5000,
-        image: "/Images/single room.png",
+        image: "/Images/single-room.png",
         branch: "Mannar",
         maxGuests: 1,
         amenities: ["Wi-Fi", "TV", "Air Conditioning", "Free Cancellation"],
@@ -176,7 +176,7 @@ const RoomDetails: React.FC = () => {
         description:
           "Free Cancellation — Book with confidence\nNo Prepayment Needed — Pay at the hotel\nLimited Availability — Only 3 rooms left at this special rate!",
         price: 10000,
-        image: "/Images/double room.jpg",
+        image: "/Images/double-room.jpg",
         branch: "Mannar",
         maxGuests: 2,
         amenities: ["Wi-Fi", "TV", "Air Conditioning", "Mini Bar", "Free Cancellation"],
@@ -188,7 +188,7 @@ const RoomDetails: React.FC = () => {
         description:
           "Free Cancellation — Change plans anytime\nNo Prepayment Required — Easy booking, stress-free payment\nLimited Availability — Exclusive price!",
         price: 25000,
-        image: "/Images/deluxe room.jpg",
+        image: "/Images/deluxe-room.jpg",
         branch: "Mannar",
         maxGuests: 2,
         amenities: [
@@ -464,11 +464,11 @@ const RoomDetails: React.FC = () => {
                       alt={room.type}
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        if (room.type.toLowerCase().includes("single")) target.src = "/Images/single room.png";
+                        if (room.type.toLowerCase().includes("single")) target.src = "/Images/single-room.png";
                         else if (room.type.toLowerCase().includes("double") && !room.type.toLowerCase().includes("deluxe"))
-                          target.src = "/Images/double room.jpg";
-                        else if (room.type.toLowerCase().includes("deluxe")) target.src = "/Images/deluxe room.jpg";
-                        else target.src = "/Images/single room.png";
+                          target.src = "/Images/double-room.jpg";
+                        else if (room.type.toLowerCase().includes("deluxe")) target.src = "/Images/deluxe-room.jpg";
+                        else target.src = "/Images/single-room.png";
                       }}
                     />
                     {isSoldOut && <div className="sold-out-badge">Sold Out</div>}

@@ -22,7 +22,7 @@ const RoomBooking: React.FC = () => {
 
   return (
     <div> <CommonHero
-        src={"/Images/single room.png"}
+        src={"/Images/single-room.png"}
         title={"Room"}
         alt={"Event"}
         subTitle={"Make every room truly memorable."}
