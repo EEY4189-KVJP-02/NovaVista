@@ -33,13 +33,15 @@ const Login: React.FC = () => {
       authService.setUser(response.user);
       localStorage.setItem("userId", response.user.id.toString());
 
-      // Redirect to room booking or previous page
-      const returnUrl =
-        new URLSearchParams(window.location.search).get("returnUrl") ||
-        "/event-booking";
-        // "/event-booking";
+      // Redirect:
+      // 1) If a returnUrl query param is present, always honor it
+      // 2) Otherwise, admins go to /admin/rooms, others to /event-booking
+      const params = new URLSearchParams(window.location.search);
+      const explicitReturnUrl = params.get("returnUrl");
+      const fallbackUrl =
+        response.user.role === "admin" ? "/admin/rooms" : "/event-booking";
 
-      navigate(returnUrl);
+      navigate(explicitReturnUrl || fallbackUrl);
     } catch (err: any) {
       setError(err.message || "Login failed. Please check your credentials.");
     } finally {
