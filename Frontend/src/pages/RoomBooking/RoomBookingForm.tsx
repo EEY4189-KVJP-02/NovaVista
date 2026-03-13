@@ -49,7 +49,7 @@ const RoomBookingForm: React.FC<RoomBookingFormProps> = ({
 
     calculateNights();
     checkAvailability();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [checkInDate, checkOutDate, room.id]);
 
   const checkAvailability = async () => {
@@ -58,7 +58,7 @@ const RoomBookingForm: React.FC<RoomBookingFormProps> = ({
     setLoading(true);
     setError(null);
 
-    // Calculate locally first
+    
     const checkIn = new Date(checkInDate);
     const checkOut = new Date(checkOutDate);
     const diffTime = Math.abs(checkOut.getTime() - checkIn.getTime());
@@ -72,7 +72,7 @@ const RoomBookingForm: React.FC<RoomBookingFormProps> = ({
       if (availability.nights) setNights(availability.nights);
       if (availability.totalPrice) setTotalPrice(availability.totalPrice);
     } catch (err: any) {
-      // If API fails, assume available but keep UI usable
+      
       setIsAvailable(true);
       console.warn("Availability check failed, assuming available:", err?.message);
     } finally {

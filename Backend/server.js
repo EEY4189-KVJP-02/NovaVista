@@ -16,7 +16,7 @@ import { seedDefaultEventHallsIfEmpty } from "./models/EventHall.js";
 import hotelAvailabilityRoutes from "./routes/HotelAvailabilityRoutes.js";
 import hotelBookingRoutes from "./routes/HotelBookingRoutes.js";
 
-// ✅ ADD THIS
+
 import hotelRoutes from "./routes/HotelRoutes.js";
 
 dotenv.config();
@@ -24,7 +24,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+
 app.use(express.json());
 app.use(
   cors({
@@ -34,7 +34,7 @@ app.use(
   })
 );
 
-// Routes
+
 app.use("/book", eventBookingRoutes);
 app.use("/api/halls", hallsRouter);
 app.use("/api/auth", authRoutes);
@@ -44,18 +44,18 @@ app.use("/api/admin", adminRoomsRoutes);
 app.use("/api/availability", hotelAvailabilityRoutes);
 app.use("/api/hotel-bookings", hotelBookingRoutes);
 
-// ✅ FIX: This route was missing (causing 404)
+
 app.use("/api/hotels", hotelRoutes);
 
-// Optional health route
+
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
-// Start server
+
 const startServer = async () => {
   try {
     await checkConnection();
 
-    // Associations (room-only; kept isolated from existing event/hotel models)
+    
     Room.hasMany(RoomBooking, { foreignKey: "roomId", as: "bookings" });
     RoomBooking.belongsTo(Room, { foreignKey: "roomId", as: "room" });
 
@@ -63,7 +63,7 @@ const startServer = async () => {
     await seedDefaultRoomsIfEmpty();
     await seedDefaultEventHallsIfEmpty();
 
-    // Seed default admin user (so admin works without signup)
+   
     const adminEmail = "admin@gmail.com";
     const adminPassword = "admin123";
     const existingAdmin = await User.findOne({ where: { email: adminEmail } });
@@ -81,11 +81,11 @@ const startServer = async () => {
     }
 
     app.listen(PORT, () => {
-      console.log(`✅ Server running on port ${PORT}`);
-      console.log(`✅ Hotels API: http://localhost:${PORT}/api/hotels`);
+      console.log(` Server running on port ${PORT}`);
+      console.log(` Hotels API: http://localhost:${PORT}/api/hotels`);
     });
   } catch (err) {
-    console.error("❌ Failed to start server:", err);
+    console.error(" Failed to start server:", err);
   }
 };
 

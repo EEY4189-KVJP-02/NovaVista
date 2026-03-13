@@ -50,7 +50,7 @@ export async function seedDefaultEventHallsIfEmpty() {
     return { seeded: false, count: existing };
   }
 
-  // Mirrors Backend/database/event_hall.sql (24 halls)
+  
   const halls = [
     // Jaffna
     { name: "Jaffna Hall 1", location: "Jaffna", seating: "Boardroom", capacity: 50, description: "Boardroom hall suitable for meetings.", rating: 4, image: "hall1.jpg" },

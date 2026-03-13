@@ -17,7 +17,7 @@ const RoomDetails: React.FC = () => {
   const [checkingAvailability, setCheckingAvailability] = useState(false);
   const checkingRef = useRef<string>("");
 
-  // Get initial values from URL params
+  
   const locationFromUrl = searchParams.get("location") || "";
   const checkInFromUrl = searchParams.get("checkIn") || "";
   const checkOutFromUrl = searchParams.get("checkOut") || "";
@@ -73,7 +73,7 @@ const RoomDetails: React.FC = () => {
 
   const getFallbackRooms = (branch?: "Jaffna" | "Kilinochchi" | "Mannar"): Room[] => {
     const allRooms: Room[] = [
-      // Jaffna
+      
       {
         id: 1,
         type: "Standard Single Room",
@@ -119,7 +119,7 @@ const RoomDetails: React.FC = () => {
         isActive: true,
       },
 
-      // Kilinochchi
+      
       {
         id: 4,
         type: "Standard Single Room",
@@ -157,7 +157,7 @@ const RoomDetails: React.FC = () => {
         isActive: true,
       },
 
-      // Mannar
+      
       {
         id: 7,
         type: "Standard Single Room",
@@ -223,7 +223,7 @@ const RoomDetails: React.FC = () => {
 
   useEffect(() => {
     fetchRooms();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [filters]);
 
   const handleLocationChange = (location: string) => {
@@ -287,7 +287,7 @@ const RoomDetails: React.FC = () => {
     return sortedRooms.slice(0, 3);
   }, [rooms, selectedLocation]);
 
-  // Check availability for all rooms when dates change
+  
   useEffect(() => {
     if (!checkInDate || !checkOutDate || displayRooms.length === 0) {
       setRoomAvailability({});

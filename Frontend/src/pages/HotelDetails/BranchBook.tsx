@@ -1,4 +1,4 @@
-// src/pages/HotelDetails/BranchBook.tsx
+
 import React, { useEffect, useMemo, useState } from "react";
 import BranchCard, { AvailabilityStatus } from "./BranchCard";
 import "./BranchBook.css";
@@ -67,7 +67,7 @@ const BranchBook: React.FC = () => {
         setError(null);
       } catch (e) {
         console.error(e);
-        setError("❌ Cannot load hotels from database. Check backend route /api/hotels.");
+        setError(" Cannot load hotels from database. Check backend route /api/hotels.");
       } finally {
         setLoading(false);
       }
@@ -76,7 +76,7 @@ const BranchBook: React.FC = () => {
     loadHotels();
   }, []);
 
-  // Reset availability when selection changes
+  
   useEffect(() => {
     if (!hotels.length) return;
     const reset: Record<number, AvailabilityStatus> = {};
@@ -84,7 +84,7 @@ const BranchBook: React.FC = () => {
     setAvailabilityMap(reset);
   }, [checkIn, checkOut, rooms, hotels]);
 
-  // check availability for ONE hotel
+  
   const checkOneHotelAvailability = async (hotelId: number): Promise<AvailabilityStatus> => {
     const res = await fetch(`${API}/api/availability/check`, {
       method: "POST",
@@ -108,7 +108,7 @@ const BranchBook: React.FC = () => {
     return res.ok && isAvailable ? "available" : "unavailable";
   };
 
-  // Check availability for ALL hotels
+  
   const handleCheckAvailability = async () => {
     if (!isFormFilled) {
       alert("⚠️ Please fill Check-in, Check-out and Rooms first.");
@@ -134,18 +134,18 @@ const BranchBook: React.FC = () => {
       alert("✅ Availability checked!");
     } catch (err) {
       console.error(err);
-      alert("❌ Availability check failed. Please ensure backend is running.");
+      alert(" Availability check failed. Please ensure backend is running.");
     }
   };
 
-  // Book Now: validate fields, auto-check if unknown
+  
   const handleBookNowClick = async (hotelId: number) => {
     if (!isFormFilled) {
-      alert("⚠️ Please fill Check-in, Check-out and Rooms first.");
+      alert(" Please fill Check-in, Check-out and Rooms first.");
       return;
     }
     if (!isDateValid) {
-      alert("⚠️ Check-out date must be after Check-in date.");
+      alert(" Check-out date must be after Check-in date.");
       return;
     }
 
@@ -157,13 +157,13 @@ const BranchBook: React.FC = () => {
         setAvailabilityMap((prev) => ({ ...prev, [hotelId]: status }));
       } catch (e) {
         console.error(e);
-        alert("❌ Availability check failed. Try again.");
+        alert(" Availability check failed. Try again.");
         return;
       }
     }
 
     if (status === "unavailable") {
-      alert("❌ No rooms available for selected dates.");
+      alert(" No rooms available for selected dates.");
       return;
     }
 

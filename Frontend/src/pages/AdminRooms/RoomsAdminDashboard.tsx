@@ -100,7 +100,7 @@ const RoomsAdminDashboard: React.FC = () => {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
-    const startingDayOfWeek = firstDay.getDay(); // 0=Sun
+    const startingDayOfWeek = firstDay.getDay(); 
 
     const days: Array<null | { day: number; dateStr: string; hasBooking: boolean }> = [];
 

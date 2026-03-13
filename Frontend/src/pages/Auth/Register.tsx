@@ -56,12 +56,12 @@ const Register: React.FC = () => {
         phone: formData.phone,
       });
       
-      // Store token and user info
+      
       authService.setToken(response.token);
       authService.setUser(response.user);
       localStorage.setItem('userId', response.user.id.toString());
       
-    // Redirect to room booking
+    
 navigate('/');
 
 } catch (err: any) {

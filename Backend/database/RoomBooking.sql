@@ -1,10 +1,5 @@
 USE nova_vistaDB;
 
--- ---------------------------------------------
--- Room bookings table (used by /api/rooms/:id/book)
--- Matches Backend/models/RoomBooking.js
--- ---------------------------------------------
-
 CREATE TABLE IF NOT EXISTS room_bookings (
   id INT AUTO_INCREMENT PRIMARY KEY,
   userId INT NULL,

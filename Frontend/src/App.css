@@ -3,7 +3,7 @@
   --primary_dark_color:#fde979;
   
 }
-/* overrride button style */
+
 .btn-primary{
   background-color: var(--primary-color) !important;
   border: 1px solid #ccc;

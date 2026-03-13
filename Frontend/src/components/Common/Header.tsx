@@ -12,7 +12,7 @@ const Header: React.FC = () => {
   const [username, setUsername] = useState<string | null>(() => localStorage.getItem("userName"));
 
   useEffect(() => {
-    // Re-evaluate auth state on navigation and localStorage changes.
+    
     const sync = () => {
       setIsAuthed(authService.isAuthenticated());
       setRole(localStorage.getItem("userRole"));
@@ -33,7 +33,7 @@ const Header: React.FC = () => {
   const isAdmin = useMemo(() => role === "admin", [role]);
   const displayName = useMemo(() => {
     if (!isAuthed) return null;
-    // Requirement: when admin logs in show username as "admin"
+    
     if (role === "admin") return "admin";
     return username || "user";
   }, [isAuthed, role, username]);

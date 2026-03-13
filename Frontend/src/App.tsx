@@ -11,8 +11,7 @@ import RoomDetails from "./pages/RoomBooking/RoomDetails";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import RoomsAdminDashboard from "./pages/AdminRooms/RoomsAdminDashboard";
-//import Login from "./Login";
-//import Register from "./Register";
+
 
 function App() {
   return (

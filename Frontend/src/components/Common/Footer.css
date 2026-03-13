@@ -6,7 +6,7 @@
   font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
-/* Main footer layout */
+
 .nv-footer-container {
   display: flex;
   justify-content: space-between;
@@ -14,19 +14,19 @@
   flex-wrap: wrap;
 }
 
-/* Section titles */
+
 .nv-footer-container h4,
 .nv-footer-container h5 {
   margin-bottom: 12px;
   font-weight: 600;
 }
 
-/* Logo text */
+
 .nv-footer-container h4 {
   font-size: 22px;
 }
 
-/* Paragraph text */
+
 .nv-footer-container p {
   margin: 6px 0;
   font-size: 14px;
@@ -34,7 +34,7 @@
   color: #e0e0e0;
 }
 
-/* Links */
+
 .nv-footer a {
   color: #ffffff;
   text-decoration: none;
@@ -44,7 +44,7 @@
   color: #ffcccc;
 }
 
-/* Quick Links section */
+
 .footer-section {
   min-width: 180px;
 }
@@ -67,12 +67,12 @@
   font-size: 14px;
 }
 
-/* Contact section */
+
 .nv-footer strong {
   font-weight: 600;
 }
 
-/* Bottom copyright */
+
 .nv-footer-bottom {
   text-align: center;
   margin-top: 35px;

@@ -41,8 +41,8 @@ const HotelBooking = sequelize.define(
     },
   },
   {
-    tableName: "hotel_bookings", // ✅ must match phpMyAdmin table name
-    timestamps: true,            // ✅ uses createdAt + updatedAt (your table has these)
+    tableName: "hotel_bookings", 
+    timestamps: true,            
   }
 );
 

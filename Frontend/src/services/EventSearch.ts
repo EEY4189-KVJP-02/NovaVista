@@ -25,7 +25,7 @@ class ApiService {
     maxCapacity?: number;
   }): Promise<EventHall[]> {
     try {
-      // Build query parameters
+     
       const queryParams = new URLSearchParams();
       if (filters?.location) queryParams.append('location', filters.location);
       if (filters?.seating) queryParams.append('seating', filters.seating);

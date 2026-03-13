@@ -3,7 +3,7 @@ import data from './roombooking.json';
 import RoomCard from './RoomCard';
 import CommonHero from '../../components/Common/CommonHero';
 
-// Define the Room type
+
 interface Room {
   type: string;
   description: string;
@@ -11,13 +11,13 @@ interface Room {
   image: string;
 }
 
-// Define the shape of the imported JSON
+
 interface RoomData {
   rooms: Room[];
 }
 
 const RoomBooking: React.FC = () => {
-  // Explicitly cast data to the RoomData type
+  
   const { rooms } = data as RoomData;
 
   return (

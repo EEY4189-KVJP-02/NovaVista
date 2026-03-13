@@ -5,14 +5,14 @@
   font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
-/* Top section */
+
 .nv-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Logo */
+
 .nv-logo {
   font-size: 24px;
   font-weight: 700;
@@ -21,7 +21,7 @@
   text-decoration: none;
 }
 
-/* Login / Register buttons */
+
 .nv-auth .btn {
   font-size: 14px;
   padding: 6px 16px;
@@ -46,7 +46,7 @@
   border: 1px solid #e9ecef;
 }
 
-/* Navigation bar */
+
 .nv-nav {
   margin-top: 12px;
   display: flex;
@@ -62,7 +62,7 @@
   padding-bottom: 4px;
 }
 
-/* Hover underline effect */
+
 .nv-nav a::after {
   content: "";
   position: absolute;
@@ -82,7 +82,7 @@
   color: #b22222;
 }
 
-/* Keep active link highlighted */
+
 .nv-nav a.active {
   color: #b22222;
 }

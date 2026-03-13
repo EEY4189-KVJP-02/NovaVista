@@ -28,14 +28,12 @@ const Login: React.FC = () => {
         formData.password,
       );
 
-      // Store token and user info
+    
       authService.setToken(response.token);
       authService.setUser(response.user);
       localStorage.setItem("userId", response.user.id.toString());
 
-      // Redirect:
-      // 1) If a returnUrl query param is present, always honor it
-      // 2) Otherwise, admins go to /admin/rooms, others to /event-booking
+      
       const params = new URLSearchParams(window.location.search);
       const explicitReturnUrl = params.get("returnUrl");
       const fallbackUrl =

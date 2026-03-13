@@ -11,7 +11,7 @@ const EventSearch = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch data from backend on component mount
+  
   useEffect(() => {
     const fetchHalls = async () => {
       try {
@@ -32,7 +32,7 @@ const EventSearch = () => {
     fetchHalls();
   }, []);
 
-  // guest ranges
+ 
   const guestRanges = [
     { min: 0, max: 100 },
     { min: 101, max: 200 },

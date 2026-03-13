@@ -12,7 +12,7 @@ const RoomBooking = sequelize.define(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      // Keep as loose reference (no hard dependency on auth changes)
+      
     },
     roomId: {
       type: DataTypes.INTEGER,

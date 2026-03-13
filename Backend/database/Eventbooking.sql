@@ -1,28 +1,14 @@
--- ---------------------------------------------
--- 1️⃣ Create database if it doesn't exist
--- ---------------------------------------------
-CREATE DATABASE IF NOT EXISTS novavistaDB;
 
--- Use the database
-USE novavistaDB;
+CREATE DATABASE IF NOT EXISTS nova_vistaDB;
 
--- ---------------------------------------------
--- 2️⃣ Create or update MySQL user
--- ---------------------------------------------
--- If the user exists, update the password
-ALTER USER 'nova_vista'@'localhost' IDENTIFIED BY 'nova';
+USE nova_vistaDB;
 
--- If the user does not exist, create it
-CREATE USER IF NOT EXISTS 'nova_vista'@'localhost' IDENTIFIED BY 'nova';
+CREATE USER IF NOT EXISTS 'nova_vista'@'localhost' IDENTIFIED BY '';
+ALTER USER 'nova_vista'@'localhost' IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON nova_vistaDB.* TO 'nova_vista'@'localhost';
 
--- Grant all privileges on the database to the user
-GRANT ALL PRIVILEGES ON novavistaDB.* TO 'nova_vista'@'localhost';
 FLUSH PRIVILEGES;
 
--- ---------------------------------------------
--- 3️⃣ Create event_bookings table (if not exists)
--- Sequelize can also create this, but you can define manually
--- ---------------------------------------------
 CREATE TABLE IF NOT EXISTS event_bookings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     eventDate DATE NOT NULL,
@@ -36,9 +22,5 @@ CREATE TABLE IF NOT EXISTS event_bookings (
     updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Optional: check the table
 SHOW TABLES;
 SELECT * FROM event_bookings;
-
-
-

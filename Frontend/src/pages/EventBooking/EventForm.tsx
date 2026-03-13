@@ -24,7 +24,7 @@ export default function EventForm() {
     }
 
     try {
-      const response = await axios.post("/api/book", {
+      const response = await axios.post("http://localhost:5000/book", {
         eventDate,
         eventType,
         timeSlot,

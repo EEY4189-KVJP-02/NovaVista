@@ -37,7 +37,7 @@ const Hotel = sequelize.define(
       defaultValue: 0,
     },
 
-    // ✅ JSON array: ["img1", "img2", ...]
+    
     images: {
       type: DataTypes.JSON,
       allowNull: true,
