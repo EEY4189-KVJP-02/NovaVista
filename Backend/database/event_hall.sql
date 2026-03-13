@@ -13,36 +13,121 @@ CREATE TABLE event_halls (
     image VARCHAR(255)
 );
 
+
+-- DROP TABLE IF EXISTS hall_availability;
+
+CREATE TABLE hall_availability (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    hall_id INT,
+    booking_date DATE,
+    time_slot ENUM('Morning','Evening','Full Day'),
+    FOREIGN KEY (hall_id) REFERENCES event_halls(id)
+    
+);
 INSERT INTO event_halls (name, location, seating, capacity, description, rating, image) VALUES
+( 'Breakout Hall', 'Jaffna', 'Boardroom', 300, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 5, 'hall1.png'),
+( 'Executive Boardroom', 'Jaffna', 'Boardroom', 60, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 4, 'hall10.png'),
+('Reception Hall', 'Jaffna', 'Boardroom', 150, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 4, 'hall2.png'),
+( 'Auditorium', 'Jaffna', 'Boardroom', 650, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 3, 'hall3.png'),
+( 'Meeting Room', 'Jaffna', 'Circular', 60, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 4, 'hall12.png'),
+( 'A Breakout Space', 'Jaffna', 'Circular', 150, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 5, 'hall8.png'),
+( 'Workshop Hall', 'Jaffna', 'Circular', 600, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 4, 'hall4.png'),
+( 'Breakout Hall', 'Jaffna', 'Theater', 350, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 5, 'hall6.png'),
+( 'Executive Boardroom', 'Jaffna', 'Theater', 80, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 5, 'hall9.png'),
+( 'Reception Hall', 'Jaffna', 'Theater', 180, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 4, 'hall5.png'),
+( 'Auditorium', 'Jaffna', 'Theater', 700, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 4, 'hall8.png'),
+( 'Breakout Hall', 'Jaffna', 'U-Shaped', 400, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 4, 'hall7.png'),
+( 'Executive Boardroom', 'Jaffna', 'U-Shaped', 50, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 3, 'hall11.png'),
+( 'Reception Hall', 'Jaffna', 'U-Shaped', 200, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 5, 'hall8.png'),
+( 'Auditorium', 'Jaffna', 'U-Shaped', 550, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 4, 'hall12.png'),
+( 'Breakout Hall', 'Kilinochchi', 'Boardroom', 300, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 5, 'hall1.png'),
+( 'Executive Boardroom', 'Kilinochchi', 'Boardroom', 60, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 4, 'hall10.png'),
+( 'Reception Hall', 'Kilinochchi', 'Boardroom', 150, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 4, 'hall2.png'),
+( 'Auditorium', 'Kilinochchi', 'Boardroom', 650, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 3, 'hall3.png'),
+( 'Meeting Room', 'Kilinochchi', 'Circular', 60, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 4, 'hall12.png'),
+( 'A Breakout Space', 'Kilinochchi', 'Circular', 150, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 5, 'hall8.png'),
+( 'Workshop Hall', 'Kilinochchi', 'Circular', 600, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 4, 'hall4.png'),
+( 'Breakout Hall', 'Kilinochchi', 'Theater', 350, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 5, 'hall6.png'),
+( 'Executive Boardroom', 'Kilinochchi', 'Theater', 80, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 5, 'hall9.png'),
+( 'Reception Hall', 'Kilinochchi', 'Theater', 180, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 4, 'hall5.png'),
+('Auditorium', 'Kilinochchi', 'Theater', 700, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 4, 'hall8.png'),
+( 'Breakout Hall', 'Kilinochchi', 'U-Shaped', 400, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 4, 'hall7.png'),
+( 'Executive Boardroom', 'Kilinochchi', 'U-Shaped', 50, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 3, 'hall11.png'),
+( 'Reception Hall', 'Kilinochchi', 'U-Shaped', 200, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 5, 'hall8.png'),
+('Auditorium', 'Kilinochchi', 'U-Shaped', 550, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 4, 'hall12.png'),
+( 'Breakout Hall', 'Mannar', 'Boardroom', 300, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 5, 'hall1.png'),
+( 'Executive Boardroom', 'Mannar', 'Boardroom', 60, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 4, 'hall10.png'),
+( 'Reception Hall', 'Mannar', 'Boardroom', 150, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 4, 'hall2.png'),
+( 'Auditorium', 'Mannar', 'Boardroom', 650, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 3, 'hall3.png'),
+( 'Meeting Room', 'Mannar', 'Circular', 60, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 4, 'hall12.png'),
+( 'A Breakout Space', 'Mannar', 'Circular', 150, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 5, 'hall8.png'),
+( 'Workshop Hall', 'Mannar', 'Circular', 600, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 4, 'hall4.png'),
+( 'Breakout Hall', 'Mannar', 'Theater', 350, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 5, 'hall6.png'),
+('Executive Boardroom', 'Mannar', 'Theater', 80, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 5, 'hall9.png'),
+('Reception Hall', 'Mannar', 'Theater', 180, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 4, 'hall5.png'),
+( 'Auditorium', 'Mannar', 'Theater', 700, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 4, 'hall8.png'),
+( 'Breakout Hall', 'Mannar', 'U-Shaped', 400, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior', 4, 'hall7.png'),
+( 'Executive Boardroom', 'Mannar', 'U-Shaped', 50, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 3, 'hall11.png'),
+( 'Reception Hall', 'Mannar', 'U-Shaped', 200, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 5, 'hall8.png'),
+('Auditorium', 'Mannar', 'U-Shaped', 550, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 4, 'hall12.png'),
+( 'Reception Hall', 'jaffna', 'Circular', 300, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 4, 'hall9.png'),
+('Reception Hall', 'Kilinochchi', 'Circular', 300, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 46, 'hall10.png'),
+( 'Reception Hall', 'Manna', 'Circular', 350, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 5, 'hall10.png');
 
--- JAFFNA
-('Ballroom', 'Jaffna', 'Theater', 300, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior.', 5, 'hall1.png'),
-('Boardroom', 'Jaffna', 'Boardroom', 60, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 4, 'hall2.png'),
-('Breakout Space', 'Jaffna', 'U-Shaped', 120, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 4, 'hall3.png'),
-('A Breakout Space', 'Jaffna', 'Circular', 180, 'Open style hall suitable for ceremonies, receptions, and relaxed social gatherings.', 5, 'hall4.png'),
 
--- Extra combinations for Jaffna
-('Breakout Space', 'Jaffna', 'Circular', 80, 'Flexible space designed for workshops, brainstorming sessions, and team collaboration activities.', 4, 'hall4.png'),
-('Boardroom', 'Jaffna', 'Theater', 90, 'Ideal for executive meetings, business discussions, and professional presentations in a private environment.', 4, 'hall2.png'),
-('Ballroom', 'Jaffna', 'Circular', 600, 'Perfect for gala dinners, networking events, and corporate celebrations with elegant spacious interior.', 5, 'hall1.png'),
+INSERT INTO hall_availability (hall_id, booking_date, time_slot) VALUES
+-- Jaffna halls
+(1,'2026-04-01','Morning'),     
+(1,'2026-04-01','Evening'),
+(1,'2026-04-02','Full Day'),
+(2,'2026-04-01','Morning'),    
+(2,'2026-04-03','Full Day'),
+(3,'2026-04-05','Morning'),     
+(3,'2026-04-05','Evening'),
+(6,'2026-04-02','Full Day'),    
+(5,'2026-04-10','Morning'),     
+(5,'2026-04-10','Evening'),
+(7,'2026-04-11','Full Day'),    
+(8,'2026-04-12','Morning'),    
+(8,'2026-04-12','Evening'),
+(9,'2026-04-13','Full Day'),    
+(10,'2026-04-15','Morning'),   
+(10,'2026-04-15','Evening'),
+(11,'2026-04-16','Full Day'),  
+(12,'2026-04-18','Morning'),    
+(13,'2026-04-20','Evening'),    
 
--- KILINOCHCHI
-('Conference Hall', 'Kilinochchi', 'Theater', 250, 'Spacious conference hall ideal for seminars, corporate events, and professional presentations.', 5, 'hall5.png'),
-('Meeting Room', 'Kilinochchi', 'Boardroom', 70, 'Comfortable meeting room suitable for business discussions, planning sessions, and presentations.', 4, 'hall6.png'),
-('Training Hall', 'Kilinochchi', 'U-Shaped', 100, 'Designed for training programmes, workshops, and collaborative learning sessions.', 4, 'hall7.png'),
-('Reception Hall', 'Kilinochchi', 'Circular', 200, 'Elegant reception hall suitable for celebrations, networking events, and corporate gatherings.', 5, 'hall8.png'),
-('Meeting Room', 'Kilinochchi', 'Circular', 90, 'Comfortable meeting room suitable for business discussions, planning sessions, and presentations.', 4, 'hall6.png'),
-('Training Hall', 'Kilinochchi', 'Boardroom', 120, 'Designed for training programmes, workshops, and collaborative learning sessions.', 4, 'hall7.png'),
-('Conference Hall', 'Kilinochchi', 'Theater', 650, 'Spacious conference hall ideal for seminars, corporate events, and professional presentations.', 5, 'hall9.png'),
+-- Kilinochchi halls (add some variety)
+(16,'2026-04-01','Morning'),    
+(17,'2026-04-02','Full Day'), 
+(20,'2026-04-03','Morning'),    
+(21,'2026-04-03','Evening'),    
+(23,'2026-04-05','Full Day'),   
 
--- MANNAR
-('Auditorium', 'Mannar', 'Theater', 400, 'Large auditorium suitable for conferences, lectures, and large public events.', 5, 'hall9.png'),
-('Executive Boardroom', 'Mannar', 'Boardroom', 80, 'Professional boardroom perfect for executive meetings, negotiations, and presentations.', 4, 'hall10.png'),
-('Workshop Hall', 'Mannar', 'U-Shaped', 130, 'Comfortable space designed for workshops, team discussions, and collaborative activities.', 4, 'hall11.png'),
-('A Breakout Space', 'Mannar', 'Circular', 220, 'Spacious event hall suitable for social gatherings, ceremonies, and corporate celebrations.', 5, 'hall12.png'),
-('Workshop Hall', 'Mannar', 'Circular', 95, 'Comfortable space designed for workshops, team discussions, and collaborative activities.', 4, 'hall5.png'),
-('Executive Boardroom', 'Mannar', 'Theater', 110, 'Professional boardroom perfect for executive meetings, negotiations, and presentations.', 4, 'hall2.png'),
-('Auditorium', 'Mannar', 'U-Shaped', 550, 'Large auditorium suitable for conferences, lectures, and large public events.', 5, 'hall6.png');
+-- Mannar halls (add some variety)
+(31,'2026-04-01','Evening'),    
+(32,'2026-04-02','Morning'),    
+(35,'2026-04-04','Full Day'),  
+(38,'2026-04-06','Morning'),    
+(38,'2026-04-06','Evening'),
+(42,'2026-04-07','Full Day');   
 
--- Verify data
-SELECT * FROM event_halls;
+SELECT * from  hall_availability;
+
+SELECT 
+h.id,
+h.name,
+h.location,
+h.seating,
+h.capacity,
+h.description,
+h.rating,
+h.image,
+a.booking_date,
+a.time_slot
+
+FROM event_halls h
+LEFT JOIN hall_availability a
+ON h.id = a.hall_id;
+
+SELECT * from  event_halls;

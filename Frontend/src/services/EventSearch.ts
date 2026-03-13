@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = "http://localhost:5000/api";
 
 export interface EventHall {
   id: number;
@@ -9,6 +9,14 @@ export interface EventHall {
   description: string;
   rating: number;
   image?: string;
+  hall_availabilities: HallAvailability[];
+}
+
+export interface HallAvailability {
+  id: number;
+  hall_id: number;
+  booking_date: string;
+  time_slot: string;
 }
 
 class ApiService {
@@ -23,27 +31,32 @@ class ApiService {
     seating?: string;
     minCapacity?: number;
     maxCapacity?: number;
+    eventDate?: string;
+    timeSlot?: string;
   }): Promise<EventHall[]> {
     try {
       // Build query parameters
       const queryParams = new URLSearchParams();
-      if (filters?.location) queryParams.append('location', filters.location);
-      if (filters?.seating) queryParams.append('seating', filters.seating);
-      if (filters?.minCapacity) queryParams.append('minCapacity', filters.minCapacity.toString());
-      if (filters?.maxCapacity) queryParams.append('maxCapacity', filters.maxCapacity.toString());
-      
-      const url = `${this.baseUrl}/halls${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
-    
-      
+      if (filters?.location) queryParams.append("location", filters.location);
+      if (filters?.seating) queryParams.append("seating", filters.seating);
+      if (filters?.minCapacity)
+        queryParams.append("minCapacity", filters.minCapacity.toString());
+      if (filters?.maxCapacity)
+        queryParams.append("maxCapacity", filters.maxCapacity.toString());
+      if (filters?.eventDate)
+        queryParams.append("eventDate", filters.eventDate);
+      if (filters?.timeSlot) queryParams.append("timeSlot", filters.timeSlot);
+
+      const url = `${this.baseUrl}/halls${queryParams.toString() ? "?" + queryParams.toString() : ""}`;
+
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-  
+
       return data;
     } catch (error) {
-      
       throw error;
     }
   }
@@ -57,7 +70,7 @@ class ApiService {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching event hall:', error);
+      console.error("Error fetching event hall:", error);
       throw error;
     }
   }
