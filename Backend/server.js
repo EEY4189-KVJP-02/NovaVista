@@ -12,15 +12,12 @@ import adminRoomsRoutes from "./routes/adminRooms.js";
 import Room, { seedDefaultRoomsIfEmpty } from "./models/Room.js";
 import RoomBooking from "./models/RoomBooking.js";
 import User from "./models/user.js";
-// import { seedDefaultEventHallsIfEmpty } from "./models/EventHall.js";
 import hotelAvailabilityRoutes from "./routes/HotelAvailabilityRoutes.js";
 import hotelBookingRoutes from "./routes/HotelBookingRoutes.js";
-
-
 import hotelRoutes from "./routes/HotelRoutes.js";
-
 import EventHall from "./models/EventHall.js";
 import HallAvailability from "./models/HallAvailability.js";
+import Hotel, { seedDefaultHotelsIfEmpty } from "./models/Hotel.js";
 dotenv.config();
 
 const app = express();
@@ -60,20 +57,15 @@ const startServer = async () => {
     
     Room.hasMany(RoomBooking, { foreignKey: "roomId", as: "bookings" });
     RoomBooking.belongsTo(Room, { foreignKey: "roomId", as: "room" });
-
-    // associations for Event Halls and  Hall Availability
     EventHall.hasMany(HallAvailability, {
       as: "hall_availabilities",
       foreignKey: "hall_id",
     });
-
     HallAvailability.belongsTo(EventHall, { foreignKey: "hall_id" });
 
     await sequelize.sync({ force: false });
     await seedDefaultRoomsIfEmpty();
-    // await seedDefaultEventHallsIfEmpty();
-
-   
+    await seedDefaultHotelsIfEmpty();
     const adminEmail = "admin@gmail.com";
     const adminPassword = "admin123";
     const existingAdmin = await User.findOne({ where: { email: adminEmail } });
@@ -91,8 +83,8 @@ const startServer = async () => {
     }
 
     app.listen(PORT, () => {
-      console.log(` Server running on port ${PORT}`);
-      console.log(` Hotels API: http://localhost:${PORT}/api/hotels`);
+      console.log(`Server running on port ${PORT}`);
+      console.log(`Hotels API: http://localhost:${PORT}/api/hotels`);
     });
   } catch (err) {
     console.error(" Failed to start server:", err);

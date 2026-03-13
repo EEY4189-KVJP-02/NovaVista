@@ -8,7 +8,6 @@ const HOTEL_ROOM_STOCK = { 1: 10, 2: 8, 3: 12 };
 
 router.post("/", async (req, res) => {
   try {
-    // ✅ accept both camelCase and snake_case from frontend
     const hotel_id = Number(req.body.hotel_id ?? req.body.hotelId);
     const check_in = req.body.check_in ?? req.body.checkIn;
     const check_out = req.body.check_out ?? req.body.checkOut;

@@ -59,7 +59,6 @@ export async function seedDefaultRoomsIfEmpty() {
   }
 
   const defaultRooms = [
-    // Jaffna: 1-3
     {
       id: 1,
       type: "Standard Single Room",
@@ -105,7 +104,6 @@ export async function seedDefaultRoomsIfEmpty() {
       isActive: true,
     },
 
-    // Kilinochchi: 4-6
     {
       id: 4,
       type: "Standard Single Room",
@@ -143,7 +141,6 @@ export async function seedDefaultRoomsIfEmpty() {
       isActive: true,
     },
 
-    // Mannar: 7-9
     {
       id: 7,
       type: "Standard Single Room",

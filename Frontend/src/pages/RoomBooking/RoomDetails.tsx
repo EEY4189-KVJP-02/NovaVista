@@ -318,7 +318,7 @@ const RoomDetails: React.FC = () => {
                 const availability = await roomBookingService.checkAvailability(room.id, checkInDate, checkOutDate);
                 availabilityMap[room.id] = availability.isAvailable;
               } catch {
-                availabilityMap[room.id] = true; // fallback rooms / API issues
+                availabilityMap[room.id] = true;
               }
             })
           );

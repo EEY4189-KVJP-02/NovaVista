@@ -21,7 +21,6 @@ const EventSearch = () => {
     guests: false,
   });
 
-  // Fetch data from backend
   useEffect(() => {
     const fetchHalls = async () => {
       try {
@@ -95,7 +94,6 @@ const EventSearch = () => {
       setLoading(true);
       const data = await apiService.fetchEventHalls(filters);
 
-      // Filter out halls that are already booked for selected date/time
       const availableHalls = data.filter((hall) => {
         return hall.hall_availabilities.length === 0;
       });
@@ -112,7 +110,6 @@ const EventSearch = () => {
 
   return (
     <div style={{ margin: "2.5rem 3rem" }}>
-      {/* Search Bar   */}
       <div
         className="w-20 h-10 position-absolute d-flex justify-content-center align-items-center"
         style={{
@@ -131,7 +128,6 @@ const EventSearch = () => {
             value={location}
             onChange={(e) => {
               setLocation(e.target.value);
-              // clear validation error
               setErrors((prev) => ({ ...prev, location: false }));
             }}
             className={`form-select ${errors.location ? "is-invalid" : ""}`}
@@ -152,7 +148,6 @@ const EventSearch = () => {
             value={seating}
             onChange={(e) => {
               setSeating(e.target.value);
-              // clear validation error
               setErrors((prev) => ({ ...prev, seating: false }));
             }}
             className={`form-select ${errors.seating ? "is-invalid" : ""}`}
@@ -175,7 +170,6 @@ const EventSearch = () => {
             value={availabilityDate}
             onChange={(e) => {
               setAvailabilityDate(e.target.value);
-              // clear validation error
               setErrors((prev) => ({ ...prev, date: false }));
             }}
             className={`form-control ${errors.date ? "is-invalid" : ""}`}
@@ -191,7 +185,6 @@ const EventSearch = () => {
             value={timeSlot}
             onChange={(e) => {
               setTimeSlot(e.target.value);
-              // clear validation error
               setErrors((prev) => ({ ...prev, time: false }));
             }}
             className={`form-select ${errors.time ? "is-invalid" : ""}`}
@@ -214,7 +207,6 @@ const EventSearch = () => {
               const value =
                 e.target.value === "" ? null : Number(e.target.value);
               setGuestRange(value);
-              // clear validation error
               setErrors((prev) => ({ ...prev, guests: false }));
             }}
             className={`form-select ${errors.guests ? "is-invalid" : ""}`}
@@ -241,7 +233,6 @@ const EventSearch = () => {
         </button>
       </div>
 
-      {/* No Results Popup  */}
       {!loading && !error && filteredHalls.length === 0 && showNoResults && (
         <div
           className="position-fixed d-flex justify-content-center align-items-center"
@@ -266,10 +257,7 @@ const EventSearch = () => {
             }}
           >
             <div className="card-body text-center p-4">
-              <div
-                className="mb-3"
-                style={{ display: "flex", justifyContent: "center" }}
-              >
+                <div className="mb-3" style={{ display: "flex", justifyContent: "center" }}>
                 <div
                   style={{
                     width: "60px",
@@ -282,7 +270,6 @@ const EventSearch = () => {
                     margin: "0 auto",
                   }}
                 >
-                  {/* search icon */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="30"
@@ -313,7 +300,6 @@ const EventSearch = () => {
               <p className="card-text mb-3" style={{ color: "#666" }}>
                 We couldn't find any halls matching your search criteria.
               </p>
-              {/* clear filter  */}
               <div className="d-flex justify-content-center">
                 <button
                   className="btn btn-primary"
@@ -342,7 +328,6 @@ const EventSearch = () => {
         </div>
       )}
 
-      {/* showing hall details for filtered results */}
       <div
         className="row "
         style={{ gap: "20px", maxWidth: "1300px", margin: "0 auto" }}

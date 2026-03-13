@@ -13,7 +13,6 @@ export default function EventForm() {
   const [catering, setCatering] = useState("");
   const [terms, setTerms] = useState(false);
 
-  // fetch eventdate and time from query params
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -80,8 +79,6 @@ export default function EventForm() {
   return (
     <div className="container mt-5">
       <h1>Event Booking</h1>
-
-      {/* Row 1 */}
       <div className="form-row">
         <div className="form-group">
           <label>Event Date</label>
@@ -123,7 +120,6 @@ export default function EventForm() {
         </div>
       </div>
 
-      {/* Row 2 */}
       <div className="form-row">
         <div className="form-group">
           <label>Budget Range</label>
@@ -168,7 +164,6 @@ export default function EventForm() {
         </div>
       </div>
 
-      {/* Terms */}
       <Form.Check
         type="checkbox"
         label="Accept Terms & Conditions"
@@ -177,7 +172,6 @@ export default function EventForm() {
         onChange={(e) => setTerms(e.target.checked)}
       />
 
-      {/* Buttons aligned right */}
       <div className="button-row">
         <Button className="book-button" onClick={handleBook}>
           Book Now

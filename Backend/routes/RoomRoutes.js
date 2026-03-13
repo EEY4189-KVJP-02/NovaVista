@@ -5,8 +5,6 @@ import RoomBooking from "../models/RoomBooking.js";
 
 const router = express.Router();
 
-// GET /api/rooms
-// Optional filters: branch, minPrice, maxPrice, maxGuests, checkInDate, checkOutDate
 router.get("/", async (req, res) => {
   try {
     const { branch, minPrice, maxPrice, maxGuests, checkInDate, checkOutDate } = req.query;
@@ -27,7 +25,6 @@ router.get("/", async (req, res) => {
 
     let rooms = await Room.findAll({ where: whereClause, order: [["price", "ASC"]] });
 
-    // If date range provided, filter out rooms with conflicting bookings
     if (checkInDate && checkOutDate) {
       const bookings = await RoomBooking.findAll({
         where: {
@@ -57,7 +54,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET /api/rooms/:id
 router.get("/:id", async (req, res) => {
   try {
     const room = await Room.findByPk(req.params.id);
@@ -69,7 +65,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// POST /api/rooms/:id/availability
 router.post("/:id/availability", async (req, res) => {
   try {
     const { id } = req.params;
@@ -115,7 +110,6 @@ router.post("/:id/availability", async (req, res) => {
   }
 });
 
-// POST /api/rooms/:id/book
 router.post("/:id/book", async (req, res) => {
   try {
     const { id } = req.params;

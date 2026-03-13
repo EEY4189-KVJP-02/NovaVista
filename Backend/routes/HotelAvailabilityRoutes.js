@@ -4,11 +4,10 @@ import HotelBooking from "../models/HotelBooking.js";
 
 const router = express.Router();
 
-// ✅ stock per hotel (later you can move this to DB)
 const HOTEL_ROOM_STOCK = {
-  1: 10, // Jaffna
-  2: 8,  // Kilinochchi
-  3: 12, // Mannar
+  1: 10,
+  2: 8,
+  3: 12,
 };
 
 router.post("/check", async (req, res) => {
@@ -27,9 +26,6 @@ router.post("/check", async (req, res) => {
     if (totalStock === 0) {
       return res.status(404).json({ message: "Hotel stock not found", isAvailable: false });
     }
-
-    // ✅ Overlap rule:
-    // existing.check_in < requested.check_out AND existing.check_out > requested.check_in
     const overlappingBookings = await HotelBooking.findAll({
       where: {
         hotel_id: Number(hotelId),

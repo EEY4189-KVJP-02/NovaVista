@@ -15,8 +15,6 @@ const Footer: React.FC = () => {
           </p>
         </div>
 
-       
-{/* Quick Links */}
           <div className="footer-section">
             <h4 className="footer-heading">Quick Links</h4>
             <ul className="footer-links">

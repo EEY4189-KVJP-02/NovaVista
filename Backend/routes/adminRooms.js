@@ -26,14 +26,8 @@ const requireAdmin = (req, res, next) => {
   }
 };
 
-// All room-admin routes require admin auth
 router.use(requireAdmin);
 
-// ---------------------------
-// Rooms (inventory) admin
-// ---------------------------
-
-// GET /api/admin/rooms
 router.get("/rooms", async (req, res) => {
   try {
     const rooms = await Room.findAll({ order: [["id", "ASC"]] });
@@ -44,7 +38,6 @@ router.get("/rooms", async (req, res) => {
   }
 });
 
-// POST /api/admin/rooms/seed
 router.post("/rooms/seed", async (req, res) => {
   try {
     const result = await seedDefaultRoomsIfEmpty();
@@ -55,7 +48,6 @@ router.post("/rooms/seed", async (req, res) => {
   }
 });
 
-// POST /api/admin/rooms
 router.post("/rooms", async (req, res) => {
   try {
     const { type, description, price, image, branch, maxGuests, amenities, isActive } = req.body;
@@ -82,7 +74,6 @@ router.post("/rooms", async (req, res) => {
   }
 });
 
-// PUT /api/admin/rooms/:id
 router.put("/rooms/:id", async (req, res) => {
   try {
     const room = await Room.findByPk(req.params.id);
@@ -108,7 +99,6 @@ router.put("/rooms/:id", async (req, res) => {
   }
 });
 
-// DELETE /api/admin/rooms/:id (soft-delete by deactivating)
 router.delete("/rooms/:id", async (req, res) => {
   try {
     const room = await Room.findByPk(req.params.id);
@@ -122,11 +112,6 @@ router.delete("/rooms/:id", async (req, res) => {
   }
 });
 
-// ---------------------------
-// Room bookings admin
-// ---------------------------
-
-// GET /api/admin/room-bookings
 router.get("/room-bookings", async (req, res) => {
   try {
     const bookings = await RoomBooking.findAll({
@@ -140,7 +125,6 @@ router.get("/room-bookings", async (req, res) => {
   }
 });
 
-// PUT /api/admin/room-bookings/:id
 router.put("/room-bookings/:id", async (req, res) => {
   try {
     const booking = await RoomBooking.findByPk(req.params.id);
@@ -158,7 +142,6 @@ router.put("/room-bookings/:id", async (req, res) => {
   }
 });
 
-// DELETE /api/admin/room-bookings/:id
 router.delete("/room-bookings/:id", async (req, res) => {
   try {
     const booking = await RoomBooking.findByPk(req.params.id);

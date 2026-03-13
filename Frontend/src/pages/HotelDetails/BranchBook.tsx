@@ -34,8 +34,6 @@ const BranchBook: React.FC = () => {
 
   const isFormFilled = useMemo(() => checkIn !== "" && checkOut !== "" && rooms !== "", [checkIn, checkOut, rooms]);
   const isDateValid = useMemo(() => checkIn !== "" && checkOut !== "" && checkOut > checkIn, [checkIn, checkOut]);
-
-  // Load hotels from DB
   useEffect(() => {
     const loadHotels = async () => {
       try {

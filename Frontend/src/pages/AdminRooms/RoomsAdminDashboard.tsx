@@ -37,7 +37,6 @@ const RoomsAdminDashboard: React.FC = () => {
   const [showRoomModal, setShowRoomModal] = useState(false);
   const [editingRoom, setEditingRoom] = useState<Partial<Room> | null>(null);
 
-  // Calendar state (rooms-only bookings)
   const [calendarMonth, setCalendarMonth] = useState<Date>(() => new Date());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [showDateModal, setShowDateModal] = useState(false);

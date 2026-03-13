@@ -3,12 +3,9 @@ import EventBooking from "../models/EventBooking.js";
 
 const router = express.Router();
 
-// POST /book - create booking
 router.post("/", async (req, res) => {
-  console.log("Received data:", req.body); // 🔹 log frontend data
   try {
     const booking = await EventBooking.create(req.body);
-    console.log("Saved to DB:", booking.toJSON()); // 🔹 log DB result
     res.status(201).json({ message: "Booking completed successfully!", booking });
   } catch (err) {
     console.error("Error saving booking:", err);
@@ -17,7 +14,6 @@ router.post("/", async (req, res) => {
 });
 
 
-// GET /book - fetch all bookings
 router.get("/", async (req, res) => {
   try {
     const bookings = await EventBooking.findAll({

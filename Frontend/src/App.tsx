@@ -11,8 +11,6 @@ import RoomDetails from "./pages/RoomBooking/RoomDetails";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import RoomsAdminDashboard from "./pages/AdminRooms/RoomsAdminDashboard";
-
-
 function App() {
   return (
     <Router>
@@ -26,7 +24,6 @@ function App() {
             path="/event-booking/:eventDate?/:timeSlot?"
             element={<EventBooking />}
           />
-          {/* <Route path="/event-booking" element={<EventBooking />} /> */}
           <Route path="/room-booking" element={<RoomDetails />} />
           <Route path="/admin/rooms" element={<RoomsAdminDashboard />} />
           <Route path="/login" element={<Login />} />

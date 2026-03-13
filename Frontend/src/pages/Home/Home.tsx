@@ -1,11 +1,8 @@
 import CommonHero from '../../components/Common/CommonHero';
 import FeaturesSection from '../../components/Common/FeaturesSection';
-
-
 const Home = () => {
   return (
     <div>
-      {/* Hero section */}
       <CommonHero
         src="/Images/Home4.avif"
         alt="Home"
@@ -13,9 +10,6 @@ const Home = () => {
         subTitle=" "
       />
 
-      
-
-      {/* Hotels Section */}
       <section id="hotels" className="py-5 text-center" style={{ gap: "20px",maxWidth:"1300px", margin: "0 auto"}}>
         <h2
           className="fw-bold mb-4"
@@ -47,7 +41,6 @@ const Home = () => {
           to creating unforgettable experiences for every guest.
         </p>
 
-        {/* Cards */}
         <div className="container">
           <div className="row">
             <div className="col-md-4 mb-4">
@@ -101,7 +94,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Special offer section */}
       <div
         style={{
           display: "flex",
@@ -116,7 +108,6 @@ const Home = () => {
           margin: "30px auto",
         }}
       >
-        {/* Left side - Text content */}
         <div>
           <h3 style={{ color: "#b22222", fontWeight: "bold", fontSize: "24px" }}>
             SAVE UP TO <span style={{ color: "#2a4fff" }}>20%</span>
@@ -129,7 +120,6 @@ const Home = () => {
           </p>
         </div>
 
-        {/* Right side - Image */}
         <img
           src="/Images/Home10.webp"
           alt="Offer Gift"
@@ -142,7 +132,6 @@ const Home = () => {
         />
       </div>
 
-      {/* Features Section */}
       <FeaturesSection />
     </div>
   );
