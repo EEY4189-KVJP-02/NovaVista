@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import "./EventForm.css";
+import { useSearchParams } from "react-router-dom";
 
 export default function EventForm() {
   const [eventDate, setEventDate] = useState("");
@@ -12,13 +13,32 @@ export default function EventForm() {
   const [catering, setCatering] = useState("");
   const [terms, setTerms] = useState(false);
 
+  // fetch eventdate and time from query params
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const date = searchParams.get("date");
+    const time = searchParams.get("time");
+
+    if (date) setEventDate(date);
+    if (time) setTimeSlot(time);
+    console.log("searchParams", date);
+  }, [searchParams]);
+
   const handleBook = async () => {
     if (!terms) {
       alert("Please accept the terms");
       return;
     }
 
-    if (!eventDate || !eventType || !timeSlot || !budget || !decoration || !catering) {
+    if (
+      !eventDate ||
+      !eventType ||
+      !timeSlot ||
+      !budget ||
+      !decoration ||
+      !catering
+    ) {
       alert("Please fill all required fields");
       return;
     }
@@ -65,25 +85,39 @@ export default function EventForm() {
       <div className="form-row">
         <div className="form-group">
           <label>Event Date</label>
-          <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
+          <input
+            type="date"
+            value={eventDate}
+            onChange={(e) => setEventDate(e.target.value)}
+          />
         </div>
 
         <div className="form-group">
           <label>Event Type</label>
-          <select value={eventType} onChange={(e) => setEventType(e.target.value)}>
+          <select
+            value={eventType}
+            onChange={(e) => setEventType(e.target.value)}
+          >
             <option value="">Select Event Type</option>
             {eventTypes.map((type) => (
-              <option key={type} value={type}>{type}</option>
+              <option key={type} value={type}>
+                {type}
+              </option>
             ))}
           </select>
         </div>
 
         <div className="form-group">
           <label>Time Slot</label>
-          <select value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)}>
+          <select
+            value={timeSlot}
+            onChange={(e) => setTimeSlot(e.target.value)}
+          >
             <option value="">Select Time Slot</option>
             {timeSlots.map((slot) => (
-              <option key={slot} value={slot}>{slot}</option>
+              <option key={slot} value={slot}>
+                {slot}
+              </option>
             ))}
           </select>
         </div>
@@ -96,27 +130,39 @@ export default function EventForm() {
           <select value={budget} onChange={(e) => setBudget(e.target.value)}>
             <option value="">Select Budget</option>
             {budgetRanges.map((b) => (
-              <option key={b} value={b}>{b}</option>
+              <option key={b} value={b}>
+                {b}
+              </option>
             ))}
           </select>
         </div>
 
         <div className="form-group">
           <label>Decoration Type</label>
-          <select value={decoration} onChange={(e) => setDecoration(e.target.value)}>
+          <select
+            value={decoration}
+            onChange={(e) => setDecoration(e.target.value)}
+          >
             <option value="">Select Decoration</option>
             {decorationTypes.map((d) => (
-              <option key={d} value={d}>{d}</option>
+              <option key={d} value={d}>
+                {d}
+              </option>
             ))}
           </select>
         </div>
 
         <div className="form-group">
           <label>Catering Options</label>
-          <select value={catering} onChange={(e) => setCatering(e.target.value)}>
+          <select
+            value={catering}
+            onChange={(e) => setCatering(e.target.value)}
+          >
             <option value="">Select Catering</option>
             {cateringOptions.map((c) => (
-              <option key={c} value={c}>{c}</option>
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
         </div>
@@ -136,9 +182,18 @@ export default function EventForm() {
         <Button className="book-button" onClick={handleBook}>
           Book Now
         </Button>
-        <Button className="small-btn" onClick={() => {
-          setEventDate(""); setEventType(""); setTimeSlot(""); setBudget(""); setDecoration(""); setCatering(""); setTerms(false);
-        }}>
+        <Button
+          className="small-btn"
+          onClick={() => {
+            setEventDate("");
+            setEventType("");
+            setTimeSlot("");
+            setBudget("");
+            setDecoration("");
+            setCatering("");
+            setTerms(false);
+          }}
+        >
           Clear Form
         </Button>
       </div>
