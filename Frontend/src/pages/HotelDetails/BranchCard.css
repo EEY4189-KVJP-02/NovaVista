@@ -1,3 +1,4 @@
+/* C:\Users\94770\Desktop\ProjectOne\ProjectOne\NovaVista\Frontend\src\pages\HotelDetails\BranchCard.css */
 
 .branch-card {
   width: 320px;
@@ -15,7 +16,7 @@
   transform: translateY(-6px);
 }
 
-
+/* Nested grid for multiple images */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -30,7 +31,7 @@
   height: 120px;
   object-fit: cover;
 
-  
+  /* ✅ important: do not block clicks */
   pointer-events: none;
 }
 

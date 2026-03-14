@@ -1,11 +1,13 @@
+/* C:\Users\94770\Desktop\ProjectOne\ProjectOne\NovaVista\Frontend\src\pages\HotelDetails\BranchBook.css */
 
+/* BranchBook.css - keep file name and path exactly */
 .branchbook-wrapper {
   font-family: "Poppins", sans-serif;
   color: #222;
   background: #fffaf1;
 }
 
-
+/* Hero */
 .hero {
   height: 80vh;
   background-size: cover;
@@ -21,7 +23,7 @@
   align-items: center;
 }
 
-
+/* Booking card on hero */
 .booking-card {
   background: rgba(255, 255, 255, 0.98);
   padding: 18px;
@@ -58,7 +60,7 @@
   font-size: 0.95rem;
 }
 
-
+/* Check rates button */
 .checkrates-wrap {
   display: flex;
   align-items: center;
@@ -73,7 +75,7 @@
   font-weight: 400;
 }
 
-
+/* About */
 .about {
   padding: 36px 18px;
   max-width: 980px;
@@ -89,7 +91,7 @@
   line-height: 1.6;
 }
 
-
+/* Branches list */
 .branches {
   padding: 28px 18px 48px;
   max-width: 1100px;
@@ -107,7 +109,7 @@
   flex-wrap: wrap;
 }
 
-
+/* Modal styles (FIXED) */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -119,6 +121,7 @@
 }
 
 .modal {
+  display: block;
   position: relative;
   background: #fff;
   border-radius: 12px;

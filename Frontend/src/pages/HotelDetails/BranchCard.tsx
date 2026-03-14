@@ -1,4 +1,4 @@
-
+// src/pages/HotelDetails/BranchCard.tsx
 import React from "react";
 import "./BranchCard.css";
 
